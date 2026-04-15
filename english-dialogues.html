@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>English Dialogues – 7 Weeks</title>
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0f0f1a; font-family: Georgia, serif; color: #f0f0f0; }
+    button { font-family: Georgia, serif; }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState } = React;
+
+const weeks = [
+  {
+    title: "School & Everyday Life", emoji: "🎒", color: "#3B82F6",
+    days: [
+      { title: "The Assignment", theme: "Talking about schoolwork", characters: ["Alex", "Tom"],
+        lines: [
+          { speaker: "Alex", text: "Hey Tom! Did you finish the assignment for Mr. Brown?" },
+          { speaker: "Tom", text: "I don't think so... I mean, I started it, but it's really challenging!" },
+          { speaker: "Alex", text: "I agree! I have the feeling that he gives us too much work." },
+          { speaker: "Tom", text: "I quite agree! What about asking him for more time?" },
+          { speaker: "Alex", text: "That's quite a good idea, you know. Let's speak up for ourselves!" },
+          { speaker: "Tom", text: "Yes, absolutely! Fair enough." },
+        ],
+        vocab: ["challenging", "assignment", "speak up for", "quite agree", "fair enough"],
+        tip: "Use 'I have the feeling that...' to express a personal impression — J'ai le sentiment que..." },
+      { title: "A New Club", theme: "Persuading a friend", characters: ["Emma", "Jade"],
+        lines: [
+          { speaker: "Jade", text: "Emma, you really should join the drama club, you know." },
+          { speaker: "Emma", text: "Hmm, I'm not sure. I'm already involved in the music club." },
+          { speaker: "Jade", text: "Look! I think you should try new things. It's fun!" },
+          { speaker: "Emma", text: "I suppose you're right. But I'm afraid of performing on stage." },
+          { speaker: "Jade", text: "Don't forget that practice makes perfect! You're talented!" },
+          { speaker: "Emma", text: "Fair enough. I'll give it a try!" },
+        ],
+        vocab: ["involved", "talented", "be afraid of", "perform", "practice makes perfect"],
+        tip: "'You really should...' is a strong way to persuade someone." },
+      { title: "School Trip", theme: "Agreeing and disagreeing", characters: ["Alex", "Ben", "Sam"],
+        lines: [
+          { speaker: "Alex", text: "Did you hear? We're going on a field trip to a museum!" },
+          { speaker: "Ben", text: "Amazing! What kind of museum?" },
+          { speaker: "Alex", text: "A modern art museum. Personally, I find modern art fascinating." },
+          { speaker: "Ben", text: "Really? I don't think so. I find it quite boring, to be honest." },
+          { speaker: "Alex", text: "In my opinion, you need to see it to judge it." },
+          { speaker: "Ben", text: "I suppose. What about you, Sam? Do you agree?" },
+          { speaker: "Sam", text: "Yes, of course! Art is always interesting!" },
+          { speaker: "Ben", text: "OK, OK. I'll keep an open mind!" },
+        ],
+        vocab: ["field trip", "modern art", "fascinating", "in my opinion", "keep an open mind"],
+        tip: "'To be honest' adds sincerity to what you say." },
+      { title: "A New Hobby", theme: "Sharing interests", characters: ["Léa", "Tom"],
+        lines: [
+          { speaker: "Léa", text: "Guess what? I've started hiking every weekend!" },
+          { speaker: "Tom", text: "Really? That's great! How far do you go?" },
+          { speaker: "Léa", text: "About 10 kilometres. I follow the trail near the forest." },
+          { speaker: "Tom", text: "Wow. I'm convinced that outdoor activities are good for your health." },
+          { speaker: "Léa", text: "I quite agree! You should join me next Saturday." },
+          { speaker: "Tom", text: "Why not? It sounds fun!" },
+        ],
+        vocab: ["hike", "trail", "outdoor", "health", "convinced", "I quite agree"],
+        tip: "'I'm convinced that...' expresses a strong personal belief." },
+      { title: "Weekend Plans", theme: "Making plans with friends", characters: ["Jake", "Mia"],
+        lines: [
+          { speaker: "Mia", text: "What are you doing this weekend, Jake?" },
+          { speaker: "Jake", text: "I'm not sure yet. Maybe I'll go shopping at the mall." },
+          { speaker: "Mia", text: "I think you should come to my house instead. We could play video games." },
+          { speaker: "Jake", text: "That's quite a good idea! What about Sara? Is she coming?" },
+          { speaker: "Mia", text: "Yes, absolutely! She said she'd bring snacks." },
+          { speaker: "Jake", text: "Perfect. I'm really excited!" },
+        ],
+        vocab: ["mall", "excited", "instead", "What about...?", "Yes, absolutely!"],
+        tip: "'What about...?' is used to suggest something or ask about someone." },
+      { title: "A Mistake", theme: "Encouraging a friend", characters: ["Lola", "Ben"],
+        lines: [
+          { speaker: "Lola", text: "Oh no! I made a terrible mistake on the test." },
+          { speaker: "Ben", text: "What happened?" },
+          { speaker: "Lola", text: "I mixed up two words. I'm so disappointed in myself." },
+          { speaker: "Ben", text: "Don't be so hard on yourself! Everyone makes mistakes." },
+          { speaker: "Lola", text: "I know, but I studied so hard. I'm convinced I knew it." },
+          { speaker: "Ben", text: "Next time you'll be more careful. That's right!" },
+          { speaker: "Lola", text: "I suppose you're right. Thanks." },
+        ],
+        vocab: ["mistake", "disappointed", "careful", "convinced", "I suppose you're right"],
+        tip: "'Don't be so hard on yourself' = ne sois pas trop sévère avec toi-même." },
+      { title: "Sunday Study", theme: "Studying together", characters: ["Tom", "Alex"],
+        lines: [
+          { speaker: "Tom", text: "Alex, are you free to study together this afternoon?" },
+          { speaker: "Alex", text: "Sure! What subject?" },
+          { speaker: "Tom", text: "English. I need to improve my vocabulary." },
+          { speaker: "Alex", text: "I believe that reading books in English is the best method." },
+          { speaker: "Tom", text: "I'm not sure. I prefer watching series in English." },
+          { speaker: "Alex", text: "That's interesting too. In other words, we should use English every day." },
+          { speaker: "Tom", text: "Yes, absolutely! Shall we start now?" },
+        ],
+        vocab: ["improve", "vocabulary", "method", "series", "in other words"],
+        tip: "'In other words' = autrement dit — useful for rephrasing." },
+    ],
+  },
+  {
+    title: "Technology & Media", emoji: "📱", color: "#8B5CF6",
+    days: [
+      { title: "Social Media Debate", theme: "Discussing online life", characters: ["Lola", "Sam"],
+        lines: [
+          { speaker: "Lola", text: "Did you see that video on social media last night?" },
+          { speaker: "Sam", text: "I spend too much time on social media, to be honest." },
+          { speaker: "Lola", text: "I know what you mean. I'm convinced it affects our concentration." },
+          { speaker: "Sam", text: "I quite agree. My parents always warn me about my digital footprint." },
+          { speaker: "Lola", text: "You must remember that what you post stays online forever." },
+          { speaker: "Sam", text: "That's true. We should be more careful." },
+        ],
+        vocab: ["social media", "digital footprint", "warn", "concentration", "post"],
+        tip: "'You must remember that...' is used to remind someone of something important." },
+      { title: "Gaming All Night", theme: "Talking about habits", characters: ["Jake", "Tom"],
+        lines: [
+          { speaker: "Jake", text: "I stayed up until midnight playing video games!" },
+          { speaker: "Tom", text: "Really? Don't you think that's a bit too much?" },
+          { speaker: "Jake", text: "I suppose. But the game is so exciting! Have you tried it?" },
+          { speaker: "Tom", text: "No. I'm not really into gaming. I prefer reading." },
+          { speaker: "Jake", text: "Nonsense! Gaming can improve your reflexes and problem-solving skills." },
+          { speaker: "Tom", text: "Hmm, maybe. But you really should get more sleep, you know." },
+          { speaker: "Jake", text: "Fair enough. I'll try to be more reasonable." },
+        ],
+        vocab: ["gaming", "reflexes", "improve", "reasonable", "Nonsense!", "I prefer"],
+        tip: "'Nonsense!' = N'importe quoi ! — used to strongly disagree." },
+      { title: "A Viral Video", theme: "Sharing something funny", characters: ["Mia", "Alex"],
+        lines: [
+          { speaker: "Mia", text: "Have you seen this video? It's already got 2 million views!" },
+          { speaker: "Alex", text: "Yes! It's hilarious! That cat is amazing." },
+          { speaker: "Mia", text: "I know! The internet is fascinating sometimes." },
+          { speaker: "Alex", text: "I think you should share it with Mrs. Davis. She loves cats!" },
+          { speaker: "Mia", text: "That's quite a good idea! I'll send it right now." },
+          { speaker: "Alex", text: "Don't forget to tag her!" },
+        ],
+        vocab: ["viral", "views", "hilarious", "share", "tag", "fascinating"],
+        tip: "'Don't forget to...' is a friendly reminder structure." },
+      { title: "Screen Time", theme: "Discussing phone use", characters: ["Emma", "Ben"],
+        lines: [
+          { speaker: "Emma", text: "My parents say I spend too much time on my phone." },
+          { speaker: "Ben", text: "I believe they're right, to be honest." },
+          { speaker: "Emma", text: "Really? You think so?" },
+          { speaker: "Ben", text: "Yes. It can make you stressed and lonely." },
+          { speaker: "Emma", text: "I'm not convinced. I use my phone to stay connected with friends." },
+          { speaker: "Ben", text: "I see your point. But what about face-to-face conversations?" },
+          { speaker: "Emma", text: "I suppose both are important. That is to say, balance is the key." },
+          { speaker: "Ben", text: "Exactly! Well said." },
+        ],
+        vocab: ["screen time", "stressed", "lonely", "connected", "balance", "That is to say"],
+        tip: "'That is to say...' = c'est-à-dire — useful for clarifying." },
+      { title: "Future Technology", theme: "Imagining the future", characters: ["Sam", "Léa"],
+        lines: [
+          { speaker: "Sam", text: "I read that microchips could be implanted in humans in the future!" },
+          { speaker: "Léa", text: "That sounds terrifying to me." },
+          { speaker: "Sam", text: "I'm convinced it could be useful for medical purposes." },
+          { speaker: "Léa", text: "Are you sure? I find that idea quite creepy." },
+          { speaker: "Sam", text: "In my opinion, technology always seems scary at first." },
+          { speaker: "Léa", text: "I suppose you're right. But I still have doubts." },
+          { speaker: "Sam", text: "That's fair. It's a complex issue." },
+        ],
+        vocab: ["microchip", "terrifying", "creepy", "complex", "doubt", "in my opinion"],
+        tip: "'Are you sure?' is a polite way to question someone's claim." },
+      { title: "Making a Video", theme: "Collaborating on a project", characters: ["Jake", "Emma"],
+        lines: [
+          { speaker: "Jake", text: "I want to make a YouTube video about our school trip!" },
+          { speaker: "Emma", text: "That's a great idea! I can help you with the slideshow." },
+          { speaker: "Jake", text: "Perfect! And I'll record the highlights with my phone." },
+          { speaker: "Emma", text: "What about the editing? Do you know how to do it?" },
+          { speaker: "Jake", text: "Not really. I believe Sam does, though. Let's ask her." },
+          { speaker: "Emma", text: "Yes, absolutely! She's really gifted with technology." },
+        ],
+        vocab: ["slideshow", "record", "editing", "gifted", "highlight", "What about...?"],
+        tip: "'Gifted' = doué(e) — a strong positive adjective." },
+      { title: "Fake News", theme: "Being critical online", characters: ["Tom", "Mia"],
+        lines: [
+          { speaker: "Tom", text: "Did you read this article? It says chocolate cures all diseases!" },
+          { speaker: "Mia", text: "I don't think so. That sounds like a hoax." },
+          { speaker: "Tom", text: "A hoax? Are you sure?" },
+          { speaker: "Mia", text: "Yes. You must always check your sources before sharing information." },
+          { speaker: "Tom", text: "I agree. It's so easy to spread fake news on social media." },
+          { speaker: "Mia", text: "Exactly. To put it simply, think before you click!" },
+          { speaker: "Tom", text: "Well said. I'll be more careful." },
+        ],
+        vocab: ["hoax", "fake news", "sources", "spread", "To put it simply"],
+        tip: "'To put it simply' = pour dire les choses simplement." },
+    ],
+  },
+  {
+    title: "Environment & Nature", emoji: "🌿", color: "#10B981",
+    days: [
+      { title: "Recycling", theme: "Environmental responsibility", characters: ["Léa", "Sam"],
+        lines: [
+          { speaker: "Léa", text: "Our school has a new recycling programme. What do you think?" },
+          { speaker: "Sam", text: "I think it's a wonderful idea! We should all recycle more." },
+          { speaker: "Léa", text: "I quite agree. In my opinion, it's our responsibility." },
+          { speaker: "Sam", text: "I'm convinced that small actions can make a big difference." },
+          { speaker: "Léa", text: "Absolutely! What about starting a recycling club?" },
+          { speaker: "Sam", text: "That's quite a good idea! Let's speak to the headteacher." },
+        ],
+        vocab: ["recycling", "programme", "responsibility", "difference", "What about...?"],
+        tip: "'Small actions can make a big difference' — a great phrase for essays!" },
+      { title: "Wildlife", theme: "Protecting animals", characters: ["Alex", "Emma"],
+        lines: [
+          { speaker: "Alex", text: "I watched a documentary about wildlife last night. It was incredible!" },
+          { speaker: "Emma", text: "Really? What was it about?" },
+          { speaker: "Alex", text: "Endangered species. I'm convinced we need to do more to protect them." },
+          { speaker: "Emma", text: "I quite agree. It's terrifying how many animals are disappearing." },
+          { speaker: "Alex", text: "In other words, we're destroying their habitats." },
+          { speaker: "Emma", text: "That's true. We must take action before it's too late." },
+        ],
+        vocab: ["wildlife", "endangered", "species", "habitat", "documentary", "take action"],
+        tip: "'In other words' lets you rephrase an idea more clearly." },
+      { title: "Pollution", theme: "Environmental debate", characters: ["Ben", "Lola"],
+        lines: [
+          { speaker: "Ben", text: "The river near my house is so polluted. It's really sad." },
+          { speaker: "Lola", text: "I know. That's why I think we should stop using plastic." },
+          { speaker: "Ben", text: "I agree, but companies need to change too." },
+          { speaker: "Lola", text: "You're absolutely right. To put it simply, everyone must be responsible." },
+          { speaker: "Ben", text: "Are you sure companies will change without new laws?" },
+          { speaker: "Lola", text: "I think laws are necessary. Don't you?" },
+          { speaker: "Ben", text: "Yes, of course! Definitely." },
+        ],
+        vocab: ["polluted", "plastic", "responsible", "laws", "necessary", "Yes, of course!"],
+        tip: "'You're absolutely right' = strong agreement — stronger than 'I agree'." },
+      { title: "Renewable Energy", theme: "Technology for the planet", characters: ["Jake", "Léa"],
+        lines: [
+          { speaker: "Jake", text: "My uncle just installed solar panels on his house!" },
+          { speaker: "Léa", text: "That's amazing! Is it expensive?" },
+          { speaker: "Jake", text: "It was at first, but now he saves a lot of money on electricity." },
+          { speaker: "Léa", text: "I'm convinced that renewable energy is the future." },
+          { speaker: "Jake", text: "I quite agree! Wind, solar, water... there are so many options." },
+          { speaker: "Léa", text: "And it's environmentally friendly, obviously." },
+          { speaker: "Jake", text: "Exactly! I believe every home should use renewable energy." },
+        ],
+        vocab: ["solar panels", "electricity", "renewable", "environmentally friendly", "obviously"],
+        tip: "'Obviously' = à l'évidence — use it to state something self-evident." },
+      { title: "A Nature Hike", theme: "Appreciating nature", characters: ["Mia", "Tom"],
+        lines: [
+          { speaker: "Mia", text: "I went on a long hike in the forest last Saturday. It was beautiful!" },
+          { speaker: "Tom", text: "Sounds amazing! Did you see any wildlife?" },
+          { speaker: "Mia", text: "Yes! A deer and lots of birds. I felt so free outdoors." },
+          { speaker: "Tom", text: "I have the feeling that nature helps us relax and feel better." },
+          { speaker: "Mia", text: "Absolutely! To put it simply, spending time outside is good for you." },
+          { speaker: "Tom", text: "I agree. We should go together next time!" },
+          { speaker: "Mia", text: "Yes, absolutely! Let's plan it this weekend." },
+        ],
+        vocab: ["hike", "deer", "wildlife", "outdoors", "relax", "I have the feeling that"],
+        tip: "'I have the feeling that...' = j'ai le sentiment que..." },
+      { title: "Sustainable Living", theme: "Making eco-friendly choices", characters: ["Emma", "Sam"],
+        lines: [
+          { speaker: "Emma", text: "I've decided to go vegetarian to help the environment!" },
+          { speaker: "Sam", text: "That's quite a commitment! What made you decide?" },
+          { speaker: "Emma", text: "I watched a documentary about the impact of meat on the planet." },
+          { speaker: "Sam", text: "I believe we should all make sustainable choices." },
+          { speaker: "Emma", text: "In my opinion, it's not just about food — it's also about what we buy." },
+          { speaker: "Sam", text: "I quite agree. Fast fashion is also a big problem." },
+          { speaker: "Emma", text: "Exactly. Every choice matters." },
+        ],
+        vocab: ["vegetarian", "sustainable", "commitment", "impact", "fast fashion"],
+        tip: "'Every choice matters' — a powerful short sentence for writing." },
+      { title: "Climate Change", theme: "A class debate", characters: ["Alex", "Ben"],
+        lines: [
+          { speaker: "Alex", text: "We had a big debate in class today about climate change." },
+          { speaker: "Ben", text: "Oh really? What was your position?" },
+          { speaker: "Alex", text: "I'm convinced that it's the biggest challenge of our generation." },
+          { speaker: "Ben", text: "I quite agree. It's obvious that temperatures are rising." },
+          { speaker: "Alex", text: "Some people didn't believe it was serious, though." },
+          { speaker: "Ben", text: "Nonsense! The scientific evidence is clear." },
+          { speaker: "Alex", text: "That's right. We need to act now, not tomorrow." },
+          { speaker: "Ben", text: "Absolutely. It's a fact." },
+        ],
+        vocab: ["climate change", "debate", "evidence", "generation", "Nonsense!", "It's a fact"],
+        tip: "'It's a fact.' = c'est un fait — used to reinforce a point strongly." },
+    ],
+  },
+  {
+    title: "Arts & Entertainment", emoji: "🎭", color: "#F59E0B",
+    days: [
+      { title: "A Concert", theme: "Inviting a friend", characters: ["Léa", "Jake"],
+        lines: [
+          { speaker: "Léa", text: "I'm going to a concert this Friday! I'm so excited!" },
+          { speaker: "Jake", text: "Who's performing?" },
+          { speaker: "Léa", text: "A local band. They're really talented!" },
+          { speaker: "Jake", text: "That sounds fun. Is it outdoors?" },
+          { speaker: "Léa", text: "Yes, in the park. You really should come, you know." },
+          { speaker: "Jake", text: "I'd love to, but I'm not sure I can. Let me check." },
+          { speaker: "Léa", text: "Don't forget it starts at 7pm! Come on, it'll be amazing." },
+          { speaker: "Jake", text: "OK, you've convinced me! I'll be there." },
+        ],
+        vocab: ["concert", "performing", "talented", "outdoors", "convinced", "local"],
+        tip: "'You've convinced me!' = Tu m'as convaincu(e) — great for natural dialogue." },
+      { title: "Comic Strips", theme: "An art project", characters: ["Mia", "Tom"],
+        lines: [
+          { speaker: "Mia", text: "For the art project, I've decided to create a comic strip!" },
+          { speaker: "Tom", text: "Oh, that's a creative idea! What's it about?" },
+          { speaker: "Mia", text: "A superhero who fights pollution. I call it 'Green Guardian'." },
+          { speaker: "Tom", text: "I love it! I believe comic strips are a powerful way to share a message." },
+          { speaker: "Mia", text: "I quite agree. Plus, they're fun to make!" },
+          { speaker: "Tom", text: "I'm convinced your teacher will be impressed." },
+          { speaker: "Mia", text: "I hope so! I've been working on it all week." },
+        ],
+        vocab: ["comic strip", "creative", "superhero", "powerful", "impressed", "message"],
+        tip: "'I believe...' is softer and more personal than 'I think...'" },
+      { title: "Modern Art", theme: "Expressing opinions on art", characters: ["Alex", "Lola"],
+        lines: [
+          { speaker: "Alex", text: "We visited the modern art museum today. I found it quite strange." },
+          { speaker: "Lola", text: "Really? In my opinion, modern art makes you think." },
+          { speaker: "Alex", text: "I don't agree. Some of it just looks like random paint splashes." },
+          { speaker: "Lola", text: "I understand your point, but art isn't always about being realistic." },
+          { speaker: "Alex", text: "I suppose. I'm more into portraits and landscapes myself." },
+          { speaker: "Lola", text: "That's fair. Art is subjective, after all." },
+          { speaker: "Alex", text: "True. Though I admit one painting was actually beautiful." },
+        ],
+        vocab: ["modern art", "realistic", "portrait", "landscape", "subjective", "admit"],
+        tip: "'That's fair.' = C'est juste — acknowledge someone's point politely." },
+      { title: "A Movie Review", theme: "Recommending a film", characters: ["Sam", "Emma"],
+        lines: [
+          { speaker: "Sam", text: "Have you seen the new sci-fi movie yet?" },
+          { speaker: "Emma", text: "Yes! I went last weekend. It was absolutely terrific!" },
+          { speaker: "Sam", text: "Really? I've heard mixed reviews. Is it worth seeing?" },
+          { speaker: "Emma", text: "I'm convinced you'll enjoy it. The special effects are stunning." },
+          { speaker: "Sam", text: "What about the story? I care about a good plot." },
+          { speaker: "Emma", text: "The story is great too. To put it simply — it's a must-see!" },
+          { speaker: "Sam", text: "OK, you've persuaded me. I'll go this weekend." },
+        ],
+        vocab: ["sci-fi", "reviews", "special effects", "plot", "must-see", "persuaded"],
+        tip: "'You've persuaded me' is similar to 'You've convinced me' — both work well." },
+      { title: "Music Preferences", theme: "Discussing tastes", characters: ["Ben", "Léa"],
+        lines: [
+          { speaker: "Ben", text: "What kind of music are you into?" },
+          { speaker: "Léa", text: "I love hip-hop and R&B mostly. What about you?" },
+          { speaker: "Ben", text: "I prefer rock. I think it's more energetic and powerful." },
+          { speaker: "Léa", text: "I don't agree. Hip-hop has really meaningful lyrics." },
+          { speaker: "Ben", text: "I suppose. I focus more on the melody than the words." },
+          { speaker: "Léa", text: "In other words, we like completely different things in music!" },
+          { speaker: "Ben", text: "Ha! That's right. But music is for everyone, isn't it?" },
+          { speaker: "Léa", text: "I quite agree!" },
+        ],
+        vocab: ["lyrics", "melody", "energetic", "meaningful", "prefer", "in other words"],
+        tip: "'I'm into...' = j'aime bien / je suis fan de — very natural in English." },
+      { title: "The School Play", theme: "Encouraging someone", characters: ["Tom", "Jake"],
+        lines: [
+          { speaker: "Tom", text: "Are you trying out for the school play this year?" },
+          { speaker: "Jake", text: "I want to, but I'm scared of performing in front of people." },
+          { speaker: "Tom", text: "Don't be! Look, I think you should go for it. You're really talented." },
+          { speaker: "Jake", text: "Do you really think so?" },
+          { speaker: "Tom", text: "I'm convinced! You're a great actor. Don't give up before you try." },
+          { speaker: "Jake", text: "Fair enough. You've convinced me. I'll audition tomorrow." },
+          { speaker: "Tom", text: "Yes! That's the spirit! Break a leg!" },
+        ],
+        vocab: ["school play", "perform", "audition", "talented", "convinced", "Break a leg!"],
+        tip: "'Break a leg!' means 'bonne chance !' in theatre — never say 'good luck'!" },
+      { title: "Photography", theme: "A new passion", characters: ["Mia", "Alex"],
+        lines: [
+          { speaker: "Mia", text: "I've just bought a second-hand camera! I'm learning photography." },
+          { speaker: "Alex", text: "That's so cool! What kind of photos do you take?" },
+          { speaker: "Mia", text: "Mostly landscapes and street photography. I love capturing moments." },
+          { speaker: "Alex", text: "I believe photography is a wonderful way to express yourself." },
+          { speaker: "Mia", text: "Absolutely! I'm quite excited about it." },
+          { speaker: "Alex", text: "You should display your work at the school art fair!" },
+          { speaker: "Mia", text: "That's quite a good idea! I hadn't thought of that." },
+        ],
+        vocab: ["photography", "landscape", "capture", "express", "display", "second-hand"],
+        tip: "'I hadn't thought of that' — a natural way to react to a new suggestion." },
+    ],
+  },
+  {
+    title: "Jobs & Future", emoji: "🚀", color: "#EF4444",
+    days: [
+      { title: "Career Choices", theme: "Thinking about the future", characters: ["Tom", "Emma"],
+        lines: [
+          { speaker: "Tom", text: "Have you thought about what you want to do after school?" },
+          { speaker: "Emma", text: "I think I want to become an engineer. What about you?" },
+          { speaker: "Tom", text: "I'm not sure yet. I have the feeling I'd like to work in the arts." },
+          { speaker: "Emma", text: "That's interesting! As a musician or a visual artist?" },
+          { speaker: "Tom", text: "Maybe both! I believe you shouldn't limit yourself." },
+          { speaker: "Emma", text: "I quite agree. But you must also think about income, you know." },
+          { speaker: "Tom", text: "True. I'll find a way to balance passion and practicality." },
+        ],
+        vocab: ["engineer", "income", "balance", "passion", "career", "limit yourself"],
+        tip: "'You must also think about...' is a gentle way to give practical advice." },
+      { title: "Work Placement", theme: "Sharing an experience", characters: ["Sam", "Léa"],
+        lines: [
+          { speaker: "Sam", text: "How was your work placement at the veterinary clinic?" },
+          { speaker: "Léa", text: "It was amazing! I'm now convinced I want to be a vet." },
+          { speaker: "Sam", text: "Really? Was it hard work?" },
+          { speaker: "Léa", text: "Yes, absolutely! But so rewarding. I got to help treat animals." },
+          { speaker: "Sam", text: "That's wonderful. I'm quite jealous!" },
+          { speaker: "Léa", text: "You really should consider doing a placement in your field of interest." },
+          { speaker: "Sam", text: "That's quite a good idea. I'll look into it." },
+        ],
+        vocab: ["work placement", "rewarding", "treat", "field", "consider", "jealous"],
+        tip: "'I'll look into it' = je vais me renseigner — very useful phrase." },
+      { title: "Job Interview", theme: "Preparing for an interview", characters: ["Jake", "Mia"],
+        lines: [
+          { speaker: "Jake", text: "I have a job interview tomorrow for a summer job. I'm nervous!" },
+          { speaker: "Mia", text: "Don't worry! You're well-prepared. What's the job?" },
+          { speaker: "Jake", text: "Working at a bookshop. I really want it!" },
+          { speaker: "Mia", text: "Just be confident and honest. That's key." },
+          { speaker: "Jake", text: "What if they ask about my weaknesses?" },
+          { speaker: "Mia", text: "Be truthful. Say you're working on improving them. That shows awareness." },
+          { speaker: "Jake", text: "That's quite good advice. Thank you!" },
+          { speaker: "Mia", text: "Good luck! You're going to be great." },
+        ],
+        vocab: ["interview", "confident", "honest", "weakness", "awareness", "prepared"],
+        tip: "'That's key.' = C'est essentiel — short and impactful." },
+      { title: "Volunteering", theme: "Being generous", characters: ["Alex", "Ben"],
+        lines: [
+          { speaker: "Alex", text: "I've signed up to volunteer at the food bank this weekend!" },
+          { speaker: "Ben", text: "That's really unselfish of you! What will you do there?" },
+          { speaker: "Alex", text: "Help sort and distribute food to families in need." },
+          { speaker: "Ben", text: "I believe volunteering is so important. It teaches you a lot." },
+          { speaker: "Alex", text: "I quite agree. Plus, it looks great on a CV!" },
+          { speaker: "Ben", text: "You should tell our classmates about it. Maybe they'll join." },
+          { speaker: "Alex", text: "Yes, that's quite a good idea! The more volunteers, the better." },
+        ],
+        vocab: ["volunteer", "unselfish", "distribute", "CV", "food bank", "in need"],
+        tip: "'The more..., the better' — structure très utile en anglais." },
+      { title: "Skills & Qualities", theme: "Self-assessment", characters: ["Lola", "Sam"],
+        lines: [
+          { speaker: "Lola", text: "Our teacher asked us to list our top five skills today." },
+          { speaker: "Sam", text: "Oh interesting! What did you write?" },
+          { speaker: "Lola", text: "Creative, resourceful, reliable, enthusiastic, and... I got stuck!" },
+          { speaker: "Sam", text: "What about being a good communicator? That's really important." },
+          { speaker: "Lola", text: "That's right! I'm convinced that communication is key in any job." },
+          { speaker: "Sam", text: "Employers always look for people who are honest and reliable too." },
+          { speaker: "Lola", text: "So true. I'm going to work on all of these." },
+        ],
+        vocab: ["skills", "resourceful", "reliable", "enthusiastic", "communicator", "employers"],
+        tip: "'Resourceful' = ingénieux/se — très apprécié par les recruteurs." },
+      { title: "A Dream Job", theme: "Imagining your career", characters: ["Tom", "Emma"],
+        lines: [
+          { speaker: "Tom", text: "If you could have any job in the world, what would it be?" },
+          { speaker: "Emma", text: "Honestly? I'd love to be a journalist and travel the world." },
+          { speaker: "Tom", text: "I believe journalists play a crucial role in society." },
+          { speaker: "Emma", text: "I quite agree. They help people stay informed and hold power accountable." },
+          { speaker: "Tom", text: "What about the risks though? Journalism can be dangerous." },
+          { speaker: "Emma", text: "That's true. But I'm convinced the work is worth it." },
+          { speaker: "Tom", text: "I admire your passion. I'd want to be a scientist, personally." },
+          { speaker: "Emma", text: "Cool! You discover things, I'll write about them!" },
+        ],
+        vocab: ["journalist", "informed", "accountable", "dangerous", "scientist", "passionate"],
+        tip: "'Hold power accountable' = demander des comptes aux puissants — strong expression." },
+      { title: "Entrepreneurship", theme: "Starting a business", characters: ["Jake", "Léa"],
+        lines: [
+          { speaker: "Jake", text: "I've had an amazing business idea! I want to create an app." },
+          { speaker: "Léa", text: "Oh wow, tell me more! What kind of app?" },
+          { speaker: "Jake", text: "An app to help students find part-time jobs near their school." },
+          { speaker: "Léa", text: "That's really useful! I'm convinced there's a market for that." },
+          { speaker: "Jake", text: "I've already started sketching out the concept." },
+          { speaker: "Léa", text: "You should speak to the technology teacher about it." },
+          { speaker: "Jake", text: "That's quite a good idea. Maybe she could help me develop it." },
+        ],
+        vocab: ["app", "market", "concept", "develop", "part-time", "entrepreneurship"],
+        tip: "'There's a market for that' = il y a un marché pour ça — useful in business talk." },
+    ],
+  },
+  {
+    title: "Society & Current Events", emoji: "🌍", color: "#0EA5E9",
+    days: [
+      { title: "Media & News", theme: "Staying informed", characters: ["Alex", "Mia"],
+        lines: [
+          { speaker: "Alex", text: "Do you watch the news regularly?" },
+          { speaker: "Mia", text: "Not really. I find it quite depressing sometimes." },
+          { speaker: "Alex", text: "I understand, but I'm convinced we should stay informed." },
+          { speaker: "Mia", text: "I suppose you're right. I prefer reading articles online though." },
+          { speaker: "Alex", text: "That's fine, but you must be careful about your sources." },
+          { speaker: "Mia", text: "I agree. Not everything you read online is reliable." },
+          { speaker: "Alex", text: "Exactly! To put it simply, always check before you share." },
+        ],
+        vocab: ["news", "informed", "depressing", "sources", "reliable", "To put it simply"],
+        tip: "'I suppose you're right.' = conceding a point gracefully." },
+      { title: "Discrimination", theme: "A serious discussion", characters: ["Ben", "Lola"],
+        lines: [
+          { speaker: "Ben", text: "In history class today, we talked about discrimination. It was really moving." },
+          { speaker: "Lola", text: "I believe discrimination in any form is wrong. It is obvious." },
+          { speaker: "Ben", text: "I quite agree. And it's sad that it still exists today." },
+          { speaker: "Lola", text: "You must remember that everyone deserves equal respect." },
+          { speaker: "Ben", text: "Absolutely. Standing up for others is so important." },
+          { speaker: "Lola", text: "I'm convinced that education is the key to fighting discrimination." },
+          { speaker: "Ben", text: "I agree completely. Change starts with awareness." },
+        ],
+        vocab: ["discrimination", "equal", "respect", "standing up", "awareness", "education"],
+        tip: "'Change starts with awareness.' — une belle phrase pour une rédaction." },
+      { title: "Charity Event", theme: "Helping others", characters: ["Sam", "Emma"],
+        lines: [
+          { speaker: "Sam", text: "Our school is organising a charity event next month. Are you interested?" },
+          { speaker: "Emma", text: "Absolutely! What kind of event?" },
+          { speaker: "Sam", text: "A sponsored run to raise money for a children's hospital." },
+          { speaker: "Emma", text: "That's a wonderful idea! I'm quite excited already." },
+          { speaker: "Sam", text: "You really should sign up. The more people, the more money we raise!" },
+          { speaker: "Emma", text: "I'll do it! What about asking the whole class to join?" },
+          { speaker: "Sam", text: "That's quite a good idea! Let's make a poster." },
+        ],
+        vocab: ["charity", "sponsored", "raise money", "sign up", "poster", "hospital"],
+        tip: "'Are you interested?' is a neutral way to invite participation." },
+      { title: "A Local Issue", theme: "Civic engagement", characters: ["Tom", "Jake"],
+        lines: [
+          { speaker: "Tom", text: "Have you noticed how dangerous the road in front of school has become?" },
+          { speaker: "Jake", text: "Yes! Something must be done." },
+          { speaker: "Tom", text: "I believe we should write to the local council." },
+          { speaker: "Jake", text: "That's a good idea. We could also create a petition." },
+          { speaker: "Tom", text: "Yes, absolutely! If we get enough signatures, they'll have to listen." },
+          { speaker: "Jake", text: "I'm convinced that young people can make a difference in their community." },
+          { speaker: "Tom", text: "That's right. Let's start today!" },
+        ],
+        vocab: ["local", "council", "petition", "signatures", "dangerous", "community"],
+        tip: "'Something must be done.' — phrase forte pour exprimer l'urgence." },
+      { title: "Taking a Stand", theme: "Youth activism", characters: ["Léa", "Alex"],
+        lines: [
+          { speaker: "Léa", text: "Did you hear about the students who organised a protest at their school?" },
+          { speaker: "Alex", text: "Yes! They were demanding better school lunches. I think that's great." },
+          { speaker: "Léa", text: "You must remember that peaceful protest is a democratic right." },
+          { speaker: "Alex", text: "I'm convinced it's important for young people to speak up." },
+          { speaker: "Léa", text: "Absolutely. Don't forget that change only happens when people take action." },
+          { speaker: "Alex", text: "I agree! That's truly inspiring." },
+          { speaker: "Léa", text: "It makes me want to be more involved in our school's decisions." },
+        ],
+        vocab: ["protest", "peaceful", "democratic", "involved", "inspiring", "take action"],
+        tip: "'Take action' = passer à l'action — a key phrase for essays on society." },
+      { title: "Against Bullying", theme: "Protecting each other", characters: ["Mia", "Ben"],
+        lines: [
+          { speaker: "Mia", text: "I saw something upsetting today. Someone was being bullied in the corridor." },
+          { speaker: "Ben", text: "That's awful. Did you do anything?" },
+          { speaker: "Mia", text: "I told a teacher straight away. I'm convinced you should always speak up." },
+          { speaker: "Ben", text: "I quite agree. Staying silent makes it worse." },
+          { speaker: "Mia", text: "Exactly. Don't forget that the victim needs support." },
+          { speaker: "Ben", text: "You're right. We all have a responsibility to look out for each other." },
+          { speaker: "Mia", text: "I believe that's what real friendship means." },
+        ],
+        vocab: ["bullying", "victim", "support", "responsibility", "silence", "friendship"],
+        tip: "'Look out for each other' = prendre soin les uns des autres." },
+      { title: "Community Clean-Up", theme: "Working together", characters: ["Emma", "Sam"],
+        lines: [
+          { speaker: "Emma", text: "Our neighbourhood is organising a community clean-up day on Saturday." },
+          { speaker: "Sam", text: "Oh, that sounds great! What time does it start?" },
+          { speaker: "Emma", text: "At 10am. You really should come, you know." },
+          { speaker: "Sam", text: "I will! I'm convinced that keeping our area clean is everyone's responsibility." },
+          { speaker: "Emma", text: "Absolutely. And it's a good way to meet people and connect." },
+          { speaker: "Sam", text: "I quite agree. Community spirit is really important." },
+          { speaker: "Emma", text: "Yes! To put it simply, we're better together." },
+        ],
+        vocab: ["neighbourhood", "community", "clean-up", "spirit", "connect", "responsibility"],
+        tip: "'We're better together.' — simple, powerful, and memorable." },
+    ],
+  },
+  {
+    title: "Travel & Culture", emoji: "✈️", color: "#EC4899",
+    days: [
+      { title: "Planning a Trip", theme: "Organising a holiday", characters: ["Lola", "Tom"],
+        lines: [
+          { speaker: "Lola", text: "I'm planning a trip to London this summer! I'm so excited." },
+          { speaker: "Tom", text: "Amazing! How long are you going for?" },
+          { speaker: "Lola", text: "One week. I want to visit all the famous landmarks." },
+          { speaker: "Tom", text: "What are you most excited about?" },
+          { speaker: "Lola", text: "Definitely the British Museum. I believe it's one of the best in the world." },
+          { speaker: "Tom", text: "I quite agree! You really should also visit the Tate Modern." },
+          { speaker: "Lola", text: "That's quite a good idea! I'll add it to my list." },
+        ],
+        vocab: ["landmark", "museum", "excited", "plan", "trip", "visit"],
+        tip: "'Definitely' = absolument, sans aucun doute — adds emphasis." },
+      { title: "At the Airport", theme: "Travelling for the first time", characters: ["Jake", "Mia"],
+        lines: [
+          { speaker: "Jake", text: "I can't believe we're finally at the airport! This is my first flight." },
+          { speaker: "Mia", text: "Don't worry! It's quite straightforward. Do you have your passport?" },
+          { speaker: "Jake", text: "Yes! And my boarding pass. I'm a bit nervous though." },
+          { speaker: "Mia", text: "That's normal. I'm convinced you'll be fine once we're in the air." },
+          { speaker: "Jake", text: "I hope so! What about customs? Is it complicated?" },
+          { speaker: "Mia", text: "Not at all. Just stay calm and answer honestly." },
+          { speaker: "Jake", text: "Fair enough. OK, I'm ready. Let's go!" },
+        ],
+        vocab: ["airport", "passport", "boarding pass", "customs", "nervous", "straightforward"],
+        tip: "'Not at all.' = Pas du tout — the strongest negative response in English." },
+      { title: "A Host Family", theme: "Living abroad", characters: ["Alex", "Emma"],
+        lines: [
+          { speaker: "Alex", text: "How's your stay with your host family in England?" },
+          { speaker: "Emma", text: "It's amazing! They're so welcoming and kind." },
+          { speaker: "Alex", text: "I'm glad! Is the language difficult?" },
+          { speaker: "Emma", text: "Sometimes. But I'm improving every day. Immersion is the best way to learn!" },
+          { speaker: "Alex", text: "I quite agree! Are there cultural differences?" },
+          { speaker: "Emma", text: "Yes! They eat dinner at 6pm and have tea with everything!" },
+          { speaker: "Alex", text: "Ha! Are you adapting?" },
+          { speaker: "Emma", text: "Absolutely! I love it actually." },
+        ],
+        vocab: ["host family", "welcoming", "immersion", "cultural", "adapting", "improving"],
+        tip: "'I'm glad!' = Je suis content(e) — warm and natural response." },
+      { title: "Cultural Differences", theme: "Understanding other cultures", characters: ["Sam", "Ben"],
+        lines: [
+          { speaker: "Sam", text: "I was surprised by how different British humour is from French humour!" },
+          { speaker: "Ben", text: "In what way?" },
+          { speaker: "Sam", text: "It's very ironic and self-deprecating. It took me a while to understand." },
+          { speaker: "Ben", text: "I believe humour is one of the hardest things to grasp in a foreign language." },
+          { speaker: "Sam", text: "I quite agree! But once you get it, it brings you closer to the culture." },
+          { speaker: "Ben", text: "Exactly. In other words, language and culture are inseparable." },
+          { speaker: "Sam", text: "That's a really good point. I'm learning so much." },
+        ],
+        vocab: ["humour", "ironic", "foreign", "culture", "language", "inseparable"],
+        tip: "'It took me a while to...' = ça m'a pris du temps pour — très naturel." },
+      { title: "Visiting a Landmark", theme: "A sightseeing adventure", characters: ["Léa", "Alex"],
+        lines: [
+          { speaker: "Léa", text: "We visited the Tower of London today. It was incredible!" },
+          { speaker: "Alex", text: "Oh wow! Did you see the Crown Jewels?" },
+          { speaker: "Léa", text: "Yes! They were stunning. London has some of the best history." },
+          { speaker: "Alex", text: "I quite agree. What else did you visit?" },
+          { speaker: "Léa", text: "Tower Bridge and the Thames. It was beautiful at sunset." },
+          { speaker: "Alex", text: "I'm quite jealous! You must remember to take lots of photos." },
+          { speaker: "Léa", text: "Don't worry — I already have hundreds!" },
+        ],
+        vocab: ["landmark", "stunning", "Thames", "sunset", "history", "jealous"],
+        tip: "'I'm quite jealous!' = Je suis assez jaloux/se — friendly envy." },
+      { title: "Language Blunders", theme: "Learning from mistakes", characters: ["Jake", "Mia"],
+        lines: [
+          { speaker: "Jake", text: "I had an embarrassing moment today. I said something completely wrong!" },
+          { speaker: "Mia", text: "Ha! What happened?" },
+          { speaker: "Jake", text: "Everyone laughed, but they were kind about it. I learned from it!" },
+          { speaker: "Mia", text: "I believe making mistakes is the best way to improve." },
+          { speaker: "Jake", text: "I quite agree now! I used to be scared of speaking, but not anymore." },
+          { speaker: "Mia", text: "That's the spirit! Confidence is key." },
+          { speaker: "Jake", text: "To put it simply, you have to just go for it!" },
+          { speaker: "Mia", text: "Absolutely. You're doing brilliantly." },
+        ],
+        vocab: ["embarrassing", "confident", "improve", "mistake", "brilliantly", "That's the spirit!"],
+        tip: "'That's the spirit!' = Voilà l'esprit ! — encourages someone enthusiastically." },
+      { title: "Back Home!", theme: "Sharing your experience", characters: ["Tom", "Emma"],
+        lines: [
+          { speaker: "Tom", text: "Welcome back! How was your trip to England?" },
+          { speaker: "Emma", text: "It was absolutely wonderful! I'm convinced it changed me." },
+          { speaker: "Tom", text: "Really? In what way?" },
+          { speaker: "Emma", text: "I'm more confident, more open-minded, and my English improved so much!" },
+          { speaker: "Tom", text: "That's fantastic! I'm quite jealous. I'd love to go." },
+          { speaker: "Emma", text: "You really should! Experiencing other cultures makes you grow." },
+          { speaker: "Tom", text: "I believe that too. So, what was the best moment?" },
+          { speaker: "Emma", text: "Honestly? The friendships I made. They're unforgettable." },
+        ],
+        vocab: ["wonderful", "confident", "open-minded", "culture", "friendships", "unforgettable"],
+        tip: "'Open-minded' = ouvert(e) d'esprit — a very valuable quality to describe." },
+    ],
+  },
+];
+
+const COLORS = {
+  Alex:"#3B82F6", Tom:"#10B981", Emma:"#F59E0B", Ben:"#8B5CF6",
+  Sam:"#EF4444", Léa:"#EC4899", Jake:"#0EA5E9", Mia:"#F97316",
+  Lola:"#6366F1", Jade:"#14B8A6",
+};
+const getColor = n => COLORS[n] || "#6B7280";
+
+function App() {
+  const [wIdx, setWIdx] = useState(0);
+  const [dIdx, setDIdx] = useState(0);
+  const [showV, setShowV] = useState(false);
+  const [showT, setShowT] = useState(false);
+
+  const week = weeks[wIdx];
+  const day = week.days[dIdx];
+  const total = wIdx * 7 + dIdx + 1;
+  const pct = Math.round((total / 49) * 100);
+
+  function next() {
+    if (dIdx < 6) setDIdx(dIdx + 1);
+    else if (wIdx < 6) { setWIdx(wIdx + 1); setDIdx(0); }
+    setShowV(false); setShowT(false);
+  }
+  function prev() {
+    if (dIdx > 0) setDIdx(dIdx - 1);
+    else if (wIdx > 0) { setWIdx(wIdx - 1); setDIdx(6); }
+    setShowV(false); setShowT(false);
+  }
+
+  const isFirst = wIdx === 0 && dIdx === 0;
+  const isLast = wIdx === 6 && dIdx === 6;
+
+  return (
+    <div style={{minHeight:"100vh",background:"linear-gradient(135deg,#0f0f1a,#1a1a2e,#0f0f1a)",fontFamily:"Georgia,serif",color:"#f0f0f0",padding:"12px"}}>
+      <div style={{textAlign:"center",marginBottom:"16px"}}>
+        <div style={{fontSize:"10px",letterSpacing:"4px",textTransform:"uppercase",color:"#666",marginBottom:"4px"}}>English Practice</div>
+        <h1 style={{margin:0,fontSize:"22px",fontWeight:"normal",color:"#fff"}}>7 Weeks of Dialogues</h1>
+        <div style={{fontSize:"11px",color:"#666",marginTop:"3px"}}>Day {total} of 49</div>
+        <div style={{height:"3px",background:"#222",borderRadius:"2px",marginTop:"8px",maxWidth:"280px",margin:"8px auto 0"}}>
+          <div style={{height:"3px",width:`${pct}%`,background:week.color,borderRadius:"2px",transition:"width 0.4s"}}/>
+        </div>
+      </div>
+
+      <div style={{display:"flex",gap:"5px",justifyContent:"center",flexWrap:"wrap",marginBottom:"10px"}}>
+        {weeks.map((w,i) => (
+          <button key={i} onClick={() => {setWIdx(i);setDIdx(0);setShowV(false);setShowT(false);}}
+            style={{background:wIdx===i?w.color:"#1e1e30",color:wIdx===i?"#fff":"#555",border:`1px solid ${wIdx===i?w.color:"#333"}`,borderRadius:"20px",padding:"3px 8px",fontSize:"11px",cursor:"pointer"}}>
+            {w.emoji} S{i+1}
+          </button>
+        ))}
+      </div>
+
+      <div style={{display:"flex",gap:"5px",justifyContent:"center",marginBottom:"14px"}}>
+        {week.days.map((_,i) => (
+          <button key={i} onClick={() => {setDIdx(i);setShowV(false);setShowT(false);}}
+            style={{width:"28px",height:"28px",borderRadius:"50%",background:dIdx===i?week.color:"#1e1e30",color:dIdx===i?"#fff":"#555",border:`1px solid ${dIdx===i?week.color:"#333"}`,fontSize:"11px",cursor:"pointer",fontWeight:dIdx===i?"bold":"normal"}}>
+            {i+1}
+          </button>
+        ))}
+      </div>
+
+      <div style={{maxWidth:"560px",margin:"0 auto"}}>
+        <div style={{background:`linear-gradient(135deg,${week.color}22,${week.color}0a)`,border:`1px solid ${week.color}44`,borderRadius:"14px 14px 0 0",padding:"14px 16px 10px"}}>
+          <div style={{display:"flex",alignItems:"center",gap:"8px",marginBottom:"3px"}}>
+            <span style={{fontSize:"18px"}}>{week.emoji}</span>
+            <div>
+              <div style={{fontSize:"9px",color:week.color,letterSpacing:"2px",textTransform:"uppercase"}}>Semaine {wIdx+1} · Jour {dIdx+1} · {week.title}</div>
+              <div style={{fontSize:"17px",fontWeight:"bold",color:"#fff",marginTop:"2px"}}>{day.title}</div>
+            </div>
+          </div>
+          <div style={{fontSize:"11px",color:"#777",fontStyle:"italic"}}>🎯 {day.theme} · {day.characters.join(", ")}</div>
+        </div>
+
+        <div style={{background:"#141420",border:`1px solid ${week.color}22`,borderTop:"none",padding:"14px 16px"}}>
+          {day.lines.map((line, i) => {
+            const left = i % 2 === 0;
+            const c = getColor(line.speaker);
+            return (
+              <div key={i} style={{display:"flex",justifyContent:left?"flex-start":"flex-end",marginBottom:"10px",gap:"7px",alignItems:"flex-end"}}>
+                {left && <div style={{width:"26px",height:"26px",borderRadius:"50%",background:`${c}33`,border:`2px solid ${c}`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"10px",fontWeight:"bold",color:c,flexShrink:0}}>{line.speaker[0]}</div>}
+                <div style={{maxWidth:"78%"}}>
+                  <div style={{fontSize:"9px",color:c,marginBottom:"2px",textAlign:left?"left":"right",letterSpacing:"0.5px"}}>{line.speaker}</div>
+                  <div style={{background:left?`${c}18`:"#1e1e30",border:`1px solid ${left?c+"44":"#333"}`,borderRadius:left?"4px 14px 14px 14px":"14px 4px 14px 14px",padding:"7px 10px",fontSize:"13px",lineHeight:"1.5",color:"#e0e0e0"}}>{line.text}</div>
+                </div>
+                {!left && <div style={{width:"26px",height:"26px",borderRadius:"50%",background:"#1e1e30",border:"2px solid #444",display:"flex",alignItems:"center",justifyContent:"center",fontSize:"10px",fontWeight:"bold",color:"#777",flexShrink:0}}>{line.speaker[0]}</div>}
+              </div>
+            );
+          })}
+        </div>
+
+        <div style={{background:"#0e0e1c",border:`1px solid ${week.color}22`,borderTop:"none",padding:"10px 16px",display:"flex",gap:"7px"}}>
+          <button onClick={() => setShowV(!showV)} style={{flex:1,background:showV?`${week.color}22`:"#1a1a28",border:`1px solid ${showV?week.color:"#333"}`,borderRadius:"8px",padding:"7px",color:showV?week.color:"#555",fontSize:"11px",cursor:"pointer"}}>📚 Vocabulary</button>
+          <button onClick={() => setShowT(!showT)} style={{flex:1,background:showT?"#f59e0b22":"#1a1a28",border:`1px solid ${showT?"#f59e0b":"#333"}`,borderRadius:"8px",padding:"7px",color:showT?"#f59e0b":"#555",fontSize:"11px",cursor:"pointer"}}>💡 Tip</button>
+        </div>
+
+        {showV && (
+          <div style={{background:`${week.color}0a`,border:`1px solid ${week.color}33`,borderTop:"none",padding:"12px 16px",display:"flex",flexWrap:"wrap",gap:"5px"}}>
+            {day.vocab.map((v,i) => <span key={i} style={{background:`${week.color}22`,border:`1px solid ${week.color}55`,borderRadius:"20px",padding:"2px 9px",fontSize:"11px",color:week.color}}>{v}</span>)}
+          </div>
+        )}
+
+        {showT && (
+          <div style={{background:"#f59e0b0a",border:"1px solid #f59e0b33",borderTop:"none",padding:"12px 16px",fontSize:"12px",color:"#d4a84b",lineHeight:"1.6",fontStyle:"italic"}}>💡 {day.tip}</div>
+        )}
+
+        <div style={{background:"#0c0c18",border:`1px solid ${week.color}22`,borderTop:"none",borderRadius:"0 0 14px 14px",padding:"10px 16px",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+          <button onClick={prev} disabled={isFirst} style={{background:"transparent",border:"1px solid #333",borderRadius:"8px",padding:"7px 12px",color:isFirst?"#333":"#777",fontSize:"12px",cursor:isFirst?"default":"pointer"}}>← Préc.</button>
+          <span style={{fontSize:"10px",color:"#333"}}>{total} / 49</span>
+          <button onClick={next} disabled={isLast} style={{background:isLast?"transparent":week.color,border:`1px solid ${week.color}`,borderRadius:"8px",padding:"7px 12px",color:isLast?"#333":"#fff",fontSize:"12px",cursor:isLast?"default":"pointer",fontWeight:"500"}}>Suiv. →</button>
+        </div>
+      </div>
+      <div style={{textAlign:"center",marginTop:"16px",fontSize:"10px",color:"#2a2a3a"}}>Bonne pratique ! 🇬🇧</div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(App));
+</script>
+</body>
+</html>

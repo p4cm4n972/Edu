@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quiz Maths 3ème — Complet</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { min-height: 100vh; background: #0F172A; font-family: Georgia, serif; color: #E2E8F0; }
+
+    /* HEADER */
+    header {
+      background: linear-gradient(135deg, #1E293B, #0F172A);
+      border-bottom: 2px solid #334155;
+      padding: 16px;
+      position: sticky; top: 0; z-index: 10;
+    }
+    header h1 { font-size: 20px; color: #F1F5F9; }
+    header p { color: #64748B; font-size: 12px; margin-top: 2px; }
+
+    main { max-width: 720px; margin: 0 auto; padding: 24px 16px 60px; }
+
+    /* START SCREEN */
+    .start-screen { text-align: center; padding: 20px 0; }
+    .start-screen h2 { font-size: 26px; color: #F1F5F9; margin-bottom: 8px; }
+    .start-screen > p { color: #94A3B8; font-size: 14px; margin-bottom: 28px; line-height: 1.7; }
+
+    .filter-section { margin-bottom: 24px; text-align: left; }
+    .filter-section h3 { color: #94A3B8; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
+    .tag-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag-btn {
+      padding: 6px 14px; border-radius: 20px;
+      border: 2px solid #334155; background: transparent;
+      color: #94A3B8; font-size: 12px; font-family: inherit; cursor: pointer;
+      transition: all 0.15s;
+    }
+    .tag-btn.on { border-color: #F59E0B; background: #F59E0B22; color: #FCD34D; font-weight: bold; }
+
+    .modes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
+    .mode-btn {
+      background: #1E293B; border: 2px solid #334155; border-radius: 12px;
+      padding: 14px 12px; cursor: pointer; font-family: inherit; transition: all 0.2s; text-align: center;
+    }
+    .mode-btn:hover { border-color: #F59E0B; background: #F59E0B11; }
+    .mode-btn.selected { border-color: #F59E0B; background: #F59E0B22; }
+    .mode-icon { font-size: 26px; display: block; margin-bottom: 6px; }
+    .mode-title { color: #F1F5F9; font-size: 13px; font-weight: bold; display: block; margin-bottom: 3px; }
+    .mode-desc { color: #64748B; font-size: 11px; display: block; }
+
+    .q-count-info { color: #64748B; font-size: 13px; margin-bottom: 16px; }
+    .q-count-info span { color: #F59E0B; font-weight: bold; }
+
+    .start-btn {
+      background: #F59E0B; color: #0F172A; border: none; border-radius: 10px;
+      padding: 13px 36px; font-size: 15px; font-weight: bold; font-family: inherit;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .start-btn:hover { background: #FCD34D; }
+    .start-btn:disabled { background: #334155; color: #64748B; cursor: default; }
+
+    /* QUIZ HEADER */
+    .quiz-bar {
+      display: flex; justify-content: space-between; align-items: center;
+      background: #1E293B; border: 1px solid #334155; border-radius: 10px;
+      padding: 10px 16px; margin-bottom: 18px;
+    }
+    .quiz-bar .prog { color: #94A3B8; font-size: 13px; }
+    .quiz-bar .prog span { color: #F1F5F9; font-weight: bold; }
+    .quiz-timer { font-size: 22px; font-weight: bold; font-family: monospace; min-width: 54px; text-align: center; }
+    .quiz-timer.ok { color: #4ADE80; }
+    .quiz-timer.warn { color: #F59E0B; }
+    .quiz-timer.danger { color: #F87171; }
+    .quiz-bar .score { color: #94A3B8; font-size: 13px; }
+    .quiz-bar .score span { color: #FCD34D; font-weight: bold; }
+
+    /* PROGRESS BAR */
+    .progress-bar-wrap { background: #1E293B; border-radius: 99px; height: 6px; margin-bottom: 18px; }
+    .progress-bar-fill { height: 6px; border-radius: 99px; background: linear-gradient(90deg, #F59E0B, #FB923C); transition: width 0.4s; }
+
+    /* QUESTION CARD */
+    .q-card { background: #1E293B; border: 1px solid #334155; border-radius: 14px; padding: 22px; margin-bottom: 14px; }
+    .q-type-badge {
+      display: inline-block; font-size: 10px; border-radius: 20px; padding: 2px 10px;
+      letter-spacing: 0.5px; margin-bottom: 10px; font-weight: bold;
+    }
+    .badge-cours  { background: #3B82F622; color: #93C5FD; border: 1px solid #3B82F644; }
+    .badge-exo    { background: #F59E0B22; color: #FCD34D; border: 1px solid #F59E0B44; }
+    .badge-prob   { background: #7C3AED22; color: #C4B5FD; border: 1px solid #7C3AED44; }
+    .q-cat { color: #64748B; font-size: 11px; margin-bottom: 8px; letter-spacing: 0.4px; }
+    .q-text { color: #F1F5F9; font-size: 16px; line-height: 1.75; margin-bottom: 20px; }
+    .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .choice {
+      background: #0F172A; border: 2px solid #334155; border-radius: 10px;
+      padding: 12px 14px; color: #CBD5E1; font-size: 14px; font-family: inherit;
+      cursor: pointer; transition: all 0.15s; text-align: left;
+    }
+    .choice:hover:not(:disabled) { border-color: #7C3AED; background: #7C3AED11; color: #E2E8F0; }
+    .choice.correct { border-color: #16A34A; background: #14532D44; color: #4ADE80; font-weight: bold; }
+    .choice.wrong   { border-color: #DC2626; background: #7F1D1D44; color: #F87171; }
+    .choice.reveal  { border-color: #16A34A; background: #14532D22; color: #86EFAC; }
+
+    .feedback {
+      border-radius: 10px; padding: 12px 16px; font-size: 14px; line-height: 1.6; margin-bottom: 12px; display: none;
+    }
+    .feedback.show { display: block; }
+    .feedback.good { background: #14532D33; border: 1px solid #16A34A; color: #86EFAC; }
+    .feedback.bad  { background: #7F1D1D33; border: 1px solid #DC2626; color: #FCA5A5; }
+    .next-btn {
+      width: 100%; padding: 12px; border-radius: 10px; border: none; background: #334155;
+      color: #E2E8F0; font-size: 14px; font-family: inherit; cursor: pointer; transition: all 0.2s; display: none;
+    }
+    .next-btn.show { display: block; }
+    .next-btn:hover { background: #475569; }
+
+    /* END SCREEN */
+    .end-screen { text-align: center; padding: 20px 0; }
+    .end-screen h2 { font-size: 24px; color: #F1F5F9; margin-bottom: 6px; }
+    .score-big { font-size: 58px; font-weight: bold; margin: 16px 0; }
+    .end-meta { color: #94A3B8; font-size: 14px; margin-bottom: 24px; }
+    .stats-row {
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px;
+    }
+    .stat-box { background: #1E293B; border: 1px solid #334155; border-radius: 10px; padding: 14px; }
+    .stat-val { font-size: 24px; font-weight: bold; }
+    .stat-lbl { color: #64748B; font-size: 11px; margin-top: 4px; }
+    .details-box {
+      background: #1E293B; border: 1px solid #334155; border-radius: 12px; padding: 16px;
+      margin-bottom: 20px; text-align: left; max-height: 300px; overflow-y: auto;
+    }
+    .details-box h3 { color: #94A3B8; font-size: 11px; letter-spacing: 0.5px; margin-bottom: 12px; }
+    .detail-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 5px 0; border-bottom: 1px solid #0F172A; font-size: 12px; gap: 8px; }
+    .detail-row .dq { color: #CBD5E1; flex: 1; }
+    .end-btns { display: flex; gap: 10px; justify-content: center; }
+    .replay-btn { background: #F59E0B; color: #0F172A; border: none; border-radius: 10px; padding: 12px 28px; font-size: 14px; font-weight: bold; font-family: inherit; cursor: pointer; }
+    .back-btn { background: transparent; color: #94A3B8; border: 1px solid #334155; border-radius: 10px; padding: 12px 20px; font-size: 14px; font-family: inherit; cursor: pointer; }
+    .back-btn:hover { border-color: #475569; color: #E2E8F0; }
+
+    /* PERF BY CATEGORY */
+    .cat-perf { background: #1E293B; border: 1px solid #334155; border-radius: 12px; padding: 16px; margin-bottom: 20px; text-align: left; }
+    .cat-perf h3 { color: #94A3B8; font-size: 11px; letter-spacing: 0.5px; margin-bottom: 12px; }
+    .cat-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .cat-name { color: #CBD5E1; font-size: 12px; width: 160px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .cat-bar-bg { flex: 1; background: #0F172A; border-radius: 99px; height: 8px; }
+    .cat-bar-fill { height: 8px; border-radius: 99px; }
+    .cat-pct { color: #94A3B8; font-size: 11px; width: 36px; text-align: right; }
+
+    #start-view, #quiz-view, #end-view { display: none; }
+    #start-view.active, #quiz-view.active, #end-view.active { display: block; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>⏱️ Quiz Maths 3ème — Édition Complète</h1>
+  <p>Cours · Exercices · Problèmes — Plus de 260 questions</p>
+</header>
+
+<main>
+  <!-- START -->
+  <div id="start-view" class="active">
+    <div class="start-screen">
+      <h2>Choisir ton quiz</h2>
+      <p>Sélectionne les thèmes et le mode de jeu,<br>puis lance-toi !</p>
+
+      <div class="filter-section">
+        <h3>📂 Thèmes</h3>
+        <div class="tag-grid" id="theme-tags"></div>
+      </div>
+
+      <div class="filter-section">
+        <h3>📝 Type de questions</h3>
+        <div class="tag-grid" id="type-tags">
+          <button class="tag-btn on" data-type="cours" onclick="toggleType(this)">📚 Cours</button>
+          <button class="tag-btn on" data-type="exo" onclick="toggleType(this)">✏️ Exercices</button>
+          <button class="tag-btn on" data-type="prob" onclick="toggleType(this)">🧩 Problèmes</button>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <h3>⚡ Mode de jeu</h3>
+        <div class="modes-grid" id="modes-grid"></div>
+      </div>
+
+      <p class="q-count-info">Questions disponibles : <span id="q-available">0</span></p>
+      <button class="start-btn" id="start-btn" onclick="startQuiz()">Lancer le quiz</button>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="quiz-view">
+    <div class="quiz-bar">
+      <div class="prog">Question <span id="q-num">1</span> / <span id="q-total">10</span></div>
+      <div class="quiz-timer ok" id="q-timer">∞</div>
+      <div class="score">Score : <span id="q-score">0</span></div>
+    </div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="q-progress" style="width:0%"></div></div>
+
+    <div class="q-card">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+        <span class="q-type-badge" id="q-badge"></span>
+        <span class="q-cat" id="q-cat"></span>
+      </div>
+      <div class="q-text" id="q-text"></div>
+      <div class="choices" id="q-choices"></div>
+    </div>
+    <div class="feedback" id="q-feedback"></div>
+    <button class="next-btn" id="q-next" onclick="nextQuestion()">Question suivante →</button>
+  </div>
+
+  <!-- END -->
+  <div id="end-view">
+    <div class="end-screen">
+      <h2 id="end-medal"></h2>
+      <div class="score-big" id="end-score"></div>
+      <div class="end-meta" id="end-meta"></div>
+      <div class="stats-row">
+        <div class="stat-box"><div class="stat-val" id="stat-correct" style="color:#4ADE80"></div><div class="stat-lbl">✅ Correctes</div></div>
+        <div class="stat-box"><div class="stat-val" id="stat-wrong" style="color:#F87171"></div><div class="stat-lbl">❌ Incorrectes</div></div>
+        <div class="stat-box"><div class="stat-val" id="stat-time" style="color:#60A5FA"></div><div class="stat-lbl">⏱️ Temps</div></div>
+      </div>
+      <div class="cat-perf" id="cat-perf">
+        <h3>PERFORMANCE PAR THÈME</h3>
+        <div id="cat-perf-rows"></div>
+      </div>
+      <div class="details-box">
+        <h3>DÉTAIL DES RÉPONSES</h3>
+        <div id="end-details"></div>
+      </div>
+      <div class="end-btns">
+        <button class="back-btn" onclick="showStart()">← Changer de mode</button>
+        <button class="replay-btn" onclick="startQuiz()">🔄 Rejouer</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+// ====================== BANQUE DE QUESTIONS ======================
+// cat = thème, type = cours|exo|prob   ok = index de la bonne réponse (0-based)
+
+const BANK = [
+
+  // ══════════════════ NATURE DES NOMBRES ══════════════════
+  // — cours —
+  { cat:"Nature des nombres", type:"cours", q:"ℕ est l'ensemble des nombres :", c:["entiers relatifs (positifs et négatifs)","entiers naturels (positifs ou nuls)","nombres décimaux","nombres rationnels"], ok:1, e:"ℕ = {0 ; 1 ; 2 ; 3 ; …} — les entiers positifs ou nuls." },
+  { cat:"Nature des nombres", type:"cours", q:"ℕ ⊂ ℤ signifie :", c:["ℤ est contenu dans ℕ","ℕ est contenu dans ℤ","ℕ et ℤ sont égaux","ℕ et ℤ ne partagent aucun élément"], ok:1, e:"⊂ signifie 'est inclus dans'. Tout entier naturel est aussi un entier relatif." },
+  { cat:"Nature des nombres", type:"cours", q:"L'ordre d'inclusion correct des ensembles est :", c:["ℕ ⊂ 𝔻 ⊂ ℤ ⊂ ℚ","ℕ ⊂ ℤ ⊂ 𝔻 ⊂ ℚ","ℤ ⊂ ℕ ⊂ 𝔻 ⊂ ℚ","ℚ ⊂ 𝔻 ⊂ ℤ ⊂ ℕ"], ok:1, e:"ℕ ⊂ ℤ ⊂ 𝔻 ⊂ ℚ — chaque ensemble est contenu dans le suivant." },
+  { cat:"Nature des nombres", type:"cours", q:"Un nombre décimal s'écrit sous la forme :", c:["a/b avec a, b entiers","a/10ⁿ avec a ∈ ℤ et n ∈ ℕ","nécessairement avec une virgule","un produit de deux entiers"], ok:1, e:"𝔻 = {a/10ⁿ} — quotient d'un entier relatif par une puissance de 10." },
+  { cat:"Nature des nombres", type:"cours", q:"Un nombre rationnel s'écrit sous la forme :", c:["a/10ⁿ uniquement","a/b avec a, b ∈ ℤ et b ≠ 0","une racine carrée","un entier strictement positif"], ok:1, e:"ℚ = {a/b | a ∈ ℤ, b ∈ ℤ, b ≠ 0}." },
+  { cat:"Nature des nombres", type:"cours", q:"Pourquoi 1/3 n'est-il pas un décimal ?", c:["Car 3 est impair","Car 3 ne divise aucune puissance de 10 (10ⁿ = 2ⁿ × 5ⁿ)","Car 1 < 3","Car 1/3 < 1"], ok:1, e:"Pour écrire 1/3 = a/10ⁿ, il faudrait 3 | 10ⁿ. Impossible : 10ⁿ = 2ⁿ×5ⁿ ne contient pas 3." },
+  { cat:"Nature des nombres", type:"cours", q:"Les nombres irrationnels sont :", c:["des rationnels négatifs","des décimaux infinis périodiques","des nombres ne pouvant pas s'écrire a/b (a, b entiers)","des entiers très grands"], ok:2, e:"Irrationnels : ni entiers, ni fractions. Ex : π, √2, √3. Décimaux infinis non périodiques." },
+  { cat:"Nature des nombres", type:"cours", q:"Laquelle de ces affirmations est FAUSSE ?", c:["Tout décimal est rationnel","Tout entier relatif est rationnel","Tout rationnel est décimal","ℕ ⊂ ℤ"], ok:2, e:"FAUX : 1/3 est rationnel mais pas décimal (ne s'écrit pas a/10ⁿ)." },
+  // — exo —
+  { cat:"Nature des nombres", type:"exo", q:"-7 appartient à quel ensemble (le plus petit possible) ?", c:["ℕ","ℤ","𝔻","Irrationnel"], ok:1, e:"-7 est un entier négatif → ℤ (et aussi ℚ, mais ℤ est plus petit)." },
+  { cat:"Nature des nombres", type:"exo", q:"0 appartient à quel(s) ensemble(s) ?", c:["ℕ seulement","ℤ seulement","ℕ, ℤ, 𝔻 et ℚ","Irrationnel"], ok:2, e:"0 ∈ ℕ donc aussi ∈ ℤ, ∈ 𝔻, ∈ ℚ par inclusion." },
+  { cat:"Nature des nombres", type:"exo", q:"3/4 appartient à quel ensemble (le plus petit possible) ?", c:["ℕ","ℤ","𝔻","ℚ"], ok:2, e:"3/4 = 0,75 = 75/10² → c'est un décimal. L'ensemble le plus petit est 𝔻." },
+  { cat:"Nature des nombres", type:"exo", q:"-√4 appartient à quel ensemble (le plus petit possible) ?", c:["Irrationnel","𝔻","ℤ","ℕ"], ok:2, e:"-√4 = -2. C'est un entier négatif → ℤ." },
+  { cat:"Nature des nombres", type:"exo", q:"9/3 appartient à quel ensemble (le plus petit possible) ?", c:["ℚ","𝔻","ℤ","ℕ"], ok:3, e:"9/3 = 3 → entier naturel → ℕ (l'ensemble le plus petit)." },
+  { cat:"Nature des nombres", type:"exo", q:"√2 est un nombre :", c:["entier naturel","décimal","rationnel","irrationnel"], ok:3, e:"√2 ≈ 1,41421… — décomposition décimale infinie non périodique → irrationnel." },
+  { cat:"Nature des nombres", type:"exo", q:"Vrai ou Faux : -5 ∈ 𝔻 ?", c:["Vrai","Faux"], ok:0, e:"VRAI : -5 = -50/10 = -5/1 = -5/10⁰ → c'est un décimal." },
+  { cat:"Nature des nombres", type:"exo", q:"Vrai ou Faux : tout rationnel est un décimal ?", c:["Vrai","Faux"], ok:1, e:"FAUX : 1/3 est rationnel mais 1/3 ≠ a/10ⁿ (pas décimal)." },
+
+  // ══════════════════ FRACTIONS ══════════════════
+  // — cours —
+  { cat:"Fractions", type:"cours", q:"a/c + b/c = ?", c:["(a+b)/(2c)","(a+b)/c","a/(b+c)","(a×b)/c"], ok:1, e:"Même dénominateur → on additionne les numérateurs : (a+b)/c." },
+  { cat:"Fractions", type:"cours", q:"(a/b) × (c/d) = ?", c:["(a+c)/(b+d)","(a-c)/(b-d)","(a×c)/(b×d)","(a×d)/(b×c)"], ok:2, e:"On multiplie numérateur par numérateur, dénominateur par dénominateur." },
+  { cat:"Fractions", type:"cours", q:"(a/b) ÷ (c/d) = ?", c:["(a×c)/(b×d)","(a×d)/(b×c)","(a/b)×(c/d)","(a+d)/(b+c)"], ok:1, e:"Diviser par c/d = multiplier par l'inverse d/c : (a×d)/(b×c)." },
+  { cat:"Fractions", type:"cours", q:"L'inverse d'un nombre k est :", c:["−k","1/k","k²","k−1"], ok:1, e:"k × (1/k) = 1. L'inverse de a/b est b/a." },
+  { cat:"Fractions", type:"cours", q:"Deux nombres sont inverses l'un de l'autre quand :", c:["leur somme est 0","leur différence est 1","leur produit est 1","leur quotient est 0"], ok:2, e:"a et b sont inverses ⟺ a × b = 1." },
+  { cat:"Fractions", type:"cours", q:"Une fraction a/b est irréductible quand :", c:["a et b sont tous deux pairs","PGCD(a, b) = 1","a < b","b est un nombre premier"], ok:1, e:"Irréductible ⟺ a et b sont premiers entre eux, i.e. PGCD(a, b) = 1." },
+  { cat:"Fractions", type:"cours", q:"Pour additionner 1/4 + 1/6, le dénominateur commun minimum est :", c:["24","10","12","8"], ok:2, e:"PPCM(4, 6) = 12. On écrit 3/12 + 2/12 = 5/12." },
+  { cat:"Fractions", type:"cours", q:"Pour simplifier 12/18, on divise numérateur et dénominateur par :", c:["2","3","6","9"], ok:2, e:"PGCD(12, 18) = 6. 12/18 = (12÷6)/(18÷6) = 2/3." },
+  // — exo —
+  { cat:"Fractions", type:"exo", q:"2/7 + 3/7 = ?", c:["5/14","5/7","6/14","1/7"], ok:1, e:"(2+3)/7 = 5/7." },
+  { cat:"Fractions", type:"exo", q:"3/4 × 8/9 = ?", c:["11/36","3/8","2/3","24/13"], ok:2, e:"(3×8)/(4×9) = 24/36 = 2/3 (simplifier par 12)." },
+  { cat:"Fractions", type:"exo", q:"5/6 ÷ (5/3) = ?", c:["25/18","1/3","1/2","15/18"], ok:2, e:"5/6 × 3/5 = 15/30 = 1/2." },
+  { cat:"Fractions", type:"exo", q:"1/2 + 1/3 = ?", c:["2/5","2/6","5/6","1/6"], ok:2, e:"Dénominateur commun 6 : 3/6 + 2/6 = 5/6." },
+  { cat:"Fractions", type:"exo", q:"5/6 − 3/4 = ?", c:["2/24","1/12","2/10","1/3"], ok:1, e:"10/12 − 9/12 = 1/12 (dénominateur commun 12)." },
+  { cat:"Fractions", type:"exo", q:"Laquelle de ces fractions est déjà irréductible ?", c:["4/6","9/15","5/7","8/12"], ok:2, e:"PGCD(5, 7) = 1 → 5/7 est irréductible. Les autres se simplifient." },
+  { cat:"Fractions", type:"exo", q:"3/8 × 400 = ?", c:["150","100","120","75"], ok:0, e:"3/8 × 400 = 1 200/8 = 150." },
+  // — prob —
+  { cat:"Fractions", type:"prob", q:"Il reste 3/8 + 1/4 de pizza. Quelle fraction totale reste-t-il ?", c:["4/12","1/2","5/8","7/8"], ok:2, e:"3/8 + 1/4 = 3/8 + 2/8 = 5/8." },
+  { cat:"Fractions", type:"prob", q:"On partage 5/8 de pizza entre 5 amis. Chaque ami reçoit :", c:["1/40","1/5","1/8","5/8"], ok:2, e:"(5/8) ÷ 5 = (5/8) × (1/5) = 5/40 = 1/8." },
+
+  // ══════════════════ DIVISIBILITÉ ══════════════════
+  // — cours —
+  { cat:"Divisibilité", type:"cours", q:"Critère de divisibilité par 2 :", c:["Somme des chiffres paire","Chiffre des unités ∈ {0, 2, 4, 6, 8}","Nombre de chiffres pair","Chiffre des dizaines pair"], ok:1, e:"Divisible par 2 ⟺ chiffre des unités est 0, 2, 4, 6 ou 8." },
+  { cat:"Divisibilité", type:"cours", q:"Critère de divisibilité par 3 :", c:["Chiffre des unités ∈ {0, 3, 6, 9}","Nombre pair","Somme des chiffres divisible par 3","Chiffre des dizaines = 0"], ok:2, e:"Divisible par 3 ⟺ somme des chiffres divisible par 3." },
+  { cat:"Divisibilité", type:"cours", q:"Critère de divisibilité par 4 :", c:["Chiffre des unités pair","Somme des chiffres divisible par 4","Les deux derniers chiffres forment un multiple de 4","Chiffre des dizaines pair"], ok:2, e:"Divisible par 4 ⟺ les deux derniers chiffres forment un multiple de 4." },
+  { cat:"Divisibilité", type:"cours", q:"Critère de divisibilité par 5 :", c:["Somme des chiffres = 5","Chiffre des unités ∈ {0, 5}","Nombre impair","Chiffre des dizaines = 5"], ok:1, e:"Divisible par 5 ⟺ chiffre des unités est 0 ou 5." },
+  { cat:"Divisibilité", type:"cours", q:"Critère de divisibilité par 9 :", c:["Chiffre des unités = 9","Nombre de chiffres pair","Somme des chiffres divisible par 9","Finit par 09"], ok:2, e:"Divisible par 9 ⟺ somme des chiffres divisible par 9." },
+  { cat:"Divisibilité", type:"cours", q:"Critère de divisibilité par 10 :", c:["Chiffre des unités = 0","Nombre pair","Finit par 00","Somme des chiffres = 10"], ok:0, e:"Divisible par 10 ⟺ chiffre des unités est 0." },
+  { cat:"Divisibilité", type:"cours", q:"'n est multiple de d' signifie :", c:["n < d","∃ un entier q tel que n = d × q","n et d sont premiers entre eux","d est premier"], ok:1, e:"Par définition : n multiple de d ⟺ ∃ q ∈ ℤ tel que n = d × q." },
+  { cat:"Divisibilité", type:"cours", q:"1 est diviseur de :", c:["seulement les nombres premiers","seulement les multiples de 10","tout entier naturel n","aucun entier"], ok:2, e:"n = 1 × n pour tout n → 1 divise tout entier naturel." },
+  // — exo —
+  { cat:"Divisibilité", type:"exo", q:"1 234 est-il divisible par 3 ?", c:["Oui","Non"], ok:1, e:"1+2+3+4 = 10. 10 n'est pas divisible par 3 → Non." },
+  { cat:"Divisibilité", type:"exo", q:"Quel nombre est divisible par 9 ?", c:["1 234","4 815","3 572","2 461"], ok:1, e:"4 815 : 4+8+1+5 = 18 = 9×2 ✓" },
+  { cat:"Divisibilité", type:"exo", q:"48 est un multiple de :", c:["7","9","6","11"], ok:2, e:"48 = 6 × 8." },
+  { cat:"Divisibilité", type:"exo", q:"360 est-il divisible par 9 ?", c:["Oui","Non"], ok:0, e:"3+6+0 = 9 → divisible par 9 ✓" },
+  { cat:"Divisibilité", type:"exo", q:"Quel nombre n'est PAS diviseur de 24 ?", c:["8","6","9","12"], ok:2, e:"24 = 2³×3. Diviseurs : 1, 2, 3, 4, 6, 8, 12, 24. 9 n'y est pas." },
+
+  // ══════════════════ DIVISION EUCLIDIENNE ══════════════════
+  // — cours —
+  { cat:"Division euclidienne", type:"cours", q:"La formule de la division euclidienne de a par b est :", c:["a = b + q × r","a = b × q + r, avec 0 ≤ r < b","a = b × q − r","a = (b + r) × q"], ok:1, e:"a = b×q + r avec 0 ≤ r < b. Le reste est strictement inférieur au diviseur." },
+  { cat:"Division euclidienne", type:"cours", q:"Dans a = b×q + r, le 'reste' est :", c:["b","q","r","a"], ok:2, e:"r est le reste, q le quotient, b le diviseur, a le dividende." },
+  { cat:"Division euclidienne", type:"cours", q:"Dans a = b×q + r, la condition sur r est :", c:["r > b","r = 0 toujours","0 ≤ r < b","r ≤ b"], ok:2, e:"Le reste est positif ou nul ET strictement inférieur au diviseur b." },
+  { cat:"Division euclidienne", type:"cours", q:"Si le reste de la division de a par b est 0, alors :", c:["a est premier","b est premier","a est divisible par b","b est divisible par a"], ok:2, e:"Reste = 0 ⟺ a divisible par b ⟺ b divise a." },
+  { cat:"Division euclidienne", type:"cours", q:"La division euclidienne de a par b est unique : cela signifie :", c:["a et b sont uniques","le couple (q, r) est unique pour a et b donnés","b est toujours premier","q = r toujours"], ok:1, e:"Pour a et b donnés, il existe un UNIQUE couple (q, r) vérifiant a = b×q + r et 0 ≤ r < b." },
+  // — exo —
+  { cat:"Division euclidienne", type:"exo", q:"Dans 100 = 7×14 + 2, le reste est :", c:["7","14","2","100"], ok:2, e:"r = 2, et on vérifie bien 2 < 7 ✓" },
+  { cat:"Division euclidienne", type:"exo", q:"Quel est le reste de la division de 50 par 7 ?", c:["0","1","6","8"], ok:1, e:"7×7 = 49, 50−49 = 1 → reste = 1." },
+  { cat:"Division euclidienne", type:"exo", q:"59 = 8×q + r. Trouver q.", c:["6","7","8","9"], ok:1, e:"8×7 = 56, 59−56 = 3. Donc q = 7, r = 3." },
+  { cat:"Division euclidienne", type:"exo", q:"Quel est le quotient de la division de 1 000 par 13 ?", c:["75","76","77","78"], ok:1, e:"13×76 = 988, 1 000−988 = 12. Quotient = 76, reste = 12." },
+  { cat:"Division euclidienne", type:"exo", q:"278 = 45×q + 8. Trouver q.", c:["5","6","7","4"], ok:1, e:"45×6 = 270, 270+8 = 278 ✓ Donc q = 6." },
+  // — prob —
+  { cat:"Division euclidienne", type:"prob", q:"Une artisane a 157 bougies à vendre en lots de 6. Combien de bougies lui reste-t-il ?", c:["0","1","2","3"], ok:1, e:"157 = 6×26 + 1 → il reste 1 bougie (6×26 = 156)." },
+
+  // ══════════════════ PGCD & PPCM ══════════════════
+  // — cours —
+  { cat:"PGCD & PPCM", type:"cours", q:"PGCD(a, b) est :", c:["le plus grand multiple commun","le plus grand diviseur commun","le plus petit diviseur commun","le plus petit multiple commun"], ok:1, e:"PGCD = Plus Grand Commun Diviseur." },
+  { cat:"PGCD & PPCM", type:"cours", q:"Pour calculer le PGCD par facteurs premiers, on prend :", c:["tous les facteurs avec le plus grand exposant","les facteurs communs avec le plus petit exposant","les facteurs communs avec le plus grand exposant","tous les facteurs avec le plus petit exposant"], ok:1, e:"PGCD = produit des facteurs COMMUNS avec le PLUS PETIT exposant." },
+  { cat:"PGCD & PPCM", type:"cours", q:"Pour calculer le PPCM par facteurs premiers, on prend :", c:["les facteurs communs avec le plus grand exposant","tous les facteurs avec le plus petit exposant","les facteurs communs avec le plus petit exposant","tous les facteurs avec le plus grand exposant"], ok:3, e:"PPCM = produit de TOUS les facteurs (communs ou non) avec le PLUS GRAND exposant." },
+  { cat:"PGCD & PPCM", type:"cours", q:"Relation fondamentale : PGCD(a, b) × PPCM(a, b) = ?", c:["a + b","a − b","a × b","a / b"], ok:2, e:"PGCD(a,b) × PPCM(a,b) = a × b. Toujours." },
+  { cat:"PGCD & PPCM", type:"cours", q:"'a et b sont premiers entre eux' signifie :", c:["a et b sont tous deux premiers","PGCD(a, b) = 1","PPCM(a, b) = 1","a × b = 1"], ok:1, e:"Premiers entre eux ⟺ PGCD = 1 ⟺ aucun diviseur commun autre que 1." },
+  { cat:"PGCD & PPCM", type:"cours", q:"À quoi sert le PPCM des dénominateurs dans les fractions ?", c:["Simplifier une fraction","Trouver le plus petit dénominateur commun","Vérifier l'irréductibilité","Calculer un produit de fractions"], ok:1, e:"PPCM(b, d) donne le plus petit dénominateur commun pour additionner a/b + c/d." },
+  // — exo —
+  { cat:"PGCD & PPCM", type:"exo", q:"PGCD(12, 18) = ?", c:["3","6","9","12"], ok:1, e:"Diviseurs communs : 1, 2, 3, 6 → PGCD = 6." },
+  { cat:"PGCD & PPCM", type:"exo", q:"PGCD(270, 252) par facteurs premiers = ?", c:["9","18","36","54"], ok:1, e:"270=2×3³×5 | 252=2²×3²×7 → facteurs communs : 2¹×3² = 18." },
+  { cat:"PGCD & PPCM", type:"exo", q:"15/35 réduite à la forme irréductible = ?", c:["1/2","3/5","3/7","5/7"], ok:2, e:"PGCD(15, 35) = 5 → 15/35 = 3/7." },
+  { cat:"PGCD & PPCM", type:"exo", q:"PPCM(6, 9) = ?", c:["3","18","54","15"], ok:1, e:"6 = 2×3, 9 = 3² → PPCM = 2×3² = 18." },
+  // — prob —
+  { cat:"PGCD & PPCM", type:"prob", q:"48 filles et 36 garçons : nombre maximum d'équipes mixtes identiques utilisant tous les élèves ?", c:["6","8","12","24"], ok:2, e:"PGCD(48, 36) = 12 → 12 équipes de 4 filles + 3 garçons." },
+
+  // ══════════════════ NOMBRES PREMIERS ══════════════════
+  // — cours —
+  { cat:"Nombres premiers", type:"cours", q:"Un nombre premier est :", c:["un entier qui n'a qu'un seul diviseur","un entier ≥ 2 avec exactement 2 diviseurs : 1 et lui-même","un entier impair","tout entier supérieur à 1"], ok:1, e:"Définition exacte : entier ≥ 2, exactement 2 diviseurs distincts." },
+  { cat:"Nombres premiers", type:"cours", q:"1 est-il un nombre premier ?", c:["Oui, il est divisible par 1 seulement","Non — il n'a qu'un seul diviseur (lui-même)","Oui, c'est le plus petit premier","Non — il est pair"], ok:1, e:"1 n'est PAS premier : il faut exactement 2 diviseurs distincts, 1 n'en a qu'un (1)." },
+  { cat:"Nombres premiers", type:"cours", q:"Le plus petit nombre premier est :", c:["1","2","3","7"], ok:1, e:"2 est le plus petit — et le seul nombre premier pair." },
+  { cat:"Nombres premiers", type:"cours", q:"Tout entier ≥ 2 non premier peut être :", c:["simplifié en fraction","décomposé de façon unique en produit de facteurs premiers","divisé seulement par 2","écrit comme somme de deux premiers"], ok:1, e:"Théorème fondamental de l'arithmétique : la décomposition en facteurs premiers est unique." },
+  { cat:"Nombres premiers", type:"cours", q:"Pour décomposer en facteurs premiers, on divise successivement par :", c:["les entiers en ordre décroissant","les nombres premiers 2, 3, 5, 7, 11… en ordre croissant","les diviseurs du nombre","les multiples de 10"], ok:1, e:"On teste 2 en premier, puis 3, puis 5… jusqu'à ce que le quotient soit 1." },
+  // — exo —
+  { cat:"Nombres premiers", type:"exo", q:"Quel nombre est premier ?", c:["1","9","17","21"], ok:2, e:"17 a exactement 2 diviseurs : 1 et 17. (9 = 3², 21 = 3×7)" },
+  { cat:"Nombres premiers", type:"exo", q:"Décomposition de 20 en facteurs premiers :", c:["2×10","4×5","2²×5","2×2×5×1"], ok:2, e:"20 = 2² × 5. (1 n'est pas un facteur premier)" },
+  { cat:"Nombres premiers", type:"exo", q:"Quel nombre n'est PAS premier ?", c:["29","31","39","41"], ok:2, e:"39 = 3 × 13 → non premier." },
+  { cat:"Nombres premiers", type:"exo", q:"Combien y a-t-il de nombres premiers entre 10 et 20 ?", c:["2","3","4","5"], ok:2, e:"11, 13, 17, 19 → 4 nombres premiers." },
+  // — prob —
+  { cat:"Nombres premiers", type:"prob", q:"2025 = 3⁴ × 5². Quelle propriété remarquable cela implique-t-il ?", c:["2025 est premier","2025 est un carré parfait (45²)","2025 est divisible par 7","2025 est impair uniquement"], ok:1, e:"2025 = (3² × 5)² = 45² → c'est un carré parfait !" },
+
+  // ══════════════════ PUISSANCES ══════════════════
+  // — cours —
+  { cat:"Puissances", type:"cours", q:"aᵐ × aⁿ = ? (même base)", c:["a^(m+n)","a^(m×n)","a^(m−n)","(2a)^(m+n)"], ok:0, e:"Même base → on ADDITIONNE les exposants : a^(m+n)." },
+  { cat:"Puissances", type:"cours", q:"aᵐ ÷ aⁿ = ? (même base, a ≠ 0)", c:["a^(m+n)","a^(m×n)","a^(m−n)","a^(m/n)"], ok:2, e:"Même base → on SOUSTRAIT les exposants : a^(m−n)." },
+  { cat:"Puissances", type:"cours", q:"(aᵐ)ⁿ = ?", c:["a^(m+n)","a^(m−n)","a^(m×n)","a^(m/n)"], ok:2, e:"Puissance d'une puissance → on MULTIPLIE les exposants : a^(m×n)." },
+  { cat:"Puissances", type:"cours", q:"aⁿ × bⁿ = ? (même exposant)", c:["(a+b)ⁿ","(a×b)ⁿ","aⁿ + bⁿ","(a−b)ⁿ"], ok:1, e:"Même exposant → (a×b)ⁿ. Attention : aⁿ + bⁿ ≠ (a+b)ⁿ !" },
+  { cat:"Puissances", type:"cours", q:"a⁰ = ? (a ≠ 0)", c:["0","a","1","∞"], ok:2, e:"Tout nombre non nul à la puissance 0 vaut 1." },
+  { cat:"Puissances", type:"cours", q:"a⁻ⁿ = ? (a ≠ 0)", c:["−aⁿ","1/aⁿ","aⁿ","−1/aⁿ"], ok:1, e:"Exposant négatif = inverse : a⁻ⁿ = 1/aⁿ." },
+  { cat:"Puissances", type:"cours", q:"(−2)² vaut : (attention aux parenthèses)", c:["−4","4","−2","2"], ok:1, e:"(−2)² = (−2)×(−2) = +4. Exposant pair → résultat positif." },
+  { cat:"Puissances", type:"cours", q:"−2² vaut : (sans parenthèses)", c:["4","−4","2","−2"], ok:1, e:"−2² = −(2²) = −4. On calcule 2² d'abord, PUIS on met le signe −." },
+  { cat:"Puissances", type:"cours", q:"En notation scientifique a × 10ⁿ, la partie a vérifie :", c:["0 < a < 1","a ≥ 10","1 ≤ a < 10","a ∈ ℕ"], ok:2, e:"Notation scientifique : 1 ≤ a < 10 et n ∈ ℤ." },
+  // — exo —
+  { cat:"Puissances", type:"exo", q:"2³ × 2⁴ = ?", c:["2¹²","4⁷","2⁷","2¹"], ok:2, e:"2^(3+4) = 2⁷ = 128." },
+  { cat:"Puissances", type:"exo", q:"5⁶ ÷ 5² = ?", c:["5³","5⁴","25²","1⁴"], ok:1, e:"5^(6−2) = 5⁴ = 625." },
+  { cat:"Puissances", type:"exo", q:"(3²)³ = ?", c:["3⁵","9³","3⁶","6²"], ok:2, e:"3^(2×3) = 3⁶ = 729." },
+  { cat:"Puissances", type:"exo", q:"3,45 × 10⁴ en écriture décimale = ?", c:["34 500","345 000","3 450","3,45"], ok:0, e:"×10⁴ : déplacer la virgule de 4 rangs vers la droite → 34 500." },
+  { cat:"Puissances", type:"exo", q:"3² + 4² = ?", c:["7²","5²","12","49"], ok:1, e:"9 + 16 = 25 = 5². (Pas une règle générale : c'est une coïncidence du triangle 3-4-5)" },
+  { cat:"Puissances", type:"exo", q:"10⁻³ = ?", c:["−1 000","0,001","−0,001","1/30"], ok:1, e:"10⁻³ = 1/10³ = 1/1 000 = 0,001." },
+  // — prob —
+  { cat:"Puissances", type:"prob", q:"2⁰ + 2¹ + 2² + 2³ + 2⁴ + 2⁵ = ?", c:["62","63","64","31"], ok:1, e:"1+2+4+8+16+32 = 63 = 2⁶ − 1." },
+
+  // ══════════════════ RACINES CARRÉES ══════════════════
+  // — cours —
+  { cat:"Racines carrées", type:"cours", q:"√a est défini pour :", c:["tout réel a","a ≥ 0 uniquement","a > 0 uniquement","a ∈ ℕ uniquement"], ok:1, e:"√a est défini pour a ≥ 0. C'est le nombre positif dont le carré vaut a." },
+  { cat:"Racines carrées", type:"cours", q:"(√a)² = ? (pour a ≥ 0)", c:["a/2","√(a²)","a","2a"], ok:2, e:"Par définition : (√a)² = a." },
+  { cat:"Racines carrées", type:"cours", q:"√(a × b) = ? (pour a, b ≥ 0)", c:["√a + √b","√a × √b","(√a)/(√b)","a × b"], ok:1, e:"√(a×b) = √a × √b. Ex : √12 = √(4×3) = 2√3." },
+  { cat:"Racines carrées", type:"cours", q:"Vrai ou Faux : √(a + b) = √a + √b ?", c:["Vrai","Faux"], ok:1, e:"FAUX. Ex : √(9+16) = √25 = 5 ≠ 3+4 = 7." },
+  { cat:"Racines carrées", type:"cours", q:"√(a²) = ? (pour a ≥ 0)", c:["a²","a/2","a","−a"], ok:2, e:"√(a²) = a si a ≥ 0. (En général √(a²) = |a|)" },
+  // — exo —
+  { cat:"Racines carrées", type:"exo", q:"√144 = ?", c:["11","12","14","72"], ok:1, e:"12² = 144 ✓" },
+  { cat:"Racines carrées", type:"exo", q:"√50 sous forme simplifiée = ?", c:["5√2","2√5","10√5","25√2"], ok:0, e:"√50 = √(25×2) = √25 × √2 = 5√2." },
+  { cat:"Racines carrées", type:"exo", q:"(√7)² = ?", c:["49","√49","7","14"], ok:2, e:"(√a)² = a par définition. (√7)² = 7." },
+  { cat:"Racines carrées", type:"exo", q:"√(3² + 4²) = ?", c:["7","√7","5","25"], ok:2, e:"√(9+16) = √25 = 5. (Triangle rectangle 3-4-5)" },
+  // — prob —
+  { cat:"Racines carrées", type:"prob", q:"1 156 = 2² × 17². Calculer √1 156.", c:["28","34","40","17"], ok:1, e:"√(2² × 17²) = 2 × 17 = 34." },
+
+  // ══════════════════ CALCUL LITTÉRAL ══════════════════
+  // — cours —
+  { cat:"Calcul littéral", type:"cours", q:"Développer une expression, c'est :", c:["transformer un produit en une somme","transformer une somme en un produit","calculer une valeur numérique","simplifier une fraction"], ok:0, e:"Développer = passer d'un produit à une somme algébrique." },
+  { cat:"Calcul littéral", type:"cours", q:"Factoriser une expression, c'est :", c:["transformer un produit en une somme","transformer une somme en un produit","résoudre une équation","réduire des fractions"], ok:1, e:"Factoriser = passer d'une somme à un produit (inverse de développer)." },
+  { cat:"Calcul littéral", type:"cours", q:"k(a + b) = ?", c:["ka + b","k + a + b","ka + kb","k × a × b"], ok:2, e:"Distributivité simple : k(a+b) = ka + kb." },
+  { cat:"Calcul littéral", type:"cours", q:"(a + b)(c + d) = ?", c:["ac + bd","ac + ad + bc + bd","(ac)(bd)","a + b + c + d"], ok:1, e:"Double distributivité : 4 termes — ac + ad + bc + bd." },
+  { cat:"Calcul littéral", type:"cours", q:"1ère identité remarquable : (a + b)² = ?", c:["a² + b²","a² + ab + b²","a² + 2ab + b²","(a+b)(a−b)"], ok:2, e:"(a+b)² = a² + 2ab + b². Le terme '2ab' est souvent oublié !" },
+  { cat:"Calcul littéral", type:"cours", q:"2ème identité remarquable : (a − b)² = ?", c:["a² − b²","a² − ab + b²","a² − 2ab + b²","(a+b)(a−b)"], ok:2, e:"(a−b)² = a² − 2ab + b²." },
+  { cat:"Calcul littéral", type:"cours", q:"3ème identité remarquable : (a + b)(a − b) = ?", c:["a² + b²","a² − b²","(a−b)²","a² + 2ab − b²"], ok:1, e:"(a+b)(a−b) = a² − b². Sert à factoriser les différences de carrés." },
+  { cat:"Calcul littéral", type:"cours", q:"Pour factoriser ka + kb, le facteur commun est :", c:["a","b","k","ab"], ok:2, e:"ka + kb = k(a + b). On met k en facteur." },
+  // — exo —
+  { cat:"Calcul littéral", type:"exo", q:"(x + 3)² développé = ?", c:["x² + 9","x² + 3x + 9","x² + 6x + 9","x² + 6x + 3"], ok:2, e:"a=x, b=3 : x² + 2×x×3 + 9 = x² + 6x + 9." },
+  { cat:"Calcul littéral", type:"exo", q:"(x + 4)(x − 4) développé = ?", c:["x² − 16","x² + 16","x² − 8","x² − 4x − 16"], ok:0, e:"(a+b)(a−b) = a²−b² → x² − 16." },
+  { cat:"Calcul littéral", type:"exo", q:"(2x − 3)² développé = ?", c:["4x² + 9","4x² − 12x + 9","4x² − 6x + 9","2x² − 6x + 9"], ok:1, e:"a=2x, b=3 : 4x² − 2×2x×3 + 9 = 4x² − 12x + 9." },
+  { cat:"Calcul littéral", type:"exo", q:"x² − 25 factorisé = ?", c:["(x − 5)²","(x + 5)(x − 5)","(x + 25)(x − 1)","(x − 5)(x + 1)"], ok:1, e:"x² − 5² = (x+5)(x−5)." },
+  { cat:"Calcul littéral", type:"exo", q:"x² + 10x + 25 factorisé = ?", c:["(x + 5)(x − 5)","(x + 25)²","(x + 5)²","(x − 5)²"], ok:2, e:"a=x, b=5 : vérif 2ab = 10x ✓ → (x+5)²." },
+  { cat:"Calcul littéral", type:"exo", q:"4x² − 12x + 9 factorisé = ?", c:["(2x − 3)²","(4x − 9)(x − 1)","(2x + 3)²","(4x − 3)(x − 3)"], ok:0, e:"a=2x, b=3 : vérif 2ab = 12x ✓ → (2x−3)²." },
+  // — prob —
+  { cat:"Calcul littéral", type:"prob", q:"(x + 1)(x − 1) calculé pour x = 10 = ?", c:["99","100","101","9"], ok:0, e:"x² − 1 = 100 − 1 = 99." },
+
+  // ══════════════════ ÉQUATIONS ══════════════════
+  // — cours —
+  { cat:"Équations", type:"cours", q:"Si a = b, alors pour tout réel c :", c:["a + c = b + c seulement","a + c = b + c et a − c = b − c et a×c = b×c et (si c≠0) a/c = b/c","a = b + c","a×c = b uniquement"], ok:1, e:"On peut ajouter, soustraire, multiplier ou diviser par la même valeur des deux membres." },
+  { cat:"Équations", type:"cours", q:"Propriété du produit nul : si a × b = 0 alors :", c:["a = 0 et b = 0 nécessairement","a = 0 ou b = 0","a = b","a + b = 0"], ok:1, e:"Si un produit est nul, AU MOINS un des facteurs est nul." },
+  { cat:"Équations", type:"cours", q:"Pour résoudre (2x−1)(x+3) = 0, on applique :", c:["la méthode de substitution","la propriété du produit nul","le théorème de Thalès","les identités remarquables"], ok:1, e:"Produit nul → 2x−1 = 0 ou x+3 = 0 → x = 1/2 ou x = −3." },
+  { cat:"Équations", type:"cours", q:"Pour résoudre x² − 16 = 0, on factorise en :", c:["(x−4)² = 0","(x+4)(x−4) = 0","x(x−16) = 0","(x−8)(x+2) = 0"], ok:1, e:"x² − 4² = 0 → (x+4)(x−4) = 0 → x = ±4." },
+  { cat:"Équations", type:"cours", q:"L'ensemble solution S = {7/3 ; −3} signifie :", c:["L'équation n'a pas de solution","Les deux seules solutions sont x = 7/3 et x = −3","La solution est 7/3 − 3 = −2/3","La solution est 7/3 × (−3)"], ok:1, e:"S contient toutes les solutions : x = 7/3 ou x = −3." },
+  // — exo —
+  { cat:"Équations", type:"exo", q:"Résoudre 5x + 3 = −7x + 2.", c:["x = −1/12","x = 1/12","x = 5/12","x = −5/12"], ok:0, e:"12x = −1 → x = −1/12." },
+  { cat:"Équations", type:"exo", q:"Résoudre (2x − 4)(x + 3) = 0.", c:["x = 2 ou x = 3","x = 4 ou x = 3","x = 2 ou x = −3","x = −2 ou x = 3"], ok:2, e:"2x−4=0→x=2 | x+3=0→x=−3. S = {2 ; −3}." },
+  { cat:"Équations", type:"exo", q:"Résoudre 81x² − 64 = 0.", c:["x = ±8","x = ±9","x = ±8/9","x = ±9/8"], ok:2, e:"(9x)²−8²=0 → (9x+8)(9x−8)=0 → x = −8/9 ou x = 8/9." },
+  { cat:"Équations", type:"exo", q:"Résoudre −3(5x + 2) = 4(2x − 7).", c:["x = 22/23","x = −22/23","x = 22","x = −22"], ok:0, e:"−15x−6 = 8x−28 → −23x = −22 → x = 22/23." },
+  // — prob —
+  { cat:"Équations", type:"prob", q:"Résoudre (−3x + 7)(2x + 6) = 0. Ensemble solution ?", c:["S = {7/3 ; 3}","S = {7/3 ; −3}","S = {−7/3 ; 3}","S = {3 ; −3}"], ok:1, e:"−3x+7=0→x=7/3 | 2x+6=0→x=−3. S = {7/3 ; −3}." },
+  { cat:"Équations", type:"prob", q:"Dans (x+1)(−3x+5) − (x+1)(3x−7) = 0, quel est le facteur commun ?", c:["(x+1)","(3x−7)","(−3x+5)","(6x−12)"], ok:0, e:"Facteur commun = (x+1) → (x+1)[( −3x+5)−(3x−7)] = (x+1)(−6x+12) = 0." },
+
+  // ══════════════════ THÉORÈME DE THALÈS ══════════════════
+  // — cours —
+  { cat:"Théorème de Thalès", type:"cours", q:"La configuration de Thalès nécessite :", c:["Un triangle rectangle","2 droites sécantes en A, des points B et M sur l'une, C et N sur l'autre","Deux droites parallèles uniquement","Un triangle isocèle"], ok:1, e:"Droites (d) et (d') sécantes en A, B et M sur (d) distincts de A, C et N sur (d') distincts de A." },
+  { cat:"Théorème de Thalès", type:"cours", q:"Si (MN) // (BC), le théorème de Thalès donne :", c:["AM × AB = AN × AC","AM/AB = AN/AC = MN/BC","AM + MN = AB + BC","AM = AN et MN = BC"], ok:1, e:"Égalité des trois rapports : AM/AB = AN/AC = MN/BC." },
+  { cat:"Théorème de Thalès", type:"cours", q:"Pour conclure au parallélisme avec la réciproque de Thalès, il faut :", c:["L'égalité des rapports seulement","L'alignement dans le même ordre seulement","Les deux : égalité des rapports ET points alignés dans le même ordre","Que les triangles soient rectangles"], ok:2, e:"Double condition : 1) AM/AB = AN/AC ET 2) A, B, M alignés dans cet ordre et A, C, N dans cet ordre." },
+  { cat:"Théorème de Thalès", type:"cours", q:"La contraposée du théorème de Thalès permet de montrer que :", c:["Deux droites sont parallèles","Deux droites ne sont PAS parallèles","Un triangle est rectangle","Un triangle est isocèle"], ok:1, e:"Si AM/AB ≠ AN/AC, alors (MN) et (BC) ne sont PAS parallèles." },
+  { cat:"Théorème de Thalès", type:"cours", q:"Thalès traduit une relation de :", c:["symétrie axiale","proportionnalité entre les longueurs des côtés","Pythagore","trigonométrie"], ok:1, e:"Thalès = proportionnalité entre les côtés des triangles AMN et ABC." },
+  // — exo —
+  { cat:"Théorème de Thalès", type:"exo", q:"(MN)//(BC), AM=2, AB=5, BC=4. Calculer MN.", c:["1,6","2,5","10","8"], ok:0, e:"AM/AB = MN/BC → 2/5 = MN/4 → MN = 8/5 = 1,6." },
+  { cat:"Théorème de Thalès", type:"exo", q:"(MN)//(BC), AM=3, AB=9, MN=4. Calculer BC.", c:["12","6","9","36"], ok:0, e:"MN/BC = AM/AB → 4/BC = 3/9 = 1/3 → BC = 12." },
+  { cat:"Théorème de Thalès", type:"exo", q:"EC/EB = 8/17 et ED/EA = 3/7. Que conclure sur (CD) et (AB) ?", c:["Elles sont parallèles","Elles ne sont pas parallèles","On ne peut pas conclure","Elles sont perpendiculaires"], ok:1, e:"8/17 ≠ 3/7 → d'après la contraposée, (CD) et (AB) ne sont PAS parallèles." },
+  // — prob —
+  { cat:"Théorème de Thalès", type:"prob", q:"Mesure d'une rivière : AM=4m, AB=10m, MN=5m, (MN)//(BC). Largeur BC = ?", c:["10 m","12,5 m","8 m","20 m"], ok:1, e:"MN/BC = AM/AB → 5/BC = 4/10 → BC = 50/4 = 12,5 m." },
+
+  // ══════════════════ TRIGONOMÉTRIE ══════════════════
+  // — cours —
+  { cat:"Trigonométrie", type:"cours", q:"Dans un triangle rectangle, l'hypoténuse est :", c:["le côté adjacent à l'angle droit","le côté opposé à l'angle droit (le plus long)","n'importe quel côté","le côté le plus court"], ok:1, e:"L'hypoténuse est le côté opposé à l'angle droit — c'est le plus long côté." },
+  { cat:"Trigonométrie", type:"cours", q:"cos(x) = ? (x angle aigu, triangle rectangle)", c:["côté opposé / hypoténuse","côté adjacent / hypoténuse","côté opposé / côté adjacent","hypoténuse / côté adjacent"], ok:1, e:"cos = ADjacent / Hypoténuse (CAH de SOH-CAH-TOA)." },
+  { cat:"Trigonométrie", type:"cours", q:"sin(x) = ? (x angle aigu, triangle rectangle)", c:["côté opposé / hypoténuse","côté adjacent / hypoténuse","côté opposé / côté adjacent","hypoténuse / côté opposé"], ok:0, e:"sin = OPposé / Hypoténuse (SOH de SOH-CAH-TOA)." },
+  { cat:"Trigonométrie", type:"cours", q:"tan(x) = ? (x angle aigu, triangle rectangle)", c:["côté adjacent / côté opposé","côté opposé / hypoténuse","hypoténuse / côté opposé","côté opposé / côté adjacent"], ok:3, e:"tan = OPposé / ADjacent (TOA de SOH-CAH-TOA)." },
+  { cat:"Trigonométrie", type:"cours", q:"cos²(x) + sin²(x) = ?", c:["0","2","1","cos(x) × sin(x)"], ok:2, e:"Relation fondamentale de trigonométrie : cos²(x) + sin²(x) = 1." },
+  { cat:"Trigonométrie", type:"cours", q:"tan(x) = ? (en fonction de sin et cos)", c:["sin(x) + cos(x)","sin(x) / cos(x)","cos(x) / sin(x)","sin(x) × cos(x)"], ok:1, e:"tan(x) = sin(x) / cos(x). Ex : cos=0,6, sin=0,8 → tan = 0,8/0,6 = 4/3." },
+  { cat:"Trigonométrie", type:"cours", q:"sin(30°) = ?", c:["√3/2","1/2","√2/2","1"], ok:1, e:"sin(30°) = 1/2 = 0,5. À mémoriser !" },
+  { cat:"Trigonométrie", type:"cours", q:"cos(60°) = ?", c:["√3/2","√2/2","1","1/2"], ok:3, e:"cos(60°) = 1/2. (Symétrique de sin(30°))" },
+  { cat:"Trigonométrie", type:"cours", q:"tan(45°) = ?", c:["0","1/2","√2","1"], ok:3, e:"tan(45°) = sin(45°)/cos(45°) = (√2/2)/(√2/2) = 1." },
+  // — exo —
+  { cat:"Trigonométrie", type:"exo", q:"cos(30°) ≈ ?", c:["0,5","0,707","0,866","1"], ok:2, e:"cos(30°) = √3/2 ≈ 0,866." },
+  { cat:"Trigonométrie", type:"exo", q:"sin(45°) ≈ ?", c:["0,5","0,707","0,866","1"], ok:1, e:"sin(45°) = √2/2 ≈ 0,707." },
+  { cat:"Trigonométrie", type:"exo", q:"Si cos(x) = 0,6, calculer sin(x) (x angle aigu).", c:["0,4","0,6","0,8","0,64"], ok:2, e:"sin²(x) = 1 − cos²(x) = 1 − 0,36 = 0,64 → sin(x) = 0,8." },
+  { cat:"Trigonométrie", type:"exo", q:"Si cos(x) = 0,6 et sin(x) = 0,8, calculer tan(x).", c:["0,75","4/3","3/4","2"], ok:1, e:"tan(x) = sin/cos = 0,8/0,6 = 4/3 ≈ 1,33." },
+  // — prob —
+  { cat:"Trigonométrie", type:"prob", q:"Piste de ski : angle 25°, longueur de piste 800 m. Dénivelée h ≈ ?", c:["200 m","338 m","725 m","400 m"], ok:1, e:"sin(25°) = h/800 → h = 800 × 0,4226 ≈ 338 m." },
+  { cat:"Trigonométrie", type:"prob", q:"Triangle EFG rectangle en F, angle E = 30°, EG = 5 cm. Longueur FG ≈ ?", c:["2,5 cm","4,33 cm","5 cm","3,5 cm"], ok:1, e:"cos(30°) = FG/EG → FG = 5 × 0,866 ≈ 4,33 cm." },
+
+  // ══════════════════ STATISTIQUES ══════════════════
+  // — cours —
+  { cat:"Statistiques", type:"cours", q:"L'effectif d'une valeur dans une série, c'est :", c:["le nombre total de données","le nombre de fois où cette valeur apparaît","la valeur divisée par le total","la valeur la plus fréquente"], ok:1, e:"Effectif = nombre d'occurrences de cette valeur dans la série." },
+  { cat:"Statistiques", type:"cours", q:"La fréquence d'une valeur = ?", c:["effectif de la valeur × N","effectif de la valeur / N","N / effectif de la valeur","effectif de la valeur − N"], ok:1, e:"Fréquence = effectif / effectif total N. Résultat entre 0 et 1." },
+  { cat:"Statistiques", type:"cours", q:"La somme de toutes les fréquences d'une série vaut toujours :", c:["N","100","0","1"], ok:3, e:"La somme des fréquences = N/N = 1 toujours." },
+  { cat:"Statistiques", type:"cours", q:"La moyenne d'une série = ?", c:["la valeur la plus fréquente","la valeur centrale","Σ(valeur × effectif) / N","valeur max − valeur min"], ok:2, e:"m̄ = Σ(valeur × effectif) / effectif total N." },
+  { cat:"Statistiques", type:"cours", q:"La médiane d'une série de N valeurs (triée par ordre croissant), si N est impair, est :", c:["la valeur de rang N/2","la valeur de rang (N+1)/2","la moyenne des deux valeurs centrales","la valeur maximale"], ok:1, e:"N impair → rang médian = (N+1)/2. Ex : N=9 → rang 5." },
+  { cat:"Statistiques", type:"cours", q:"La médiane d'une série de N valeurs (triée), si N est pair, est :", c:["la valeur de rang N/2","la valeur de rang N/2+1","la moyenne des valeurs de rang N/2 et N/2+1","la valeur maximale"], ok:2, e:"N pair → médiane = (valeur au rang N/2 + valeur au rang N/2+1) / 2." },
+  { cat:"Statistiques", type:"cours", q:"L'étendue d'une série statistique = ?", c:["la valeur médiane","la valeur maximale","valeur max − valeur min","la moyenne"], ok:2, e:"Étendue = valeur max − valeur min. Mesure la dispersion des données." },
+  { cat:"Statistiques", type:"cours", q:"Le mode d'une série, c'est :", c:["la valeur centrale","la valeur la plus fréquente","la moyenne","la valeur minimale"], ok:1, e:"Mode = valeur ayant le plus grand effectif." },
+  { cat:"Statistiques", type:"cours", q:"Interpréter : 'la médiane est 12' signifie :", c:["tout le monde a 12","la moyenne est 12","au moins 50% des valeurs sont ≤ 12 ET au moins 50% sont ≥ 12","la valeur maximale est 12"], ok:2, e:"La médiane partage la série en deux moitiés : ≥ 50% en-dessous, ≥ 50% au-dessus." },
+  // — exo —
+  { cat:"Statistiques", type:"exo", q:"Effectif total : 12 cèpes, 28 girolles, 10 chanterelles.", c:["40","50","60","30"], ok:1, e:"12 + 28 + 10 = 50." },
+  { cat:"Statistiques", type:"exo", q:"Fréquence des girolles : effectif = 28, total = 50.", c:["0,28","0,56","28","56"], ok:1, e:"28/50 = 0,56 = 56%." },
+  { cat:"Statistiques", type:"exo", q:"N = 10 (pair). La médiane est la moyenne des valeurs de rangs :", c:["4 et 5","5 et 6","4 et 6","5 et 7"], ok:1, e:"N pair : rangs N/2 = 5 et N/2+1 = 6." },
+  { cat:"Statistiques", type:"exo", q:"Série triée : 4, 5, 6, 7, 11, 11, 12, 13, 13. N=9 impair. Médiane = ?", c:["7","11","12","13"], ok:1, e:"Rang médian = (9+1)/2 = 5. La 5ème valeur est 11." },
+  // — prob —
+  { cat:"Statistiques", type:"prob", q:"Salaires PME : ouvriers 1 300€ (rang 51ème et 52ème sur 102). Salaire médian = ?", c:["950 €","1 300 €","1 700 €","2 500 €"], ok:1, e:"N=102 pair → médiane = (1300+1300)/2 = 1 300€." },
+  { cat:"Statistiques", type:"prob", q:"Salaires PME : max = 8 000€, min = 950€. Étendue = ?", c:["7 050 €","8 950 €","1 300 €","7 200 €"], ok:0, e:"Étendue = 8 000 − 950 = 7 050€." },
+
+  // ══════════════════ FONCTIONS ══════════════════
+  // — cours —
+  { cat:"Fonctions", type:"cours", q:"Une fonction numérique f associe à tout nombre x :", c:["plusieurs nombres possibles","un unique nombre, noté f(x)","0 uniquement","x lui-même"], ok:1, e:"Définition : f associe à tout réel x un UNIQUE nombre f(x)." },
+  { cat:"Fonctions", type:"cours", q:"Quelle est la différence entre f et f(x) ?", c:["Aucune différence","f est la règle de calcul ; f(x) est le nombre résultat pour l'entrée x","f est un nombre ; f(x) est la règle","f = f(x) + x"], ok:1, e:"f = la machine (procédé de calcul). f(x) = le nombre en sortie pour l'entrée x." },
+  { cat:"Fonctions", type:"cours", q:"f(x) s'appelle :", c:["l'antécédent de x","l'image de x par f","la variable","le nom de la fonction"], ok:1, e:"f(x) est l'image de x par f." },
+  { cat:"Fonctions", type:"cours", q:"Un antécédent de b par f est une valeur a telle que :", c:["f(b) = a","f(a) = b","a = f(b)","a × f = b"], ok:1, e:"a est antécédent de b ⟺ f(a) = b. Pour trouver a, on résout f(x) = b." },
+  { cat:"Fonctions", type:"cours", q:"Une valeur b peut avoir plusieurs antécédents par f ?", c:["Jamais","Oui, cela est possible","Toujours exactement 2","Non, au plus 1"], ok:1, e:"Oui : ex. f(x) = x², f(2) = 4 et f(−2) = 4 → 4 a deux antécédents : 2 et −2." },
+  { cat:"Fonctions", type:"cours", q:"La représentation graphique Cf d'une fonction f est :", c:["un tableau de nombres","une droite uniquement","l'ensemble des points (x ; f(x)) dans un repère","un cercle"], ok:2, e:"Cf = ensemble des points de coordonnées (x ; f(x)) pour x dans le domaine de f." },
+  { cat:"Fonctions", type:"cours", q:"Sur le graphe de f, lire 'l'image de a' consiste à :", c:["trouver l'abscisse d'un point d'ordonnée a","trouver l'ordonnée du point d'abscisse a","calculer a²","trouver tous les antécédents de a"], ok:1, e:"Sur Cf, repérer le point d'abscisse a et lire son ordonnée → c'est f(a)." },
+  // — exo —
+  { cat:"Fonctions", type:"exo", q:"f : x → x² − 4. f(3) = ?", c:["5","9","−4","13"], ok:0, e:"f(3) = 3² − 4 = 9 − 4 = 5." },
+  { cat:"Fonctions", type:"exo", q:"f : x → (x − 5)² − 16. f(−1) = ?", c:["20","−20","36","4"], ok:0, e:"f(−1) = (−1−5)² − 16 = 36 − 16 = 20." },
+  { cat:"Fonctions", type:"exo", q:"g : x → x² − 4. Antécédents de 0 par g ?", c:["x = 0","x = 2 seulement","x = −2 et x = 2","x = 4 et x = −4"], ok:2, e:"x² − 4 = 0 → x² = 4 → x = 2 ou x = −2." },
+  // — prob —
+  { cat:"Fonctions", type:"prob", q:"f(x) = x² − 1. Solutions de f(x) = 0 ?", c:["x = 0 seulement","x = 1 et x = −1","x = 1 seulement","x = ±√2"], ok:1, e:"x² − 1 = 0 → x² = 1 → x = 1 ou x = −1." },
+  { cat:"Fonctions", type:"prob", q:"f(x) = x² − 1. Pour quels x est-ce que f(x) < 0 ?", c:["x > 1","x < −1","−1 < x < 1","x = 0 seulement"], ok:2, e:"x² − 1 < 0 ⟺ x² < 1 ⟺ −1 < x < 1." },
+
+  // ══════════════════ TRIANGLES ÉGAUX ET SEMBLABLES ══════════════════
+  // — cours —
+  { cat:"Triangles égaux et semblables", type:"cours", q:"Deux triangles sont ÉGAUX si :", c:["leurs angles sont 2 à 2 égaux","leurs côtés sont 2 à 2 de même longueur","ils ont la même aire","ils sont isocèles"], ok:1, e:"Triangles égaux ⟺ côtés 2 à 2 de même longueur (et alors leurs angles aussi)." },
+  { cat:"Triangles égaux et semblables", type:"cours", q:"Deux triangles sont SEMBLABLES si :", c:["leurs côtés sont 2 à 2 égaux","leurs angles sont 2 à 2 de même mesure","ils ont la même aire","ils sont rectangles"], ok:1, e:"Semblables ⟺ angles 2 à 2 de même mesure (les côtés sont alors proportionnels)." },
+  { cat:"Triangles égaux et semblables", type:"cours", q:"Si deux triangles sont égaux, alors :", c:["ils sont forcément semblables","ils ont forcément la même aire","les deux affirmations A et B sont vraies","ni A ni B"], ok:2, e:"Égaux → mêmes côtés ET mêmes angles → semblables ET même aire. Les deux." },
+  { cat:"Triangles égaux et semblables", type:"cours", q:"Cas CAS signifie deux triangles égaux si :", c:["3 côtés égaux 2 à 2","angle de même mesure ENTRE deux côtés de même longueur 2 à 2","2 angles et 1 côté égaux","2 côtés égaux seulement"], ok:1, e:"CAS = Côté-Angle-Côté : l'angle doit être ENTRE les deux côtés égaux." },
+  { cat:"Triangles égaux et semblables", type:"cours", q:"Si △ABC ~ △EFG avec rapport k = AB/EF, alors :", c:["tous les côtés de ABC sont égaux à ceux de EFG","BC/FG = AC/EG = AB/EF = k","les triangles ont la même aire","les angles ne sont pas forcément égaux"], ok:1, e:"Rapport de similitude k : tous les côtés de ABC valent k fois les côtés correspondants de EFG." },
+  // — exo —
+  { cat:"Triangles égaux et semblables", type:"exo", q:"△ABC ~ △EFG, AB/EF = 3, EF = 3 cm. AB = ?", c:["1 cm","3 cm","9 cm","6 cm"], ok:2, e:"AB = 3 × EF = 3 × 3 = 9 cm." },
+  { cat:"Triangles égaux et semblables", type:"exo", q:"CAS signifie :", c:["Côté-Angle-Côté","Cercle-Angle-Sommet","Côté-Aire-Surface","Carré-Angle-Carré"], ok:0, e:"CAS = Côté-Angle-Côté." },
+  // — prob —
+  { cat:"Triangles égaux et semblables", type:"prob", q:"△ABC ~ △EFG, AB=9 cm, BC=6 cm, EF=3 cm. FG = ?", c:["1 cm","2 cm","3 cm","4 cm"], ok:1, e:"AB/EF = 9/3 = 3. BC/FG = 3 → FG = 6/3 = 2 cm." },
+  { cat:"Triangles égaux et semblables", type:"prob", q:"△ABC ~ △EFG, AB/EF = 3, EG = 4 cm. AC = ?", c:["6 cm","9 cm","12 cm","4 cm"], ok:2, e:"AC/EG = 3 → AC = 3 × 4 = 12 cm." },
+
+  // ══════════════════ QUESTIONS SUPPLÉMENTAIRES — PIÈGES & APPROFONDISSEMENTS ══════════════════
+
+  // — Nature des nombres : pièges classiques —
+  { cat:"Nature des nombres", type:"cours", q:"0,333… = 1/3. Cet nombre est :", c:["irrationnel","décimal","rationnel non décimal","entier relatif"], ok:2, e:"0,333… = 1/3 ∈ ℚ mais ∉ 𝔻 car on ne peut pas écrire 1/3 = a/10ⁿ." },
+  { cat:"Nature des nombres", type:"cours", q:"−√9 est un entier relatif. Vrai ou Faux ?", c:["Vrai","Faux"], ok:0, e:"VRAI : −√9 = −3 ∈ ℤ. Attention : −√9 ≠ irrationnel car √9 = 3 exactement." },
+  { cat:"Nature des nombres", type:"exo", q:"√5 appartient à quel ensemble ?", c:["ℕ","𝔻","ℚ","Irrationnel"], ok:3, e:"√5 ≈ 2,236… — décomposition infinie non périodique → irrationnel." },
+  { cat:"Nature des nombres", type:"exo", q:"−2/3 appartient à quel ensemble (le plus petit) ?", c:["ℕ","ℤ","𝔻","ℚ"], ok:3, e:"−2/3 ne s'écrit pas a/10ⁿ → ℚ (l'ensemble le plus petit)." },
+  { cat:"Nature des nombres", type:"prob", q:"Parmi ces nombres, lequel N'appartient PAS à 𝔻 ?", c:["0,25","−0,18","7/6","3/10"], ok:2, e:"7/6 ≈ 1,1666… — la décomposition de 1/6 ne se termine pas → 7/6 ∉ 𝔻." },
+
+  // — Fractions : pièges —
+  { cat:"Fractions", type:"cours", q:"Pourquoi ne peut-on PAS écrire 3/5 + 2/7 = 5/12 ?", c:["Car 3+2=5 mais les dénominateurs ne sont pas les mêmes","Car 5+12=17","Car 3/5 > 1","Car 12 n'est pas divisible par 5"], ok:0, e:"On ne peut PAS additionner les numérateurs si les dénominateurs sont différents. Il faut d'abord mettre au même dénominateur." },
+  { cat:"Fractions", type:"exo", q:"2/3 + 1/4 = ?", c:["3/7","3/12","11/12","8/12"], ok:2, e:"Dénominateur commun 12 : 8/12 + 3/12 = 11/12." },
+  { cat:"Fractions", type:"exo", q:"3/5 − 1/3 = ?", c:["2/2","4/15","2/15","4/8"], ok:1, e:"Dénominateur commun 15 : 9/15 − 5/15 = 4/15." },
+  { cat:"Fractions", type:"exo", q:"L'inverse de 5 est :", c:["−5","5","1/5","0"], ok:2, e:"L'inverse de 5 (= 5/1) est 1/5. Vérif : 5 × 1/5 = 1 ✓" },
+  { cat:"Fractions", type:"prob", q:"Une recette pour 6 personnes nécessite 3/4 tasse de farine. Pour 4 personnes, il faut :", c:["1/2 tasse","2/3 tasse","3/4 tasse","1 tasse"], ok:0, e:"Coefficient = 4/6 = 2/3. Farine = 3/4 × 2/3 = 6/12 = 1/2 tasse." },
+
+  // — Divisibilité : pièges —
+  { cat:"Divisibilité", type:"cours", q:"Un nombre divisible par 2 ET par 3 est-il forcément divisible par 6 ?", c:["Oui, toujours","Non, pas forcément","Seulement si le nombre est pair","Seulement si le nombre est premier"], ok:0, e:"Oui ! Car PGCD(2,3) = 1 (premiers entre eux), donc divisible par 2×3 = 6." },
+  { cat:"Divisibilité", type:"cours", q:"Un nombre divisible par 4 est-il forcément divisible par 2 ?", c:["Oui, car 2 divise 4","Non, ce sont des critères différents","Oui, seulement pour les nombres pairs","Non, 4 et 2 sont premiers entre eux"], ok:0, e:"Oui : si 4|n alors n = 4×q = 2×(2q) → 2|n. Tout multiple de 4 est multiple de 2." },
+  { cat:"Divisibilité", type:"exo", q:"2 520 est-il divisible par 7 ?", c:["Oui","Non"], ok:0, e:"2520 = 2³×3²×5×7 → oui, divisible par 7 ✓" },
+  { cat:"Divisibilité", type:"exo", q:"Le nombre 7 056 est divisible par :", c:["5 seulement","2, 3 et 4 mais pas 5","2, 3, 4 et 9 mais pas 5","2, 9 et 5 uniquement"], ok:1, e:"7056 : unités=6 (÷2✓) ; 7+0+5+6=18 (÷3✓ et ÷9✓) ; 56=4×14 (÷4✓) ; unités≠0 ou 5 (÷5✗)." },
+  { cat:"Divisibilité", type:"prob", q:"On répartit 48 élèves en groupes égaux. Quelles tailles sont impossibles ?", c:["6","7","8","12"], ok:1, e:"Les diviseurs de 48 : 1,2,3,4,6,8,12,16,24,48. 7 n'est pas diviseur de 48." },
+
+  // — Division euclidienne : pièges —
+  { cat:"Division euclidienne", type:"cours", q:"Peut-on avoir un reste r égal au diviseur b dans la division euclidienne ?", c:["Oui, quand b est premier","Non : la condition est 0 ≤ r < b (r strictement inférieur)","Oui, quand r = 0","Oui, toujours"], ok:1, e:"NON : la condition impose r < b. Si r = b, on pouvait encore diviser." },
+  { cat:"Division euclidienne", type:"exo", q:"857 ÷ 7 : quel est le reste ?", c:["0","1","3","6"], ok:2, e:"7×122 = 854, 857−854 = 3. Reste = 3." },
+  { cat:"Division euclidienne", type:"exo", q:"999 ÷ 11 : quel est le quotient ?", c:["88","89","90","91"], ok:2, e:"11×90 = 990, 999−990 = 9. Quotient = 90, reste = 9." },
+  { cat:"Division euclidienne", type:"prob", q:"278 = 45×6 + 8. Quelle division euclidienne cela traduit-il ?", c:["278 ÷ 8","278 ÷ 45","278 ÷ 6","45 ÷ 6"], ok:1, e:"a=278, b=45, q=6, r=8. C'est la division euclidienne de 278 par 45." },
+
+  // — PGCD & PPCM : approfondissement —
+  { cat:"PGCD & PPCM", type:"cours", q:"PGCD(a, a) = ?", c:["0","1","a","2a"], ok:2, e:"Le plus grand diviseur commun de a et a est a lui-même." },
+  { cat:"PGCD & PPCM", type:"cours", q:"PPCM(a, a) = ?", c:["0","1","a","2a"], ok:2, e:"Le plus petit multiple commun de a et a est a lui-même." },
+  { cat:"PGCD & PPCM", type:"exo", q:"PGCD(84, 126) = ?", c:["14","21","42","63"], ok:2, e:"84=2²×3×7 | 126=2×3²×7 → PGCD=2¹×3¹×7¹=42." },
+  { cat:"PGCD & PPCM", type:"exo", q:"PGCD(35, 48) = ?", c:["1","5","7","12"], ok:0, e:"Div(35)={1,5,7,35} | Div(48)={1,2,3,4,6,8,12,16,24,48} → PGCD=1. Premiers entre eux !" },
+  { cat:"PGCD & PPCM", type:"prob", q:"PGCD(360, 252) × PPCM(360, 252) = ?", c:["612","90 720","108","1 440"], ok:1, e:"PGCD × PPCM = 360 × 252 = 90 720." },
+
+  // — Nombres premiers : approfondissement —
+  { cat:"Nombres premiers", type:"cours", q:"2 est le seul nombre premier pair. Vrai ou Faux ?", c:["Vrai","Faux"], ok:0, e:"VRAI : tout entier pair > 2 est divisible par 2, donc a ≥ 3 diviseurs → non premier." },
+  { cat:"Nombres premiers", type:"exo", q:"360 = 2³ × 3² × 5. Quel est le nombre de diviseurs de 360 ?", c:["9","12","24","10"], ok:2, e:"Nombre de diviseurs = (3+1)(2+1)(1+1) = 4×3×2 = 24." },
+  { cat:"Nombres premiers", type:"exo", q:"Laquelle de ces décompositions est CORRECTE ?", c:["180 = 2² × 3² × 5","180 = 2 × 90","180 = 4 × 45","180 = 2³ × 3 × 5"], ok:0, e:"180 = 2² × 3² × 5. Vérif : 4×9×5 = 180 ✓" },
+  { cat:"Nombres premiers", type:"prob", q:"PGCD(20 755, 9 488) sachant que 20755=5×7×593 et 9488=2⁴×593. PGCD = ?", c:["5","7","593","2 965"], ok:2, e:"Facteur commun : 593. PGCD = 593." },
+
+  // — Puissances : pièges et approfondissement —
+  { cat:"Puissances", type:"cours", q:"2³ × 3³ = ?", c:["6³","5³","6⁶","2⁶"], ok:0, e:"aⁿ × bⁿ = (a×b)ⁿ → (2×3)³ = 6³ = 216." },
+  { cat:"Puissances", type:"cours", q:"(−1)¹⁰⁰ = ?", c:["−1","1","0","100"], ok:1, e:"Exposant pair → (−1)^pair = 1 toujours." },
+  { cat:"Puissances", type:"exo", q:"0,00456 en notation scientifique = ?", c:["4,56 × 10⁻²","4,56 × 10⁻³","4,56 × 10³","45,6 × 10⁻⁴"], ok:1, e:"0,00456 = 4,56 × 10⁻³ (virgule déplacée de 3 rangs vers la droite)." },
+  { cat:"Puissances", type:"exo", q:"1,23 × 10⁸ = ?", c:["12 300 000","123 000 000","1 230 000","12 300 000 000"], ok:1, e:"×10⁸ : déplacer la virgule de 8 rangs → 123 000 000." },
+  { cat:"Puissances", type:"prob", q:"La Terre est à 1,5 × 10⁸ km du Soleil. La lumière parcourt 3 × 10⁵ km/s. Durée ≈ ?", c:["2 × 10³ s","5 × 10² s","4,5 × 10¹³ s","0,5 × 10³ s"], ok:1, e:"t = d/v = (1,5×10⁸)/(3×10⁵) = (1,5/3) × 10^(8−5) = 0,5 × 10³ = 500 s ≈ 8 min." },
+
+  // — Racines carrées : pièges et approfondissement —
+  { cat:"Racines carrées", type:"cours", q:"√(−4) est-il défini ?", c:["Oui, √(−4) = −2","Oui, √(−4) = 2","Non, la racine carrée d'un nombre négatif n'est pas définie dans ℝ","Oui, √(−4) = √4"], ok:2, e:"La racine carrée n'est définie que pour les réels positifs ou nuls." },
+  { cat:"Racines carrées", type:"cours", q:"√(a/b) = ? (a, b > 0)", c:["√a − √b","√a / √b","√a + √b","√a × √b"], ok:1, e:"√(a/b) = √a / √b (pour a, b > 0)." },
+  { cat:"Racines carrées", type:"exo", q:"√75 sous forme simplifiée = ?", c:["5√3","3√5","15√3","5√15"], ok:0, e:"√75 = √(25×3) = 5√3." },
+  { cat:"Racines carrées", type:"exo", q:"√(4/9) = ?", c:["2/3","4/3","2/9","√4/9"], ok:0, e:"√(4/9) = √4/√9 = 2/3." },
+  { cat:"Racines carrées", type:"prob", q:"Côté d'un carré d'aire 1 156 m² ? (1156 = 2² × 17²)", c:["34 m","28 m","17 m","40 m"], ok:0, e:"Côté = √1156 = √(2²×17²) = 2×17 = 34 m." },
+
+  // — Calcul littéral : pièges classiques —
+  { cat:"Calcul littéral", type:"cours", q:"(a + b)² = a² + b² est :", c:["Toujours vrai","FAUX — le terme 2ab est manquant","Vrai si a = b","Vrai si a > b"], ok:1, e:"FAUX : (a+b)² = a² + 2ab + b². Oublier 2ab est l'erreur la plus fréquente !" },
+  { cat:"Calcul littéral", type:"cours", q:"On factorise 3x² − 6x. Le facteur commun est :", c:["x","3","3x","6x"], ok:2, e:"3x² − 6x = 3x(x − 2). Le facteur commun est 3x." },
+  { cat:"Calcul littéral", type:"exo", q:"Développer (x + 2)(x + 3) = ?", c:["x² + 5x + 5","x² + 5x + 6","x² + 6x + 6","x² + 6"], ok:1, e:"x² + 3x + 2x + 6 = x² + 5x + 6." },
+  { cat:"Calcul littéral", type:"exo", q:"Réduire : 3x² + 2x − x² + 5x = ?", c:["2x² + 7x","4x² + 7x","2x² + 3x","3x² + 7x"], ok:0, e:"(3x²−x²) + (2x+5x) = 2x² + 7x." },
+  { cat:"Calcul littéral", type:"exo", q:"9x² − 1 factorisé = ?", c:["(3x − 1)²","(9x + 1)(x − 1)","(3x + 1)(3x − 1)","(3x − 1)(3x + 0)"], ok:2, e:"(3x)² − 1² = (3x+1)(3x−1)." },
+  { cat:"Calcul littéral", type:"prob", q:"Aire d'un rectangle (x+5)(x−5) pour x = 34. Résultat = ?", c:["1 131 m²","1 156 m²","1 200 m²","29 m²"], ok:0, e:"(34)²−25 = 1156−25 = 1131." },
+
+  // — Équations : approfondissement —
+  { cat:"Équations", type:"cours", q:"Résoudre ax = b (avec a ≠ 0) donne :", c:["x = a × b","x = b / a","x = a − b","x = a + b"], ok:1, e:"On divise les deux membres par a : x = b/a." },
+  { cat:"Équations", type:"cours", q:"Si on multiplie les deux membres d'une équation par 0, on obtient :", c:["Une équation équivalente","0 = 0, ce qui ne donne aucune information sur x","Une équation sans solution","L'équation est simplifiée"], ok:1, e:"Multiplier par 0 donne 0 = 0, toujours vrai mais sans info sur x. INTERDIT !" },
+  { cat:"Équations", type:"exo", q:"Résoudre 2(3x − 1) − 4(x + 2) = 3x + 5.", c:["x = −15","x = 15","x = 3","x = −3"], ok:0, e:"6x−2−4x−8 = 3x+5 → 2x−10 = 3x+5 → −x = 15 → x = −15." },
+  { cat:"Équations", type:"exo", q:"Résoudre (x+3)/2 = (2x−1)/3.", c:["x = 11","x = −11","x = 7","x = −7"], ok:0, e:"3(x+3) = 2(2x−1) → 3x+9 = 4x−2 → x = 11." },
+  { cat:"Équations", type:"prob", q:"Résoudre 81x² − 64 = 0. L'ensemble solution S = ?", c:["S = {8/9}","S = {−8/9 ; 8/9}","S = {±9/8}","S = {0}"], ok:1, e:"(9x+8)(9x−8) = 0 → x = −8/9 ou x = 8/9." },
+
+  // — Thalès : approfondissement —
+  { cat:"Théorème de Thalès", type:"exo", q:"(MN)//(BC), AB=8, AM=6, BC=10. Calculer MN.", c:["7,5","8","12","6,25"], ok:0, e:"MN/BC = AM/AB → MN/10 = 6/8 → MN = 60/8 = 7,5." },
+  { cat:"Théorème de Thalès", type:"exo", q:"(MN)//(BC), AM=3, AB=9, AN=2. Calculer AC.", c:["4","5","6","8"], ok:2, e:"AM/AB = AN/AC → 3/9 = 2/AC → AC = 2×9/3 = 6." },
+  { cat:"Théorème de Thalès", type:"prob", q:"AP/AN = 48/72 et AI/AO = 60/90. Les droites (PI) et (NO) sont-elles parallèles ?", c:["Oui","Non","On ne peut pas savoir","Seulement si le triangle est rectangle"], ok:0, e:"48/72 = 2/3 et 60/90 = 2/3. Les rapports sont égaux → si points alignés dans le même ordre : (PI)//(NO) ✓" },
+
+  // — Trigonométrie : approfondissement —
+  { cat:"Trigonométrie", type:"cours", q:"Dans un triangle rectangle en B, cos(A) = AB/AC. Que représente AC ?", c:["Le côté opposé à A","Le côté adjacent à A","L'hypoténuse","Un angle"], ok:2, e:"AC est l'hypoténuse (côté opposé à l'angle droit en B) du triangle rectangle ABC." },
+  { cat:"Trigonométrie", type:"exo", q:"sin(60°) ≈ ?", c:["0,5","0,707","0,866","1"], ok:2, e:"sin(60°) = √3/2 ≈ 0,866." },
+  { cat:"Trigonométrie", type:"exo", q:"Dans un triangle rectangle en B, AB = 5 cm et angle A = 40°. BC ≈ ?", c:["3,21 cm","4,20 cm","6,53 cm","3,83 cm"], ok:1, e:"tan(40°) = BC/AB → BC = AB × tan(40°) ≈ 5 × 0,839 ≈ 4,20 cm." },
+  { cat:"Trigonométrie", type:"prob", q:"Triangle rectangle en B, angle A = 35°, hypoténuse AC = 10 cm. AB ≈ ?", c:["5,74 cm","8,19 cm","7,07 cm","6,43 cm"], ok:1, e:"cos(35°) = AB/AC → AB = 10 × cos(35°) ≈ 10 × 0,819 ≈ 8,19 cm." },
+
+  // — Statistiques : approfondissement —
+  { cat:"Statistiques", type:"cours", q:"La moyenne est-elle toujours l'une des valeurs de la série ?", c:["Oui toujours","Non, mais elle est entre le min et le max","Oui si N est pair","Non, elle est toujours supérieure à toutes les valeurs"], ok:1, e:"Non : la moyenne peut ne pas être dans la série. Ex : {1, 3} → moyenne = 2." },
+  { cat:"Statistiques", type:"cours", q:"Les effectifs cumulés croissants permettent de :", c:["Calculer la moyenne","Repérer rapidement le rang médian","Calculer l'étendue","Simplifier les fréquences"], ok:1, e:"On cumule les effectifs de gauche à droite pour trouver quel rang correspond à la médiane." },
+  { cat:"Statistiques", type:"exo", q:"Série : 5, 7, 8, 10, 12. Moyenne = ?", c:["8","8,4","9","7"], ok:1, e:"(5+7+8+10+12)/5 = 42/5 = 8,4." },
+  { cat:"Statistiques", type:"exo", q:"Série triée : 3, 5, 7, 9, 11, 13. N=6 (pair). Médiane = ?", c:["7","8","9","7,5"], ok:1, e:"Rangs 3 et 4 : valeurs 7 et 9. Médiane = (7+9)/2 = 8." },
+  { cat:"Statistiques", type:"prob", q:"Notes d'un élève : 7(×7), 9(×2), 11(×3), 13(×5), 18(×4), 20(×1). Moyenne ≈ ?", c:["11","11,7","12","10,5"], ok:1, e:"(49+18+33+65+72+20)/22 = 257/22 ≈ 11,7." },
+
+  // — Fonctions : approfondissement —
+  { cat:"Fonctions", type:"cours", q:"f : x → x² − 4. f(0) = ?", c:["0","4","−4","2"], ok:2, e:"f(0) = 0² − 4 = −4." },
+  { cat:"Fonctions", type:"cours", q:"Sur le graphe de f, si le point (2 ; 5) appartient à Cf, cela signifie :", c:["f(5) = 2","f(2) = 5","f est égal à 2,5","x = 2+5"], ok:1, e:"Un point (a ; b) ∈ Cf signifie f(a) = b. Ici f(2) = 5." },
+  { cat:"Fonctions", type:"exo", q:"g : x → x² − 4. g(−3) = ?", c:["5","−5","13","−13"], ok:0, e:"g(−3) = (−3)² − 4 = 9 − 4 = 5." },
+  { cat:"Fonctions", type:"exo", q:"f : x → 2x + 1. L'antécédent de 7 par f = ?", c:["15","3","4","8"], ok:1, e:"f(x) = 7 → 2x+1 = 7 → 2x = 6 → x = 3." },
+  { cat:"Fonctions", type:"prob", q:"f : x → (x−5)² − 16. f(9) = ?", c:["0","−16","16","−12"], ok:0, e:"f(9) = (9−5)² − 16 = 16 − 16 = 0. Donc 9 est un antécédent de 0." },
+
+  // — Triangles : pièges —
+  { cat:"Triangles égaux et semblables", type:"cours", q:"Deux triangles semblables sont-ils forcément égaux ?", c:["Oui toujours","Non : semblables = mêmes angles, mais les tailles peuvent différer","Oui si l'un est isocèle","Oui si un côté est en commun"], ok:1, e:"Non : deux triangles de mêmes angles mais de tailles différentes sont semblables mais pas égaux." },
+  { cat:"Triangles égaux et semblables", type:"cours", q:"Si deux triangles ont deux paires d'angles de même mesure, ils sont :", c:["Égaux","Semblables (Propriété 4)","Rectangles","Isocèles"], ok:1, e:"Propriété 4 : 2 paires d'angles égaux → triangles semblables (le 3ème angle est alors forcément égal aussi)." },
+  { cat:"Triangles égaux et semblables", type:"exo", q:"△ABC et △A'B'C' sont égaux. AB = 5 cm, BC = 7 cm, AC = 6 cm. Quelle est A'C' ?", c:["5 cm","6 cm","7 cm","On ne peut pas savoir"], ok:1, e:"Triangles égaux → côtés 2 à 2 de même longueur. A'C' = AC = 6 cm." },
+  { cat:"Triangles égaux et semblables", type:"prob", q:"△ABC ~ △EFG avec AB=12, EF=4. Rapport de similitude k = ?", c:["1/3","3","8","16"], ok:1, e:"k = AB/EF = 12/4 = 3." },
+
+];
+
+
+const MODES = {
+  sprint:  { label:"Sprint",   icon:"⚡", desc:"10 questions · 30s",  count:10, time:30 },
+  normal:  { label:"Normal",   icon:"🎯", desc:"20 questions · 45s",  count:20, time:45 },
+  blitz:   { label:"Blitz",    icon:"🔥", desc:"15 questions · 20s",  count:15, time:20 },
+  marathon:{ label:"Marathon", icon:"🏃", desc:"30 questions · 60s",  count:30, time:60 },
+  zen:     { label:"Zen",      icon:"🧘", desc:"15 questions · ∞",    count:15, time:0  },
+  defi:    { label:"Défi",     icon:"💀", desc:"25 questions · 15s",  count:25, time:15 },
+};
+
+// ====================== STATE ======================
+let selectedThemes = new Set();
+let selectedTypes = new Set(['cours','exo','prob']);
+let selectedMode = null;
+let state = { questions:[], current:0, score:0, answered:false, timer:null, timeLeft:0, history:[], startTime:0 };
+
+// ====================== INIT ======================
+function init() {
+  // Build theme list
+  const themes = [...new Set(BANK.map(q => q.cat))];
+  selectedThemes = new Set(themes);
+  const tg = document.getElementById('theme-tags');
+  tg.innerHTML = themes.map(t => `
+    <button class="tag-btn on" data-theme="${t}" onclick="toggleTheme(this)">${t}</button>
+  `).join('');
+
+  // Build modes
+  const mg = document.getElementById('modes-grid');
+  mg.innerHTML = Object.entries(MODES).map(([k,m]) => `
+    <button class="mode-btn" data-mode="${k}" onclick="selectMode(this,'${k}')">
+      <span class="mode-icon">${m.icon}</span>
+      <span class="mode-title">${m.label}</span>
+      <span class="mode-desc">${m.desc}</span>
+    </button>
+  `).join('');
+
+  updateCount();
+}
+
+function toggleTheme(btn) {
+  const t = btn.dataset.theme;
+  if (selectedThemes.has(t)) { selectedThemes.delete(t); btn.classList.remove('on'); }
+  else { selectedThemes.add(t); btn.classList.add('on'); }
+  updateCount();
+}
+function toggleType(btn) {
+  const t = btn.dataset.type;
+  if (selectedTypes.has(t)) { selectedTypes.delete(t); btn.classList.remove('on'); }
+  else { selectedTypes.add(t); btn.classList.add('on'); }
+  updateCount();
+}
+function selectMode(btn, key) {
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  selectedMode = key;
+  updateCount();
+}
+function getFiltered() {
+  return BANK.filter(q => selectedThemes.has(q.cat) && selectedTypes.has(q.type));
+}
+function updateCount() {
+  const n = getFiltered().length;
+  const maxQ = selectedMode ? Math.min(MODES[selectedMode].count, n) : n;
+  document.getElementById('q-available').textContent = n + (selectedMode ? ` → ${maxQ} seront posées` : '');
+  document.getElementById('start-btn').disabled = !selectedMode || n === 0;
+}
+
+// ====================== QUIZ ======================
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length-1; i > 0; i--) { const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+
+function startQuiz() {
+  if (!selectedMode) return;
+  const mode = MODES[selectedMode];
+  const pool = shuffle(getFiltered()).slice(0, mode.count);
+  state = { questions: pool, current: 0, score: 0, answered: false, timer: null, timeLeft: 0, history: [], startTime: Date.now() };
+  showView('quiz-view');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  clearInterval(state.timer);
+  const mode = MODES[selectedMode];
+  const q = state.questions[state.current];
+  state.answered = false;
+  state.timeLeft = mode.time;
+
+  // Header
+  document.getElementById('q-num').textContent = state.current + 1;
+  document.getElementById('q-total').textContent = state.questions.length;
+  document.getElementById('q-score').textContent = state.score;
+  document.getElementById('q-progress').style.width = ((state.current / state.questions.length) * 100) + '%';
+
+  const timerEl = document.getElementById('q-timer');
+  timerEl.textContent = mode.time > 0 ? mode.time + 's' : '∞';
+  timerEl.className = 'quiz-timer ok';
+  timerEl.style.opacity = '1';
+
+  // Badge
+  const badge = document.getElementById('q-badge');
+  badge.textContent = q.type === 'cours' ? '📚 COURS' : q.type === 'exo' ? '✏️ EXERCICE' : '🧩 PROBLÈME';
+  badge.className = 'q-type-badge ' + (q.type === 'cours' ? 'badge-cours' : q.type === 'exo' ? 'badge-exo' : 'badge-prob');
+
+  document.getElementById('q-cat').textContent = '📂 ' + q.cat;
+  document.getElementById('q-text').textContent = q.q;
+
+  // Choices
+  const choicesEl = document.getElementById('q-choices');
+  choicesEl.innerHTML = q.c.map((ch, ci) => `
+    <button class="choice" onclick="answer(${ci})">
+      <strong style="color:#7C3AED;margin-right:6px">${String.fromCharCode(65+ci)}.</strong>${ch}
+    </button>`).join('');
+
+  // Feedback & next hidden
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback';
+  fb.textContent = '';
+  const nb = document.getElementById('q-next');
+  nb.className = 'next-btn';
+  nb.textContent = state.current + 1 < state.questions.length ? 'Question suivante →' : 'Voir les résultats 🏁';
+
+  if (mode.time > 0) startTimer();
+}
+
+function startTimer() {
+  const mode = MODES[selectedMode];
+  state.timer = setInterval(() => {
+    state.timeLeft--;
+    const el = document.getElementById('q-timer');
+    if (!el) { clearInterval(state.timer); return; }
+    el.textContent = state.timeLeft + 's';
+    el.className = 'quiz-timer ' + (state.timeLeft > 10 ? 'ok' : state.timeLeft > 5 ? 'warn' : 'danger');
+    if (state.timeLeft <= 0) { clearInterval(state.timer); if (!state.answered) timeOut(); }
+  }, 1000);
+}
+
+function timeOut() {
+  state.answered = true;
+  const q = state.questions[state.current];
+  state.history.push({ q: q.q, cat: q.cat, type: q.type, correct: false, timedOut: true });
+  document.querySelectorAll('.choice').forEach((b, i) => {
+    b.disabled = true;
+    if (i === q.ok) b.classList.add('reveal');
+  });
+  showFeedback(false, '⏰ Temps écoulé ! ' + q.e);
+}
+
+function answer(ci) {
+  if (state.answered) return;
+  clearInterval(state.timer);
+  state.answered = true;
+  const q = state.questions[state.current];
+  const ok = ci === q.ok;
+  if (ok) state.score++;
+  state.history.push({ q: q.q, cat: q.cat, type: q.type, correct: ok, timedOut: false });
+  document.getElementById('q-score').textContent = state.score;
+  document.querySelectorAll('.choice').forEach((b, i) => {
+    b.disabled = true;
+    if (i === q.ok) b.classList.add('correct');
+    else if (i === ci && !ok) b.classList.add('wrong');
+  });
+  document.getElementById('q-timer').style.opacity = '0.3';
+  showFeedback(ok, (ok ? '✅ Bravo ! ' : '❌ Raté. ') + q.e);
+}
+
+function showFeedback(ok, text) {
+  const fb = document.getElementById('q-feedback');
+  fb.textContent = text;
+  fb.className = 'feedback show ' + (ok ? 'good' : 'bad');
+  document.getElementById('q-next').className = 'next-btn show';
+}
+
+function nextQuestion() {
+  state.current++;
+  if (state.current >= state.questions.length) showResults();
+  else renderQuestion();
+}
+
+// ====================== RESULTS ======================
+function showResults() {
+  showView('end-view');
+  const total = state.questions.length;
+  const score = state.score;
+  const pct = Math.round((score/total)*100);
+  const secs = Math.round((Date.now() - state.startTime) / 1000);
+  const mins = Math.floor(secs/60), rem = secs%60;
+
+  const medal = pct>=90?'🏆 Excellent !':pct>=70?'🥈 Bien !':pct>=50?'🥉 Assez bien':' 😅 À retravailler !';
+  const color = pct>=70?'#4ADE80':pct>=50?'#F59E0B':'#F87171';
+
+  document.getElementById('end-medal').textContent = medal;
+  document.getElementById('end-score').textContent = score+'/'+total;
+  document.getElementById('end-score').style.color = color;
+  document.getElementById('end-meta').textContent = `⏱️ ${mins>0?mins+'min ':''} ${rem}s · ${pct}% de réussite`;
+  document.getElementById('stat-correct').textContent = score;
+  document.getElementById('stat-wrong').textContent = total - score;
+  document.getElementById('stat-time').textContent = mins>0?`${mins}m${rem}s`:`${rem}s`;
+
+  // Performance par catégorie
+  const catStats = {};
+  state.history.forEach(h => {
+    if (!catStats[h.cat]) catStats[h.cat] = { ok:0, total:0 };
+    catStats[h.cat].total++;
+    if (h.correct) catStats[h.cat].ok++;
+  });
+  const cats = Object.entries(catStats).sort((a,b) => (b[1].ok/b[1].total)-(a[1].ok/a[1].total));
+  document.getElementById('cat-perf-rows').innerHTML = cats.map(([cat, s]) => {
+    const p = Math.round((s.ok/s.total)*100);
+    const barColor = p>=70?'#4ADE80':p>=50?'#F59E0B':'#F87171';
+    return `<div class="cat-row">
+      <div class="cat-name">${cat}</div>
+      <div class="cat-bar-bg"><div class="cat-bar-fill" style="width:${p}%;background:${barColor}"></div></div>
+      <div class="cat-pct">${s.ok}/${s.total}</div>
+    </div>`;
+  }).join('');
+
+  // Détail
+  document.getElementById('end-details').innerHTML = state.history.map((h, i) => `
+    <div class="detail-row">
+      <div class="dq">${i+1}. [${h.type==='cours'?'📚':h.type==='exo'?'✏️':'🧩'}] ${h.q}</div>
+      <div>${h.timedOut?'⏰':h.correct?'✅':'❌'}</div>
+    </div>`).join('');
+}
+
+// ====================== NAV ======================
+function showView(id) {
+  document.querySelectorAll('#start-view,#quiz-view,#end-view').forEach(el => el.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+function showStart() {
+  clearInterval(state.timer);
+  showView('start-view');
+  updateCount();
+}
+
+// ====================== BOOT ======================
+init();
+</script>
+</body>
+</html>

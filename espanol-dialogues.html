@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Español — Dialogues 2 semaines</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #f2ede4; font-family: 'Nunito', sans-serif; min-height: 100vh; }
+.wrap { max-width: 600px; margin: 0 auto; padding: 14px 14px 50px; }
+
+.top { background: linear-gradient(135deg,#b91c1c,#dc2626); color: #fff; border-radius: 18px; padding: 22px 24px 18px; margin-bottom: 14px; position: relative; overflow: hidden; }
+.top::after { content: '🇪🇸'; position: absolute; right: 20px; bottom: -6px; font-size: 72px; opacity: .12; line-height: 1; }
+.top h1 { font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; }
+.top p { font-size: 12px; opacity: .75; margin-top: 3px; }
+
+.main-tabs { display: flex; gap: 8px; margin-bottom: 14px; }
+.mtab { flex: 1; padding: 12px 4px; border-radius: 14px; border: 2px solid #ddd; background: #fff; font-weight: 800; font-size: 14px; font-family: 'Nunito', sans-serif; cursor: pointer; color: #aaa; transition: .15s; text-align: center; }
+.mtab.on { background: #b91c1c; border-color: #b91c1c; color: #fff; }
+
+.pill-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+.pill { padding: 6px 16px; border-radius: 20px; border: 2px solid #e5ddd0; background: #fff; font-size: 12px; font-weight: 800; font-family: 'Nunito', sans-serif; cursor: pointer; color: #aaa; transition: .15s; }
+.pill.on { background: #b91c1c; border-color: #b91c1c; color: #fff; }
+.pill.done { border-color: #86efac; color: #166534; background: #f0fdf4; }
+
+/* CARD */
+.card { background: #fff; border-radius: 18px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,.07); }
+.card-top { background: linear-gradient(135deg,#b91c1c22,#b91c1c0a); border-bottom: 1px solid #b91c1c22; padding: 16px 18px 12px; }
+.card-label { font-size: 9px; color: #b91c1c; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 3px; }
+.card-title { font-family: 'Caveat', cursive; font-size: 22px; color: #222; font-weight: 700; line-height: 1.15; }
+.card-meta { font-size: 11px; color: #aaa; margin-top: 3px; font-style: italic; }
+
+/* NAV DOTS */
+.dots { display: flex; gap: 5px; justify-content: center; padding: 10px 0 6px; }
+.dot-btn { width: 28px; height: 28px; border-radius: 50%; border: 1px solid #ddd; background: #f5f5f5; font-size: 11px; font-weight: 700; font-family: 'Nunito', sans-serif; cursor: pointer; color: #aaa; transition: .15s; }
+.dot-btn.on { background: #b91c1c; border-color: #b91c1c; color: #fff; }
+.dot-btn.done { border-color: #86efac; color: #166534; background: #f0fdf4; }
+
+/* CHAT */
+.chat { padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; background: #fff; }
+.msg { display: flex; flex-direction: column; }
+.msg.right { align-items: flex-end; }
+.msg-name { font-size: 9px; font-weight: 800; color: #bbb; letter-spacing: .5px; text-transform: uppercase; margin-bottom: 3px; padding: 0 4px; }
+.bubble { max-width: 82%; padding: 10px 14px; border-radius: 16px; font-size: 14px; line-height: 1.55; }
+.bubble.left  { background: #eff6ff; border-bottom-left-radius: 3px; }
+.bubble.right { background: #fff1f2; border-bottom-right-radius: 3px; }
+.bubble b { color: #b91c1c; }
+.trad { font-size: 11px; color: #bbb; font-style: italic; margin-top: 4px; padding-top: 4px; border-top: 1px solid rgba(0,0,0,.06); }
+
+/* BOTTOM BAR */
+.card-bottom { background: #fafafa; border-top: 1px solid #f0e8e0; padding: 10px 16px; display: flex; gap: 7px; }
+.bar-btn { flex: 1; background: #f3f4f6; border: 1px solid #e5e7eb; border-radius: 8px; padding: 7px; font-size: 11px; font-family: 'Nunito', sans-serif; font-weight: 700; color: #777; cursor: pointer; transition: .15s; }
+.bar-btn.on { background: #b91c1c11; border-color: #b91c1c; color: #b91c1c; }
+
+.vocab-area { background: #fff7ed; border-top: 1px solid #fed7aa; padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 5px; }
+.vtag { background: #fff; border: 1px solid #fed7aa; border-radius: 20px; padding: 3px 10px; font-size: 11px; font-weight: 700; color: #9a3412; }
+
+.nav-bar { background: #f5f5f5; border-top: 1px solid #eee; padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; border-radius: 0 0 18px 18px; }
+.nav-btn { background: transparent; border: 1px solid #ddd; border-radius: 8px; padding: 7px 14px; font-size: 12px; font-family: 'Nunito', sans-serif; font-weight: 700; color: #888; cursor: pointer; transition: .15s; }
+.nav-btn:disabled { opacity: .3; cursor: default; }
+.nav-btn.next { background: #b91c1c; border-color: #b91c1c; color: #fff; }
+.nav-ctr { font-size: 10px; color: #ccc; }
+
+.done-btn { background: #b91c1c; color: #fff; border: none; border-radius: 22px; padding: 9px 22px; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 13px; cursor: pointer; margin: 0 16px 14px; transition: opacity .2s; }
+.done-btn:hover { opacity: .85; }
+.done-btn.g { background: #15803d; }
+
+.hidden { display: none; }
+
+/* PRETÉRITO */
+.pcard-title { font-family: 'Caveat', cursive; font-size: 24px; color: #b91c1c; margin-bottom: 4px; }
+.pcard-sub { font-size: 11px; color: #bbb; margin-bottom: 16px; }
+.tip-box { background: #eff6ff; border-left: 4px solid #3b82f6; border-radius: 0 12px 12px 0; padding: 10px 14px; font-size: 13px; color: #1e40af; margin-bottom: 16px; line-height: 1.7; }
+.tip-box strong { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: .4px; margin-bottom: 3px; }
+.gram-box { background: #fff7ed; border-left: 4px solid #ea580c; border-radius: 0 12px 12px 0; padding: 14px 16px; margin-bottom: 14px; }
+.gram-box h4 { font-size: 12px; font-weight: 800; color: #ea580c; text-transform: uppercase; letter-spacing: .4px; margin-bottom: 10px; }
+.gram-note { font-size: 12px; color: #ea580c; font-style: italic; margin-top: 8px; }
+.conj-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 24px; }
+.conj-row { font-size: 14px; color: #5d4037; line-height: 1.9; }
+.conj-row span { color: #b91c1c; font-family: 'Caveat', cursive; font-size: 17px; font-weight: 700; }
+.pret-card { background: #fff; border-radius: 18px; padding: 22px; box-shadow: 0 2px 16px rgba(0,0,0,.07); }
+
+.qblock { background: #f8f8f8; border-radius: 12px; padding: 14px; margin-bottom: 10px; }
+.qblock p { font-size: 14px; font-weight: 700; color: #222; margin-bottom: 10px; }
+.opts { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.opt { padding: 9px 10px; border: 2px solid #e0e0e0; border-radius: 10px; background: #fff; cursor: pointer; font-size: 13px; font-family: 'Nunito', sans-serif; font-weight: 700; text-align: center; transition: .15s; }
+.opt:hover:not(.ok):not(.ko) { border-color: #b91c1c; color: #b91c1c; }
+.opt.ok { background: #f0fdf4; border-color: #4ade80; color: #166534; cursor: default; }
+.opt.ko { background: #fff1f2; border-color: #f87171; color: #991b1b; cursor: default; }
+.score-line { font-size: 13px; color: #555; margin-bottom: 10px; }
+.score-badge { background: #b91c1c; color: #fff; border-radius: 10px; padding: 2px 10px; font-weight: 800; font-size: 13px; }
+
+.fill-line { padding: 9px 0; border-bottom: 1px dashed #f0e8e0; font-size: 14px; display: flex; align-items: center; flex-wrap: wrap; gap: 4px; line-height: 2.5; }
+.finput { border: 2px solid #ddd; border-radius: 8px; padding: 5px 10px; font-size: 16px; font-family: 'Caveat', cursive; width: 140px; margin: 0 4px; outline: none; background: #fffaf2; transition: border-color .2s; }
+.finput:focus { border-color: #b91c1c; }
+.finput.ok { border-color: #4ade80; background: #f0fdf4; }
+.finput.ko { border-color: #f87171; background: #fff1f2; }
+.corr { font-size: 12px; color: #991b1b; font-weight: 800; margin-left: 4px; }
+
+.trans-row { display: flex; gap: 10px; align-items: flex-start; padding: 10px 0; border-bottom: 1px dashed #f0e8e0; flex-wrap: wrap; }
+.trans-src { font-size: 13px; color: #777; flex: 1; min-width: 170px; padding-top: 8px; }
+.trans-wrap { display: flex; flex-direction: column; flex: 1; min-width: 170px; gap: 3px; }
+.trans-inp { border: 2px solid #ddd; border-radius: 8px; padding: 6px 12px; font-size: 15px; font-family: 'Caveat', cursive; width: 100%; outline: none; background: #fffaf2; transition: border-color .2s; }
+.trans-inp:focus { border-color: #b91c1c; }
+.trans-inp.ok { border-color: #4ade80; background: #f0fdf4; }
+.trans-inp.ko { border-color: #f87171; background: #fff1f2; }
+.trans-corr { font-size: 12px; color: #991b1b; font-weight: 800; }
+
+.ex-btns { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+.btn-check { background: #b91c1c; color: #fff; border: none; border-radius: 20px; padding: 9px 22px; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 13px; cursor: pointer; transition: opacity .2s; }
+.btn-check:disabled { opacity: .4; cursor: default; }
+.btn-check:not(:disabled):hover { opacity: .85; }
+.btn-reset { background: #f3f4f6; color: #555; border: 2px solid #e5e7eb; border-radius: 20px; padding: 9px 18px; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 13px; cursor: pointer; }
+.fb { border-radius: 0 8px 8px 0; padding: 8px 14px; font-size: 13px; font-weight: 700; margin-top: 10px; }
+.fb.ok { background: #f0fdf4; border-left: 3px solid #4ade80; color: #166534; }
+.fb.ko { background: #fff1f2; border-left: 3px solid #f87171; color: #991b1b; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <h1>Español — Dialogues 2 semaines</h1>
+    <p id="subtitle">0 / 10 dialogues terminés</p>
+  </div>
+
+  <div class="main-tabs">
+    <button class="mtab on" id="tab-dlg"  onclick="setTab('dlg')">💬 Dialogues</button>
+    <button class="mtab"    id="tab-pret" onclick="setTab('pret')">✏️ Pretérito</button>
+  </div>
+
+  <!-- DIALOGUES -->
+  <div id="sec-dlg">
+    <div class="pill-row" id="sem-pills">
+      <button class="pill on" onclick="setSem(1)">Semaine 1</button>
+      <button class="pill"    onclick="setSem(2)">Semaine 2</button>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="card-label" id="card-label">Semaine 1 · Dialogue 1</div>
+        <div class="card-title" id="card-title"></div>
+        <div class="card-meta"  id="card-meta"></div>
+      </div>
+
+      <div class="dots" id="dots"></div>
+
+      <div class="chat" id="chat"></div>
+
+      <div class="card-bottom">
+        <button class="bar-btn" id="voc-btn" onclick="toggleVoc()">📚 Vocabulaire</button>
+      </div>
+      <div class="vocab-area hidden" id="vocab-area"></div>
+
+      <button class="done-btn" id="done-btn" onclick="markDone()">Marquer comme terminé</button>
+
+      <div class="nav-bar">
+        <button class="nav-btn" id="btn-prev" onclick="go(-1)">← Préc.</button>
+        <span class="nav-ctr" id="nav-ctr"></span>
+        <button class="nav-btn next" id="btn-next" onclick="go(1)">Suiv. →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRETÉRITO -->
+  <div id="sec-pret" class="hidden">
+    <div class="pill-row" id="pret-nav"></div>
+    <div class="pret-card" id="pret-card"></div>
+  </div>
+</div>
+
+<script>
+var DLG = [
+  /* ── SEMAINE 1 ─────────────────────────────────────────── */
+  {s:1, n:1,
+   titre: "Ce matin, t'as vu la tête que j'avais...",
+   perso: ["Lucas", "Sofía"],
+   vocab: ["levantarse","¿Qué tal?","Lo siento","desayunar","una tostada","me molesta","el frío","No pasa nada"],
+   lines: [
+    {c:"l",p:"Lucas", t:"Oye Sofía, <b>¿qué tal</b> estás? Tienes mala cara hoy.",                       fr:"Eh Sofía, ça va ? T'as l'air fatigué aujourd'hui."},
+    {c:"r",p:"Sofía", t:"<b>Lo siento</b>, es que me <b>levanté</b> tardísimo. El despertador no sonó.",  fr:"Désolée, c'est que je me suis levée super tard. Le réveil n'a pas sonné."},
+    {c:"l",p:"Lucas", t:"¿Y no <b>desayunaste</b> nada?",                                                 fr:"Et t'as rien mangé au petit-déjeuner ?"},
+    {c:"r",p:"Sofía", t:"Solo una <b>tostada</b> en el bus. Con frío y todo... ya sabes que <b>me molesta</b> el frío.",fr:"Juste une tartine dans le bus. Avec le froid en plus... tu sais que le froid m'énerve."},
+    {c:"l",p:"Lucas", t:"¡Jaja! <b>No pasa nada</b>, el desayuno malo se olvida pronto.",                 fr:"Haha ! C'est pas grave, un mauvais petit-déj ça s'oublie vite."},
+    {c:"r",p:"Sofía", t:"Ojalá. ¿A qué hora empieza la clase de español?",                               fr:"J'espère. À quelle heure commence le cours d'espagnol ?"},
+    {c:"l",p:"Lucas", t:"En diez minutos. Corre.",                                                        fr:"Dans dix minutes. Grouille."},
+    {c:"r",p:"Sofía", t:"¡Ay, no! Voy a llegar tarde otra vez.",                                         fr:"Oh non ! Je vais encore être en retard."}
+   ]},
+
+  {s:1, n:2,
+   titre: "¿Quién es ese chico de la foto?",
+   perso: ["Inès", "Tom"],
+   vocab: ["alto","moreno","castaño","rizado","¿Cómo eres?","simpático","tímido","Me encanta"],
+   lines: [
+    {c:"l",p:"Inès", t:"Tom, mira esta foto. ¿Conoces a este chico?",                                    fr:"Tom, regarde cette photo. Tu connais ce garçon ?"},
+    {c:"r",p:"Tom",  t:"No sé... Es <b>alto</b>, tiene el pelo <b>castaño</b> y <b>rizado</b>. No me suena.",fr:"Je sais pas... Il est grand, il a les cheveux châtains et bouclés. Ça me dit rien."},
+    {c:"l",p:"Inès", t:"Es el nuevo de bachillerato. Dicen que es muy <b>simpático</b>.",                 fr:"C'est le nouveau de terminale. On dit qu'il est très sympa."},
+    {c:"r",p:"Tom",  t:"Ah, pues parece majo. ¿Y tú <b>cómo eres</b> tú, Inès? ¿Eres <b>tímida</b>?",  fr:"Ah, il a l'air cool. Et toi comment t'es, Inès ? T'es timide ?"},
+    {c:"l",p:"Inès", t:"Para nada. Soy bastante habladora. ¿Y tú?",                                      fr:"Pas du tout. Je suis plutôt bavarde. Et toi ?"},
+    {c:"r",p:"Tom",  t:"Yo soy más bien <b>tímido</b> con gente nueva, pero con los amigos soy muy animado.",fr:"Moi je suis plutôt timide avec les gens nouveaux, mais avec les amis je suis très animé."},
+    {c:"l",p:"Inès", t:"<b>Me encanta</b> eso. Oye, ¿le presentamos al nuevo?",                         fr:"J'adore ça. Dis, on le présente au nouveau ?"},
+    {c:"r",p:"Tom",  t:"Buena idea, venga.",                                                              fr:"Bonne idée, allez."}
+   ]},
+
+  {s:1, n:3,
+   titre: "El cuadro ese de clase...",
+   perso: ["Noé", "Léa"],
+   vocab: ["estar de pie","al fondo","llevar","parecer","una mirada","el taller","el período azul","los colores"],
+   lines: [
+    {c:"l",p:"Noé", t:"Oye Léa, ¿viste el autorretrato que puso la profe hoy?",                         fr:"Eh Léa, t'as vu l'autoportrait que la prof a mis aujourd'hui ?"},
+    {c:"r",p:"Léa", t:"Sí. Ese hombre tiene una <b>mirada</b> que impresiona un poco.",                  fr:"Oui. Cet homme a un regard qui impressionne un peu."},
+    {c:"l",p:"Noé", t:"Es Picasso. <b>Está de pie</b> y <b>lleva</b> una chaqueta. <b>Parece</b> muy serio.",fr:"C'est Picasso. Il est debout et porte une veste. Il a l'air très sérieux."},
+    {c:"r",p:"Léa", t:"<b>Al fondo</b> se ven cuadros. Supongo que está en su <b>taller</b>.",           fr:"Au fond on voit des tableaux. Je suppose qu'il est dans son atelier."},
+    {c:"l",p:"Noé", t:"¿Y notaste <b>los colores</b>? Todo azul y negro. Es el período azul.",           fr:"Et t'as remarqué les couleurs ? Tout bleu et noir. C'est la période bleue."},
+    {c:"r",p:"Léa", t:"Sí, lo dijo la profe. Pintaba así cuando estaba triste.",                         fr:"Oui, la prof l'a dit. Il peignait comme ça quand il était triste."},
+    {c:"l",p:"Noé", t:"¿Tú eres de los que les gusta el arte moderno?",                                  fr:"Toi t'es du genre à aimer l'art moderne ?"},
+    {c:"r",p:"Léa", t:"Depende. Este me mola, tiene algo especial.",                                     fr:"Ça dépend. Celui-là j'aime bien, il a quelque chose de spécial."}
+   ]},
+
+  {s:1, n:4,
+   titre: "Esa pintora que sufrió tanto...",
+   perso: ["Camille", "Amine"],
+   vocab: ["la mirada fija","un collar de espinas","sufrir","la tristeza","la esperanza","tener ganas de vivir","melancólico","las joyas"],
+   lines: [
+    {c:"l",p:"Camille",t:"¿Leíste el trozo del diario de Frida Kahlo?",                                  fr:"T'as lu l'extrait du journal de Frida Kahlo ?"},
+    {c:"r",p:"Amine",  t:"Sí, es fuerte. <b>Sufrió</b> muchísimo y aun así dice que tiene <b>ganas de vivir</b>.",fr:"Oui, c'est fort. Elle a tellement souffert et pourtant elle dit qu'elle a envie de vivre."},
+    {c:"l",p:"Camille",t:"Y en el cuadro tiene <b>la mirada fija</b>, muy <b>melancólica</b>. Y ese <b>collar de espinas</b>...",fr:"Et dans le tableau elle a le regard fixe, très mélancolique. Et ce collier d'épines..."},
+    {c:"r",p:"Amine",  t:"Es para mostrar el dolor, ¿no? Pero también lleva <b>joyas</b> mexicanas.",    fr:"C'est pour montrer la douleur, non ? Mais elle porte aussi des bijoux mexicains."},
+    {c:"l",p:"Camille",t:"Sí, como una mezcla de <b>tristeza</b> y de orgullo al mismo tiempo.",         fr:"Oui, comme un mélange de tristesse et de fierté en même temps."},
+    {c:"r",p:"Amine",  t:"Exacto. Y al final del texto habla de <b>esperanza</b>. Eso me pareció bonito.",fr:"Exactement. Et à la fin du texte elle parle d'espoir. Ça j'ai trouvé ça beau."},
+    {c:"l",p:"Camille",t:"A mí también. Es una persona increíble.",                                      fr:"Moi aussi. C'est une personne incroyable."},
+    {c:"r",p:"Amine",  t:"Oye, ¿y tú harías un autorretrato tuyo para el proyecto?",                    fr:"Dis, et toi tu ferais un autoportrait de toi pour le projet ?"}
+   ]},
+
+  {s:1, n:5,
+   titre: "¿Selfie o foto de verdad?",
+   perso: ["Rafa", "Sara"],
+   vocab: ["sacar una foto","estar de espaldas","el lema","una pantalla","un móvil","una cámara","el autorretrato","la obra de arte"],
+   lines: [
+    {c:"l",p:"Rafa", t:"¿Viste el anuncio de Samsung ese de Frida Kahlo?",                               fr:"T'as vu la pub Samsung avec Frida Kahlo ?"},
+    {c:"r",p:"Sara", t:"Sí, la tía que <b>está de espaldas</b> y <b>saca una foto</b> con el <b>móvil</b>.",fr:"Oui, la fille qui est de dos et prend une photo avec le portable."},
+    {c:"l",p:"Rafa", t:"Y <b>el lema</b> es «Para los <b>autorretratos</b>. No selfies.» No está mal.",  fr:"Et le slogan c'est «Pour les autoportraits. Pas les selfies.» C'est pas mal."},
+    {c:"r",p:"Sara", t:"Bueno, es publicidad. Pero la idea de que un selfie puede ser una <b>obra de arte</b> me gusta.",fr:"Beh, c'est de la pub. Mais l'idée qu'un selfie peut être une œuvre d'art j'aime bien."},
+    {c:"l",p:"Rafa", t:"¿Tú crees? Yo prefiero las fotos con <b>cámara</b> de verdad, se ve mejor <b>la pantalla</b>.",fr:"T'y crois ? Moi je préfère les photos avec un vrai appareil, ça rend mieux."},
+    {c:"r",p:"Sara", t:"Depende de lo que hagas con la foto. Picasso también se pintaba a sí mismo.",     fr:"Ça dépend de ce que tu fais avec la photo. Picasso aussi se peignait lui-même."},
+    {c:"l",p:"Rafa", t:"Cierto. Entonces para el proyecto, ¿tú qué vas a hacer?",                        fr:"C'est vrai. Alors pour le projet, toi tu vas faire quoi ?"},
+    {c:"r",p:"Sara", t:"Todavía no lo sé. Algo con filtros, seguro.",                                    fr:"Je sais pas encore. Quelque chose avec des filtres, c'est sûr."}
+   ]},
+
+  /* ── SEMAINE 2 ─────────────────────────────────────────── */
+  {s:2, n:1,
+   titre: "Dos horas en el móvil sin darme cuenta",
+   perso: ["Hugo", "Mia"],
+   vocab: ["conectarse a diario","estar enganchado","subir fotos","publicar","colgar","la autoestima","aislarse","la contraseña"],
+   lines: [
+    {c:"l",p:"Hugo", t:"Mia, ¿cuánto tiempo llevas <b>conectada</b> hoy?",                              fr:"Mia, t'es connectée depuis combien de temps aujourd'hui ?"},
+    {c:"r",p:"Mia",  t:"Ni idea. Dos horas, quizás más. Estoy muy <b>enganchada</b> a Instagram.",       fr:"Aucune idée. Deux heures, peut-être plus. Je suis très accro à Instagram."},
+    {c:"l",p:"Hugo", t:"¿Y qué haces? ¿<b>Subes fotos</b> o solo miras?",                               fr:"Et tu fais quoi ? Tu postes des photos ou tu regardes juste ?"},
+    {c:"r",p:"Mia",  t:"Las dos cosas. <b>Publico</b> algo de vez en cuando, pero sobre todo miro.",    fr:"Les deux. Je publie un truc de temps en temps, mais surtout je regarde."},
+    {c:"l",p:"Hugo", t:"Yo lo dejé un poco. Me <b>aislaba</b> demasiado de mi familia.",                 fr:"Moi j'ai arrêté un peu. Ça m'isolait trop de ma famille."},
+    {c:"r",p:"Mia",  t:"Sí, lo entiendo. Además afecta la <b>autoestima</b>. Siempre comparándote.",    fr:"Oui je comprends. En plus ça affecte l'estime de soi. T'arrêtes pas de te comparer."},
+    {c:"l",p:"Hugo", t:"Por cierto, ¿tienes una buena <b>contraseña</b>? La profe dijo que hay que protegerse.",fr:"Au fait, t'as un bon mot de passe ? La prof a dit qu'il faut se protéger."},
+    {c:"r",p:"Mia",  t:"Sí sí, y no <b>cuelgo</b> mi dirección ni nada personal. Algo aprendí.",        fr:"Oui oui, et je poste pas mon adresse ni rien de personnel. J'ai quand même appris un truc."}
+   ]},
+
+  {s:2, n:2,
+   titre: "Un tío sin Instagram. ¿Existe eso?",
+   perso: ["Jade", "Axel"],
+   vocab: ["la pantalla ilumina","paralizado","nos acercan","nos alejan","los desconectados","perdemos","comunicar cara a cara","estar enganchado"],
+   lines: [
+    {c:"l",p:"Jade", t:"Axel, ¿conoces a alguien que no tenga redes sociales?",                         fr:"Axel, tu connais quelqu'un qui n'a pas de réseaux sociaux ?"},
+    {c:"r",p:"Axel", t:"Sí, mi primo. Es de <b>los desconectados</b>. No tiene ni Instagram ni nada.",  fr:"Oui, mon cousin. Il fait partie des déconnectés. Il a même pas Instagram ni rien."},
+    {c:"l",p:"Jade", t:"¿Y cómo vive? ¿No se aburre?",                                                  fr:"Et il vit comment ? Il s'ennuie pas ?"},
+    {c:"r",p:"Axel", t:"Al contrario. Sale más, habla más <b>cara a cara</b>. Dice que las pantallas <b>nos alejan</b> de la gente de verdad.",fr:"Au contraire. Il sort plus, parle plus face à face. Il dit que les écrans nous éloignent des vraies gens."},
+    {c:"l",p:"Jade", t:"Tiene algo de razón. En el restaurante ayer, mis padres con el móvil, <b>la pantalla iluminaba</b> sus caras y ni se miraban.",fr:"Il a un peu raison. Au restau hier, mes parents avec le téléphone, l'écran illuminait leurs visages et ils se regardaient même pas."},
+    {c:"r",p:"Axel", t:"Exacto. Dicen que <b>nos acercan</b> a los que están lejos pero <b>perdemos</b> a los que están al lado.",fr:"Exactement. On dit qu'ils nous rapprochent de ceux qui sont loin mais on perd ceux qui sont à côté."},
+    {c:"l",p:"Jade", t:"Aun así, yo no podría vivir sin el móvil. Soy demasiado <b>enganchada</b>.",    fr:"Quand même, moi je pourrais pas vivre sans le portable. Je suis trop accro."},
+    {c:"r",p:"Axel", t:"Jaja, yo también. Pero al menos ahora lo pienso.",                               fr:"Haha, moi aussi. Mais au moins maintenant j'y pense."}
+   ]},
+
+  {s:2, n:3,
+   titre: "El finde pasado fue un desastre",
+   perso: ["Nina", "Rafa"],
+   vocab: ["fui","hice","estuve","llegué","me levanté","me acosté","comimos","hablé"],
+   lines: [
+    {c:"l",p:"Nina", t:"Rafa, ¿qué tal tu finde?",                                                      fr:"Rafa, c'était comment ton week-end ?"},
+    {c:"r",p:"Rafa", t:"Fatal. El sábado <b>me levanté</b> con dolor de cabeza y <b>estuve</b> en casa todo el día.",fr:"Nul. Samedi je me suis levé avec un mal de tête et je suis resté à la maison toute la journée."},
+    {c:"l",p:"Nina", t:"¿Y no <b>hiciste</b> nada?",                                                    fr:"T'as rien fait du tout ?"},
+    {c:"r",p:"Rafa", t:"Nada. Solo dormí y vi series. Ah, y <b>hablé</b> con mi abuela por teléfono.",  fr:"Rien. J'ai juste dormi et regardé des séries. Ah, et j'ai parlé avec ma grand-mère par téléphone."},
+    {c:"l",p:"Nina", t:"¿Y el domingo?",                                                                 fr:"Et le dimanche ?"},
+    {c:"r",p:"Rafa", t:"El domingo <b>fui</b> a casa de mi tía. <b>Comimos</b> todos juntos, estuvo bien.",fr:"Le dimanche je suis allé chez ma tante. On a tous mangé ensemble, c'était bien."},
+    {c:"l",p:"Nina", t:"¿A qué hora <b>llegaste</b> a casa?",                                           fr:"T'es rentré à quelle heure ?"},
+    {c:"r",p:"Rafa", t:"Tarde. <b>Me acosté</b> casi a medianoche. Por eso hoy estoy muerto.",          fr:"Tard. Je me suis couché presque à minuit. C'est pour ça qu'aujourd'hui je suis mort."}
+   ]},
+
+  {s:2, n:4,
+   titre: "Mi autorretrato va a ser un desastre",
+   perso: ["Éva", "Liam"],
+   vocab: ["He elegido posar","el fondo","He utilizado filtros","en la foto parezco","mientras que en la realidad","Para empezar","Además","Para terminar"],
+   lines: [
+    {c:"l",p:"Éva",  t:"Liam, ¿ya empezaste el proyecto del autorretrato?",                             fr:"Liam, t'as commencé le projet de l'autoportrait ?"},
+    {c:"r",p:"Liam", t:"Sí, más o menos. <b>Para empezar</b>, <b>he elegido posar</b> delante de mi estantería de cómics.",fr:"Oui, plus ou moins. Pour commencer, j'ai choisi de poser devant ma bibliothèque de BD."},
+    {c:"l",p:"Éva",  t:"Buena idea. ¿Y <b>el fondo</b> de la foto?",                                   fr:"Bonne idée. Et le fond de la photo ?"},
+    {c:"r",p:"Liam", t:"<b>He utilizado filtros</b> en blanco y negro. Queda bastante bien.",            fr:"J'ai utilisé des filtres en noir et blanc. C'est plutôt pas mal."},
+    {c:"l",p:"Éva",  t:"¿Y el texto? ¿Cómo te describes?",                                              fr:"Et le texte ? Tu te décris comment ?"},
+    {c:"r",p:"Liam", t:"Puse que <b>en la foto parezco</b> muy serio, <b>mientras que en la realidad</b> soy bastante burlón.",fr:"J'ai mis que sur la photo j'ai l'air très sérieux, alors qu'en réalité je suis assez taquin."},
+    {c:"l",p:"Éva",  t:"Jaja, eso es muy tú. <b>Además</b>, ¿qué gustos pusiste?",                     fr:"Haha, c'est très toi ça. De plus, t'as mis quels goûts ?"},
+    {c:"r",p:"Liam", t:"Me encantan los videojuegos y odio las mañanas. <b>Para terminar</b>, no soporto el desorden.",fr:"J'adore les jeux vidéo et je déteste les matins. Pour finir, je supporte pas le désordre."}
+   ]},
+
+  {s:2, n:5,
+   titre: "¿En serio que Colón no sabía dónde estaba?",
+   perso: ["Louis", "Amina"],
+   vocab: ["un navegante","una carabela","la tripulación","acudió","logró","divisaron","desembarcaron","el descubrimiento"],
+   lines: [
+    {c:"l",p:"Louis",t:"Amina, ¿entendiste bien el vídeo de Colón?",                                    fr:"Amina, t'as bien compris la vidéo sur Colomb ?"},
+    {c:"r",p:"Amina",t:"Más o menos. Era <b>un navegante</b> que quería ir a Asia y llegó a América sin saberlo.",fr:"Plus ou moins. C'était un navigateur qui voulait aller en Asie et il est arrivé en Amérique sans le savoir."},
+    {c:"l",p:"Louis",t:"Sí. Y <b>acudió</b> a los reyes de España porque necesitaba dinero y <b>carabelas</b>.",fr:"Oui. Et il a fait appel aux rois d'Espagne parce qu'il avait besoin d'argent et de caravelles."},
+    {c:"r",p:"Amina",t:"¿Y la <b>tripulación</b> sabía adónde iban?",                                   fr:"Et l'équipage, ils savaient où ils allaient ?"},
+    {c:"l",p:"Louis",t:"No mucho. Y tuvieron miedo. Pero <b>lograron</b> llegar.",                      fr:"Pas vraiment. Et ils ont eu peur. Mais ils ont réussi à arriver."},
+    {c:"r",p:"Amina",t:"¿Y cuándo <b>divisaron</b> tierra fue el 12 de octubre, no?",                   fr:"Et quand ils ont aperçu la terre c'était le 12 octobre, non ?"},
+    {c:"l",p:"Louis",t:"Exacto. Y luego <b>desembarcaron</b>. Fue un <b>descubrimiento</b> enorme, aunque los indígenas ya estaban allí.",fr:"Exactement. Et ensuite ils ont débarqué. C'était une découverte énorme, même si les indigènes étaient déjà là."},
+    {c:"r",p:"Amina",t:"Eso es lo que hay que recordar. No era un continente vacío.",                    fr:"C'est ça qu'il faut retenir. C'était pas un continent vide."}
+   ]}
+];
+
+var PRET = [
+  {id:"cours", label:"📚 Cours", type:"cours"},
+  {id:"qcm1",  label:"❓ QCM Réguliers", type:"qcm",
+   titre:"QCM — Verbes réguliers (-AR / -ER / -IR)",
+   consigne:"Choisis la bonne forme du pretérito indefinido.",
+   qs:[
+    {q:"Picasso ___ (pintar) su autorretrato en 1901.",       opts:["pintó","pintí","pintaste","pintaron"],    a:0},
+    {q:"Frida ___ (dedicar) el cuadro al doctor Eloesser.",   opts:["dedicó","dedicé","dedicaste","dedicaron"], a:0},
+    {q:"Nosotros ___ (estudiar) el texto de Frida en clase.", opts:["estudié","estudiamos","estudiasteis","estudiaron"], a:1},
+    {q:"¿Tú ___ (llegar) tarde al instituto?",                opts:["llegé","llegué","llegaste","llegó"],      a:1},
+    {q:"Yo ___ (empezar) a usar Instagram el año pasado.",    opts:["empezé","empezaste","empecé","empeciste"], a:2},
+    {q:"La expedición ___ (salir) el 3 de agosto de 1492.",   opts:["salí","salió","saliste","salimos"],       a:1},
+    {q:"Los jóvenes ___ (pasar) dos horas en las redes.",     opts:["pasé","pasó","pasamos","pasaron"],        a:3},
+    {q:"¿Tú ___ (comer) una pizza el sábado?",                opts:["comé","comió","comiste","comí"],          a:2}
+  ]},
+  {id:"qcm2",  label:"❓ QCM Irréguliers", type:"qcm",
+   titre:"QCM — TENER / ESTAR / PODER / PONER / DECIR / CONDUCIR",
+   consigne:"Choisis la bonne forme du pretérito indefinido.",
+   qs:[
+    {q:"Frida ___ (tener) siete operaciones en la columna.",  opts:["tenía","tuvo","tuvieron","tuviste"],      a:1},
+    {q:"La tripulación ___ (tener) mucho miedo.",             opts:["tuvo","tuvieron","tuviste","tuve"],       a:1},
+    {q:"Yo no ___ (poder) terminar el proyecto a tiempo.",    opts:["podí","pudo","pude","pudiste"],           a:2},
+    {q:"Colón ___ (estar) muchos meses en el mar.",           opts:["estaba","estuvieron","estuvo","estuve"],  a:2},
+    {q:"Ella ___ (poner) filtros azules en su foto.",         opts:["ponió","puso","pusó","pone"],             a:1},
+    {q:"El periodista ___ (decir) la verdad sobre las redes.",opts:["dijo","decó","dijó","dije"],             a:0},
+    {q:"¿Quién ___ (conducir) la expedición de Colón?",       opts:["condució","condujo","condujó","conducé"], a:1},
+    {q:"Ellos ___ (decir) que Instagram es peligroso.",       opts:["dijieron","dijeron","diceron","decieron"], a:1}
+  ]},
+  {id:"fill1", label:"✏️ Trous Réguliers", type:"fill",
+   titre:"Complète — Verbes réguliers",
+   consigne:"Conjugue le verbe entre parenthèses au pretérito indefinido.",
+   lines:[
+    {pre:"Picasso",        suf:"su autorretrato en 1901 (pintar).",        ans:"pintó"},
+    {pre:"Yo",             suf:"tarde al instituto ayer (llegar).",         ans:"llegué"},
+    {pre:"Nosotros",       suf:"el diario de Frida en clase (leer).",       ans:"leímos"},
+    {pre:"¿Tú",            suf:"a usar las redes el año pasado? (empezar)", ans:"empezaste"},
+    {pre:"Los jóvenes",    suf:"muchas horas en Instagram (pasar).",        ans:"pasaron"},
+    {pre:"La expedición",  suf:"de España el 3 de agosto (salir).",         ans:"salió"},
+    {pre:"¿Tú",            suf:"una pizza después del cine? (comer)",       ans:"comiste"},
+    {pre:"Frida",          suf:"su cuadro al doctor Eloesser (dedicar).",   ans:"dedicó"}
+  ]},
+  {id:"fill2", label:"✏️ Trous Irréguliers", type:"fill",
+   titre:"Complète — TENER / ESTAR / PODER / PONER / DECIR / CONDUCIR",
+   consigne:"Conjugue le verbe entre parenthèses au pretérito indefinido.",
+   lines:[
+    {pre:"Frida",          suf:"siete operaciones muy difíciles (tener).",  ans:"tuvo"},
+    {pre:"Yo no",          suf:"dormir a causa del móvil (poder).",         ans:"pude"},
+    {pre:"Colón",          suf:"muchos meses en el mar (estar).",           ans:"estuvo"},
+    {pre:"Ella",           suf:"filtros en blanco y negro en su foto (poner).", ans:"puso"},
+    {pre:"El periodista",  suf:"la verdad sobre las redes sociales (decir).", ans:"dijo"},
+    {pre:"Ellos",          suf:"que Instagram es peligroso (decir).",        ans:"dijeron"},
+    {pre:"¿Quién",         suf:"la carabela hasta América? (conducir)",      ans:"condujo"},
+    {pre:"Nosotros",       suf:"muchos problemas técnicos (tener).",         ans:"tuvimos"}
+  ]},
+  {id:"transfo", label:"🔄 Transforme", type:"transfo",
+   titre:"Transforme au pretérito indefinido",
+   consigne:"Réécris chaque phrase au passé.",
+   lines:[
+    {src:"Picasso pinta su autorretrato.",             ans:"Picasso pintó su autorretrato."},
+    {src:"Frida tiene mucho dolor.",                   ans:"Frida tuvo mucho dolor."},
+    {src:"Colón está muchos meses en el mar.",         ans:"Colón estuvo muchos meses en el mar."},
+    {src:"Yo no puedo terminar el proyecto.",          ans:"Yo no pude terminar el proyecto."},
+    {src:"Ella pone filtros en su foto.",              ans:"Ella puso filtros en su foto."},
+    {src:"El periodista dice la verdad.",              ans:"El periodista dijo la verdad."},
+    {src:"Nosotros leemos el diario de Frida.",        ans:"Nosotros leímos el diario de Frida."},
+    {src:"La expedición sale el 3 de agosto.",         ans:"La expedición salió el 3 de agosto."}
+  ]}
+];
+
+/* ── ÉTAT ─────────────────────────────────────── */
+var curSem=1, curIdx=0, vocOpen=false, done={};
+var pretIdx=0, qcmAns={}, qcmScore={}, fillVals={}, fillDone={}, trVals={}, trDone={};
+var mainTab="dlg";
+
+function dList() { return DLG.filter(function(d){return d.s===curSem;}); }
+function dCur()  { return dList()[curIdx]; }
+function dKey()  { var d=dCur(); return d.s+"-"+d.n; }
+function globalIdx() {
+  var idx=0;
+  DLG.forEach(function(d,i){ if(d===dCur()) idx=i; });
+  return idx;
+}
+
+/* ── ONGLET PRINCIPAL ───────────────────────── */
+function setTab(t) {
+  mainTab=t;
+  document.getElementById("sec-dlg").classList.toggle("hidden", t!=="dlg");
+  document.getElementById("sec-pret").classList.toggle("hidden", t!=="pret");
+  document.getElementById("tab-dlg").classList.toggle("on", t==="dlg");
+  document.getElementById("tab-pret").classList.toggle("on", t==="pret");
+  if(t==="pret") renderPret();
+}
+
+/* ── DIALOGUES ──────────────────────────────── */
+function render() {
+  var d=dCur(), lst=dList(), k=dKey();
+  var total=Object.keys(done).length;
+  document.getElementById("subtitle").textContent = total+" / 10 dialogues terminés";
+
+  document.querySelectorAll("#sem-pills .pill").forEach(function(b,i){
+    b.classList.toggle("on", i+1===curSem);
+  });
+
+  var gi=globalIdx();
+  document.getElementById("card-label").textContent = "Semaine "+curSem+" · Dialogue "+(curIdx+1);
+  document.getElementById("card-title").textContent = d.titre;
+  document.getElementById("card-meta").textContent  = "🎯 "+d.perso.join(" & ");
+
+  /* dots */
+  var dotsEl=document.getElementById("dots");
+  dotsEl.innerHTML="";
+  lst.forEach(function(item,i){
+    var k2=item.s+"-"+item.n, b=document.createElement("button");
+    b.className="dot-btn"+(i===curIdx?" on":"")+(done[k2]?" done":"");
+    b.textContent=i+1;
+    b.onclick=(function(idx){return function(){curIdx=idx;vocOpen=false;render();};})(i);
+    dotsEl.appendChild(b);
+  });
+
+  /* chat */
+  var chat=document.getElementById("chat");
+  chat.innerHTML="";
+  d.lines.forEach(function(l,i){
+    var side = i%2===0 ? "left" : "right";
+    var msg=document.createElement("div");
+    msg.className="msg"+(side==="right"?" right":"");
+    var nm=document.createElement("div"); nm.className="msg-name"; nm.textContent=l.p;
+    var bub=document.createElement("div"); bub.className="bubble "+side;
+    bub.innerHTML=l.t+'<div class="trad">'+l.fr+'</div>';
+    msg.appendChild(nm); msg.appendChild(bub);
+    chat.appendChild(msg);
+  });
+
+  /* vocab */
+  var vocBtn=document.getElementById("voc-btn");
+  var vocArea=document.getElementById("vocab-area");
+  vocBtn.classList.toggle("on", vocOpen);
+  vocArea.classList.toggle("hidden", !vocOpen);
+  vocArea.innerHTML=d.vocab.map(function(v){return '<span class="vtag">'+v+'</span>';}).join("");
+
+  /* done btn */
+  var btn=document.getElementById("done-btn");
+  btn.textContent=done[k]?"✅ Terminé !":"Marquer comme terminé";
+  btn.classList.toggle("g",!!done[k]);
+
+  /* nav */
+  document.getElementById("nav-ctr").textContent = (gi+1)+" / "+DLG.length;
+  document.getElementById("btn-prev").disabled = (gi===0);
+  document.getElementById("btn-next").disabled = (gi===DLG.length-1);
+  document.getElementById("btn-next").classList.toggle("next", gi<DLG.length-1);
+}
+
+function setSem(s){curSem=s;curIdx=0;vocOpen=false;render();}
+function toggleVoc(){vocOpen=!vocOpen;render();}
+function markDone(){done[dKey()]=true;render();}
+
+function go(dir) {
+  var gi=globalIdx()+dir;
+  if(gi<0||gi>=DLG.length) return;
+  curSem=DLG[gi].s;
+  curIdx=DLG.filter(function(d){return d.s===DLG[gi].s;}).indexOf(DLG[gi]);
+  vocOpen=false;
+  render();
+}
+
+/* ── PRETÉRITO ──────────────────────────────── */
+function renderPret() {
+  var nav=document.getElementById("pret-nav");
+  nav.innerHTML="";
+  PRET.forEach(function(s,i){
+    var b=document.createElement("button");
+    b.className="pill"+(i===pretIdx?" on":"");
+    b.textContent=s.label;
+    b.onclick=(function(idx){return function(){pretIdx=idx;renderPret();};})(i);
+    nav.appendChild(b);
+  });
+  var sec=PRET[pretIdx], card=document.getElementById("pret-card");
+  if(sec.type==="cours")        renderCours(card);
+  else if(sec.type==="qcm")     renderQCM(sec,card);
+  else if(sec.type==="fill")    renderFill(sec,card);
+  else if(sec.type==="transfo") renderTransfo(sec,card);
+}
+
+function renderCours(card) {
+  var blocs=[
+    {t:"Verbes réguliers en -AR  (ex : hablar, pintar, llegar)",
+     n:"⚠️ Accents obligatoires : yo hablÉ / él hablÓ",
+     c:[["yo","hablé"],["tú","hablaste"],["él/ella","habló"],["nosotros","hablamos"],["vosotros","hablasteis"],["ellos","hablaron"]]},
+    {t:"Verbes réguliers en -ER / -IR  (ex : comer, salir)",
+     n:"✅ -ER et -IR ont les MÊMES terminaisons",
+     c:[["yo","comí / salí"],["tú","comiste / saliste"],["él/ella","comió / salió"],["nosotros","comimos / salimos"],["vosotros","comisteis / salisteis"],["ellos","comieron / salieron"]]},
+    {t:"Irrégulier : TENER",n:"Radical tuv-  ·  pas d'accent écrit",
+     c:[["yo","tuve"],["tú","tuviste"],["él/ella","tuvo"],["nosotros","tuvimos"],["vosotros","tuvisteis"],["ellos","tuvieron"]]},
+    {t:"Irrégulier : ESTAR",n:"Radical estuv-  ·  même modèle que TENER",
+     c:[["yo","estuve"],["tú","estuviste"],["él/ella","estuvo"],["nosotros","estuvimos"],["vosotros","estuvisteis"],["ellos","estuvieron"]]},
+    {t:"Irrégulier : PODER",n:"Radical pud-",
+     c:[["yo","pude"],["tú","pudiste"],["él/ella","pudo"],["nosotros","pudimos"],["vosotros","pudisteis"],["ellos","pudieron"]]},
+    {t:"Irrégulier : PONER",n:"Radical pus-",
+     c:[["yo","puse"],["tú","pusiste"],["él/ella","puso"],["nosotros","pusimos"],["vosotros","pusisteis"],["ellos","pusieron"]]},
+    {t:"Irrégulier : DECIR",n:"⚠️ Radical dij-  →  ellos dijERON (pas dijIERON !)",
+     c:[["yo","dije"],["tú","dijiste"],["él/ella","dijo"],["nosotros","dijimos"],["vosotros","dijisteis"],["ellos","dijeron"]]},
+    {t:"Irrégulier : CONDUCIR",n:"⚠️ Radical conduj-  →  ellos condujERON",
+     c:[["yo","conduje"],["tú","condujiste"],["él/ella","condujo"],["nosotros","condujimos"],["vosotros","condujisteis"],["ellos","condujeron"]]}
+  ];
+  var h='<div class="pcard-title">📚 Le Pretérito Indefinido</div>';
+  h+='<div class="pcard-sub">Réguliers + TENER / ESTAR / PODER / PONER / DECIR / CONDUCIR</div>';
+  h+='<div class="tip-box"><strong>💡 À retenir</strong>';
+  h+='Le pretérito indefinido exprime une action <b>terminée</b> dans le passé.<br>';
+  h+='Marqueurs : <b>ayer, el lunes pasado, en 1492, el año pasado, una vez…</b><br>';
+  h+='Irréguliers forts = <b>pas d\'accent écrit</b>. Réguliers = <b>accents sur yo et él</b>.</div>';
+  blocs.forEach(function(b){
+    h+='<div class="gram-box"><h4>'+b.t+'</h4><div class="conj-grid">';
+    b.c.forEach(function(r){ h+='<div class="conj-row">'+r[0]+' &rarr; <span>'+r[1]+'</span></div>'; });
+    h+='</div><div class="gram-note">'+b.n+'</div></div>';
+  });
+  card.innerHTML=h;
+}
+
+function renderQCM(sec,card) {
+  if(!qcmAns[sec.id]) qcmAns[sec.id]={};
+  var ans=qcmAns[sec.id], sc=qcmScore[sec.id];
+  var h='<div class="pcard-title">'+sec.titre+'</div><div class="pcard-sub">'+sec.consigne+'</div>';
+  if(sc!==undefined){
+    var e=sc===sec.qs.length?"🏆 Parfait !":sc>=sec.qs.length/2?"👍 Bien !":"💪 Révise !";
+    h+='<div class="score-line">Score : <span class="score-badge">'+sc+"/"+sec.qs.length+"</span> "+e+"</div>";
+  }
+  sec.qs.forEach(function(q,qi){
+    h+='<div class="qblock"><p>'+(qi+1)+". "+q.q+'</p><div class="opts">';
+    q.opts.forEach(function(opt,oi){
+      var cls="opt";
+      if(ans[qi]!==undefined){ if(oi===q.a)cls+=" ok"; else if(ans[qi]===oi)cls+=" ko"; }
+      var oc=ans[qi]===undefined?'onclick="qPick(\''+sec.id+'\','+qi+','+oi+','+q.a+','+sec.qs.length+')"':"";
+      h+='<button class="'+cls+'" '+oc+'>'+opt+'</button>';
+    });
+    h+='</div></div>';
+  });
+  var answered=Object.keys(ans).length;
+  if(sc===undefined){
+    h+='<div class="ex-btns"><button class="btn-check" onclick="qCheck(\''+sec.id+'\','+sec.qs.length+')" '+(answered<sec.qs.length?"disabled":"")+'>Corriger '+answered+"/"+sec.qs.length+'</button>';
+    h+='<button class="btn-reset" onclick="qReset(\''+sec.id+'\')">Recommencer</button></div>';
+  } else {
+    h+='<div class="ex-btns"><button class="btn-reset" onclick="qReset(\''+sec.id+'\')">Recommencer</button></div>';
+  }
+  card.innerHTML=h;
+}
+function qPick(id,qi,oi,correct,total){
+  if(!qcmAns[id]) qcmAns[id]={};
+  qcmAns[id][qi]=oi;
+  var blocks=document.querySelectorAll(".qblock");
+  blocks[qi].querySelectorAll(".opt").forEach(function(btn,i){
+    if(i===correct)btn.classList.add("ok");
+    else if(i===oi)btn.classList.add("ko");
+  });
+  var answered=Object.keys(qcmAns[id]).length;
+  var btn=document.querySelector(".btn-check");
+  if(btn){btn.disabled=answered<total;btn.textContent="Corriger "+answered+"/"+total;}
+}
+function qCheck(id,total){
+  var sec=PRET.filter(function(s){return s.id===id;})[0];
+  qcmScore[id]=sec.qs.filter(function(q,i){return qcmAns[id][i]===q.a;}).length;
+  renderPret();
+}
+function qReset(id){qcmAns[id]={};delete qcmScore[id];renderPret();}
+
+function renderFill(sec,card){
+  if(!fillVals[sec.id]) fillVals[sec.id]=sec.lines.map(function(){return "";});
+  var vals=fillVals[sec.id], res=fillDone[sec.id];
+  var h='<div class="pcard-title">'+sec.titre+'</div><div class="pcard-sub">'+sec.consigne+'</div>';
+  sec.lines.forEach(function(l,i){
+    var cls=res?(res[i]?"ok":"ko"):"";
+    h+='<div class="fill-line">'+l.pre+' <input class="finput '+cls+'" value="'+vals[i]+'" oninput="fUp(\''+sec.id+'\','+i+',this.value)" placeholder="…"> '+l.suf;
+    if(res&&!res[i]) h+=' <span class="corr">→ '+l.ans+'</span>';
+    h+='</div>';
+  });
+  var answered=vals.filter(function(v){return v.trim()!=="";}).length;
+  h+='<div class="ex-btns"><button class="btn-check" onclick="fCheck(\''+sec.id+'\')" '+(answered<sec.lines.length?"disabled":"")+'>Corriger</button>';
+  h+='<button class="btn-reset" onclick="fReset(\''+sec.id+'\')">Recommencer</button></div>';
+  if(res){
+    var sc=res.filter(Boolean).length;
+    h+='<div class="fb '+(sc===sec.lines.length?"ok":"ko")+'">'+(sc===sec.lines.length?"✅ Parfait !":"Score : "+sc+"/"+sec.lines.length+" — corrections en rouge.")+"</div>";
+  }
+  card.innerHTML=h;
+}
+function fUp(id,i,val){
+  if(!fillVals[id]) fillVals[id]=[];
+  fillVals[id][i]=val; delete fillDone[id];
+  var sec=PRET.filter(function(s){return s.id===id;})[0];
+  var answered=fillVals[id].filter(function(v){return v.trim()!=="";}).length;
+  var btn=document.querySelector(".btn-check");
+  if(btn) btn.disabled=answered<sec.lines.length;
+}
+function fCheck(id){
+  var sec=PRET.filter(function(s){return s.id===id;})[0];
+  fillDone[id]=sec.lines.map(function(l,i){return (fillVals[id][i]||"").trim().toLowerCase()===l.ans.toLowerCase();});
+  renderPret();
+}
+function fReset(id){
+  var sec=PRET.filter(function(s){return s.id===id;})[0];
+  fillVals[id]=sec.lines.map(function(){return "";});
+  delete fillDone[id]; renderPret();
+}
+
+function renderTransfo(sec,card){
+  if(!trVals[sec.id]) trVals[sec.id]=sec.lines.map(function(){return "";});
+  var vals=trVals[sec.id], res=trDone[sec.id];
+  var h='<div class="pcard-title">'+sec.titre+'</div><div class="pcard-sub">'+sec.consigne+'</div>';
+  sec.lines.forEach(function(l,i){
+    var cls=res?(res[i]?"ok":"ko"):"";
+    h+='<div class="trans-row"><div class="trans-src">🔵 '+l.src+'</div><div class="trans-wrap">';
+    h+='<input class="trans-inp '+cls+'" value="'+vals[i]+'" oninput="tUp(\''+sec.id+'\','+i+',this.value)" placeholder="Pretérito indefinido…">';
+    if(res&&!res[i]) h+='<div class="trans-corr">→ '+l.ans+'</div>';
+    h+='</div></div>';
+  });
+  var answered=vals.filter(function(v){return v.trim()!=="";}).length;
+  h+='<div class="ex-btns"><button class="btn-check" onclick="tCheck(\''+sec.id+'\')" '+(answered<sec.lines.length?"disabled":"")+'>Corriger</button>';
+  h+='<button class="btn-reset" onclick="tReset(\''+sec.id+'\')">Recommencer</button></div>';
+  if(res){
+    var sc=res.filter(Boolean).length;
+    h+='<div class="fb '+(sc===sec.lines.length?"ok":"ko")+'">'+(sc===sec.lines.length?"✅ Bravo !":"Score : "+sc+"/"+sec.lines.length+" — corrections en rouge.")+"</div>";
+  }
+  card.innerHTML=h;
+}
+function tUp(id,i,val){
+  if(!trVals[id]) trVals[id]=[];
+  trVals[id][i]=val; delete trDone[id];
+  var sec=PRET.filter(function(s){return s.id===id;})[0];
+  var answered=trVals[id].filter(function(v){return v.trim()!=="";}).length;
+  var btn=document.querySelector(".btn-check");
+  if(btn) btn.disabled=answered<sec.lines.length;
+}
+function tCheck(id){
+  var sec=PRET.filter(function(s){return s.id===id;})[0];
+  trDone[id]=sec.lines.map(function(l,i){
+    return (trVals[id][i]||"").trim().toLowerCase().replace(/\s+/g," ")===l.ans.toLowerCase().replace(/\s+/g," ");
+  });
+  renderPret();
+}
+function tReset(id){
+  var sec=PRET.filter(function(s){return s.id===id;})[0];
+  trVals[id]=sec.lines.map(function(){return "";});
+  delete trDone[id]; renderPret();
+}
+
+render();
+</script>
+</body>
+</html>

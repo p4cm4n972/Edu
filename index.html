@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mes Ressources</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #0f172a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    h1 {
+      color: #f1f5f9;
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+
+    p.subtitle {
+      color: #64748b;
+      margin-bottom: 2.5rem;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 16px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      text-decoration: none;
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: #6366f1;
+      box-shadow: 0 8px 30px rgba(99, 102, 241, 0.2);
+    }
+
+    .card .icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .card .title {
+      color: #f1f5f9;
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+
+    .card .desc {
+      color: #94a3b8;
+      font-size: 0.82rem;
+    }
+
+    .tag {
+      display: inline-block;
+      margin-top: 0.8rem;
+      padding: 0.2rem 0.7rem;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 600;
+    }
+
+    .tag.english { background: #1e3a5f; color: #60a5fa; }
+    .tag.math    { background: #1a3d2e; color: #34d399; }
+    .tag.quiz    { background: #3b1f3b; color: #c084fc; }
+    .tag.espagnol { background: #3b2000; color: #fb923c; }
+  </style>
+</head>
+<body>
+
+  <h1>Mes Ressources</h1>
+  <p class="subtitle">Accès rapide à tous les contenus</p>
+
+  <div class="grid">
+
+    <a class="card" href="english-dialogues.html">
+      <div class="icon">🇬🇧</div>
+      <div class="title">English Dialogues</div>
+      <div class="desc">Exercices de conversation en anglais</div>
+      <span class="tag english">Anglais</span>
+    </a>
+
+    <a class="card" href="revision-maths-3eme.html">
+      <div class="icon">📐</div>
+      <div class="title">Révision Maths 3ème</div>
+      <div class="desc">Fiches de révision pour le brevet</div>
+      <span class="tag math">Maths</span>
+    </a>
+
+    <a class="card" href="quiz-maths-3eme.html">
+      <div class="icon">🧮</div>
+      <div class="title">Quiz Maths 3ème</div>
+      <div class="desc">Teste tes connaissances en maths</div>
+      <span class="tag quiz">Quiz</span>
+    </a>
+
+    <a class="card" href="espanol-dialogues.html">
+      <div class="icon">🇪🇸</div>
+      <div class="title">Espagnol</div>
+      <div class="desc">Dialogues, vocabulaire, grammaire et exercices</div>
+      <span class="tag espagnol">Espagnol</span>
+    </a>
+
+  </div>
+
+</body>
+</html>

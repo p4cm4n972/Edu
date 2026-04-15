@@ -1,0 +1,1904 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Révision Maths — 3ème</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      background: #0F172A;
+      font-family: Georgia, 'Times New Roman', serif;
+      color: #E2E8F0;
+    }
+    header {
+      background: linear-gradient(135deg, #1E293B, #0F172A);
+      border-bottom: 2px solid #334155;
+      padding: 20px 16px 0;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    header h1 { font-size: 22px; color: #F1F5F9; margin-bottom: 4px; letter-spacing: -0.5px; }
+    header p { color: #64748B; font-size: 13px; margin-bottom: 16px; }
+    .tab-bar { display: flex; gap: 4px; }
+    .tab-btn {
+      padding: 8px 16px;
+      border-radius: 8px 8px 0 0;
+      border: none;
+      cursor: pointer;
+      font-size: 13px;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+    .tab-btn.active { background: #1E40AF; color: #BFDBFE; font-weight: bold; }
+    .tab-btn:not(.active) { background: transparent; color: #64748B; }
+    main { max-width: 700px; margin: 0 auto; padding: 20px 16px 60px; }
+    .pill-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+    .pill {
+      padding: 6px 12px;
+      border-radius: 20px;
+      border: 2px solid #334155;
+      background: transparent;
+      color: #94A3B8;
+      cursor: pointer;
+      font-size: 13px;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+    .block { margin-bottom: 20px; }
+    .block-title {
+      font-size: 16px;
+      font-weight: bold;
+      border-bottom: 1px solid #33415544;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+    .card {
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-bottom: 8px;
+    }
+    .card strong { font-size: 13px; display: block; margin-bottom: 4px; color: #1E293B; }
+    .card p { font-size: 13px; line-height: 1.6; color: #1E293B; }
+    .inclusion-box {
+      background: #1E293B;
+      border: 2px solid #F59E0B;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+    }
+    .inclusion-schema { font-size: 28px; color: #F59E0B; letter-spacing: 8px; margin-bottom: 8px; }
+    .inclusion-note { color: #94A3B8; font-size: 12px; }
+    .remark-list { padding-left: 20px; }
+    .remark-list li { color: #CBD5E1; font-size: 13px; line-height: 1.7; margin-bottom: 4px; }
+    .formule-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #1E293B;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-bottom: 8px;
+    }
+    .formule-label { color: #94A3B8; font-size: 12px; }
+    .formule-code {
+      color: #7C3AED;
+      font-size: 14px;
+      font-weight: bold;
+      background: #EDE9FE22;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    .criteres-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .critere-card {
+      background: #1E293B;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+    .critere-by { color: #10B981; font-weight: bold; font-size: 16px; margin-bottom: 4px; }
+    .critere-rule { color: #CBD5E1; font-size: 12px; line-height: 1.5; }
+    .division-box {
+      background: #0C4A6E;
+      border: 2px solid #0EA5E9;
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .division-formule { font-size: 20px; color: #7DD3FC; font-weight: bold; font-family: monospace; }
+    .division-legend { color: #94A3B8; font-size: 12px; margin-top: 6px; }
+    .ex-card {
+      background: #1E293B;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .ex-meta { display: flex; justify-content: space-between; margin-bottom: 12px; }
+    .ex-chapter { color: #64748B; font-size: 12px; }
+    .ex-question { color: #E2E8F0; font-size: 14px; line-height: 1.6; margin-bottom: 16px; }
+    .sub-card {
+      background: #0F172A;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-bottom: 8px;
+    }
+    .sub-label { color: #F59E0B; font-size: 13px; font-weight: bold; margin-bottom: 6px; }
+    .correction {
+      background: #14532D22;
+      border: 1px solid #16A34A;
+      border-radius: 6px;
+      padding: 8px 10px;
+      color: #86EFAC;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .reveal-btn {
+      background: transparent;
+      border: 1px dashed #334155;
+      border-radius: 6px;
+      padding: 6px 12px;
+      color: #64748B;
+      font-size: 12px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .reveal-btn:hover { border-color: #64748B; color: #94A3B8; }
+    .nav-btns { display: flex; justify-content: space-between; }
+    .nav-btn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: 1px solid #334155;
+      background: transparent;
+      color: #94A3B8;
+      cursor: pointer;
+      font-size: 13px;
+      font-family: inherit;
+    }
+    .nav-btn:disabled { color: #334155; cursor: default; }
+    .plain-text { color: #CBD5E1; font-size: 13px; line-height: 1.7; margin: 4px 0; }
+    .warn-box {
+      background: #FEF3C711;
+      border: 1px solid #D97706;
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: #FCD34D;
+      font-size: 13px;
+    }
+    .dark-card {
+      background: #1E293B;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-bottom: 8px;
+    }
+    .dark-card strong { color: #10B981; font-size: 12px; }
+    .dark-card p { color: #CBD5E1; font-size: 13px; margin-top: 4px; }
+    #tab-lessons, #tab-exercises, #tab-problems, #tab-quiz { display: none; }
+    #tab-lessons.active, #tab-exercises.active, #tab-problems.active, #tab-quiz.active { display: block; }
+    .pb-context {
+      background: linear-gradient(135deg, #1E293B, #0F172A);
+      border: 1px solid #475569;
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 20px;
+    }
+    .pb-context-tag {
+      display: inline-block;
+      font-size: 11px;
+      background: #7C3AED33;
+      color: #C4B5FD;
+      border: 1px solid #7C3AED55;
+      border-radius: 20px;
+      padding: 2px 10px;
+      margin-bottom: 10px;
+      letter-spacing: 0.5px;
+    }
+    .pb-context-text {
+      color: #CBD5E1;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+    .pb-step {
+      background: #0F172A;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+    }
+    .pb-step-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .pb-step-num {
+      background: #7C3AED;
+      color: white;
+      font-size: 11px;
+      font-weight: bold;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .pb-step-q {
+      color: #E2E8F0;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .pb-correction {
+      margin-top: 10px;
+      background: #14532D22;
+      border: 1px solid #16A34A;
+      border-radius: 8px;
+      padding: 10px 14px;
+    }
+    .pb-correction-title {
+      color: #4ADE80;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .pb-correction-text {
+      color: #86EFAC;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+    .pb-hint {
+      margin-top: 8px;
+      background: #0C4A6E22;
+      border: 1px solid #0EA5E944;
+      border-radius: 6px;
+      padding: 6px 10px;
+      color: #7DD3FC;
+      font-size: 12px;
+    }
+    /* ===== QUIZ ===== */
+    .quiz-start-screen {
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .quiz-start-screen h2 { font-size: 24px; color: #F1F5F9; margin-bottom: 12px; }
+    .quiz-start-screen p  { color: #94A3B8; font-size: 14px; margin-bottom: 30px; line-height: 1.7; }
+    .quiz-modes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 30px; }
+    .quiz-mode-btn {
+      background: #1E293B;
+      border: 2px solid #334155;
+      border-radius: 12px;
+      padding: 16px 12px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    .quiz-mode-btn:hover { border-color: #F59E0B; background: #F59E0B11; }
+    .quiz-mode-btn.selected { border-color: #F59E0B; background: #F59E0B22; }
+    .quiz-mode-btn .mode-icon { font-size: 28px; display: block; margin-bottom: 8px; }
+    .quiz-mode-btn .mode-title { color: #F1F5F9; font-size: 14px; font-weight: bold; display: block; margin-bottom: 4px; }
+    .quiz-mode-btn .mode-desc { color: #64748B; font-size: 11px; display: block; }
+    .quiz-start-btn {
+      background: #F59E0B;
+      color: #0F172A;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 32px;
+      font-size: 15px;
+      font-weight: bold;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .quiz-start-btn:hover { background: #FCD34D; }
+    .quiz-start-btn:disabled { background: #334155; color: #64748B; cursor: default; }
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #1E293B;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 10px 16px;
+      margin-bottom: 20px;
+    }
+    .quiz-progress { color: #94A3B8; font-size: 13px; }
+    .quiz-progress span { color: #F1F5F9; font-weight: bold; }
+    .quiz-timer {
+      font-size: 22px;
+      font-weight: bold;
+      font-family: monospace;
+      min-width: 56px;
+      text-align: center;
+    }
+    .quiz-timer.ok    { color: #4ADE80; }
+    .quiz-timer.warn  { color: #F59E0B; }
+    .quiz-timer.danger{ color: #F87171; }
+    .quiz-score-live { color: #94A3B8; font-size: 13px; }
+    .quiz-score-live span { color: #FCD34D; font-weight: bold; }
+    .quiz-question-card {
+      background: #1E293B;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .quiz-q-category {
+      font-size: 11px;
+      color: #94A3B8;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+    }
+    .quiz-q-text {
+      color: #F1F5F9;
+      font-size: 16px;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+    .quiz-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .quiz-choice-btn {
+      background: #0F172A;
+      border: 2px solid #334155;
+      border-radius: 10px;
+      padding: 12px 14px;
+      color: #CBD5E1;
+      font-size: 14px;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.15s;
+      text-align: left;
+    }
+    .quiz-choice-btn:hover:not(:disabled) { border-color: #7C3AED; color: #E2E8F0; background: #7C3AED11; }
+    .quiz-choice-btn.correct  { border-color: #16A34A; background: #14532D44; color: #4ADE80; font-weight: bold; }
+    .quiz-choice-btn.wrong    { border-color: #DC2626; background: #7F1D1D44; color: #F87171; }
+    .quiz-choice-btn.reveal   { border-color: #16A34A; background: #14532D22; color: #86EFAC; }
+    .quiz-feedback {
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 14px;
+      display: none;
+    }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.good { background: #14532D33; border: 1px solid #16A34A; color: #86EFAC; }
+    .quiz-feedback.bad  { background: #7F1D1D33; border: 1px solid #DC2626;  color: #FCA5A5; }
+    .quiz-next-btn {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      background: #334155;
+      color: #E2E8F0;
+      font-size: 14px;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: none;
+    }
+    .quiz-next-btn.show { display: block; }
+    .quiz-next-btn:hover { background: #475569; }
+    .quiz-end-screen {
+      text-align: center;
+      padding: 30px 20px;
+    }
+    .quiz-end-screen h2 { font-size: 26px; color: #F1F5F9; margin-bottom: 8px; }
+    .quiz-end-screen .score-big {
+      font-size: 56px;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+    .quiz-end-screen .time-info { color: #94A3B8; font-size: 14px; margin-bottom: 30px; }
+    .quiz-end-details {
+      background: #1E293B;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 24px;
+      text-align: left;
+    }
+    .quiz-end-details h3 { color: #94A3B8; font-size: 12px; letter-spacing: 0.5px; margin-bottom: 12px; }
+    .quiz-detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+      border-bottom: 1px solid #1E293B;
+      font-size: 13px;
+    }
+    .quiz-detail-row .qtext { color: #CBD5E1; max-width: 70%; }
+    .quiz-replay-btn {
+      background: #F59E0B;
+      color: #0F172A;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 28px;
+      font-size: 14px;
+      font-weight: bold;
+      font-family: inherit;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div style="max-width:700px;margin:0 auto">
+    <h1>📐 Révision Maths — 3ème</h1>
+    <p>Fiches de cours + Exercices corrigés</p>
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="switchTab('lessons')">📚 Fiches de cours</button>
+      <button class="tab-btn" onclick="switchTab('exercises')">✏️ Exercices</button>
+      <button class="tab-btn" onclick="switchTab('problems')">🧩 Problèmes</button>
+      <button class="tab-btn" onclick="switchTab('quiz')">⏱️ Quiz</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- ===== FICHES ===== -->
+  <div id="tab-lessons" class="active">
+    <div class="pill-bar" id="lesson-pills"></div>
+    <div id="lesson-content"></div>
+  </div>
+
+  <!-- ===== EXERCICES ===== -->
+  <div id="tab-exercises">
+    <div class="pill-bar" id="ex-pills"></div>
+    <div id="ex-content"></div>
+  </div>
+
+  <!-- ===== PROBLÈMES ===== -->
+  <div id="tab-problems">
+    <div class="pill-bar" id="pb-pills"></div>
+    <div id="pb-content"></div>
+  </div>
+
+  <!-- ===== QUIZ ===== -->
+  <div id="tab-quiz">
+    <div id="quiz-content"></div>
+  </div>
+</main>
+
+<script>
+const lessons = [
+  {
+    id:"nombres", title:"Nature des nombres", emoji:"🔢", color:"#3B82F6",
+    content:[
+      { type:"section", title:"Les ensembles de nombres", items:[
+        { label:"ℕ — Entiers naturels", text:"Les nombres entiers positifs : 0, 1, 2, 3, …", bg:"#DBEAFE", border:"#3B82F6" },
+        { label:"ℤ — Entiers relatifs", text:"Les entiers positifs ET négatifs : …, -3, -2, -1, 0, 1, 2, 3, …", bg:"#EDE9FE", border:"#7C3AED" },
+        { label:"𝔻 — Décimaux", text:"Nombres qui s'écrivent comme a/10ⁿ (a entier relatif). Ex : -0,18 = -18/100 ; 4 = 4/1", bg:"#D1FAE5", border:"#059669" },
+        { label:"ℚ — Rationnels", text:"Nombres qui s'écrivent comme quotient de deux entiers relatifs. Ex : 8/9 ; -5/7 ; 1/3 ; -12,9 ; 8", bg:"#FEF3C7", border:"#D97706" },
+        { label:"Irrationnels", text:"Nombres NON rationnels : π, √2, √3, √7… Ils ne peuvent PAS s'écrire sous forme de fraction.", bg:"#FCE7F3", border:"#DB2777" },
+      ]},
+      { type:"inclusion", title:"Inclusions (à retenir absolument !)", schema:"ℕ ⊂ ℤ ⊂ 𝔻 ⊂ ℚ", note:"Le symbole ⊂ signifie « est inclus dans »" },
+      { type:"remarques", title:"Remarques clés", items:[
+        "Tout entier naturel est un entier relatif, mais pas l'inverse. (-2 ∈ ℤ mais -2 ∉ ℕ)",
+        "Tout entier relatif est un décimal, mais pas l'inverse. (3/10 ∈ 𝔻 mais 3/10 ∉ ℤ)",
+        "Tout décimal est rationnel, mais pas l'inverse. (7/6 ∈ ℚ mais 7/6 ∉ 𝔻)",
+        "1/3 n'est pas décimal car il ne peut pas s'écrire a/10ⁿ",
+      ]},
+    ]
+  },
+  {
+    id:"fractions", title:"Opérations sur les fractions", emoji:"➗", color:"#7C3AED",
+    content:[
+      { type:"formules", title:"Propriétés fondamentales (a, b, c, d ≠ 0)", formules:[
+        { label:"Addition (même dénominateur)", f:"a/c + b/c = (a+b)/c" },
+        { label:"Soustraction (même dénominateur)", f:"a/c − b/c = (a−b)/c" },
+        { label:"Multiplication", f:"(a/b) × (c/d) = (a×c)/(b×d)" },
+        { label:"Division", f:"(a/b) ÷ (c/d) = (a/b) × (d/c)" },
+      ]},
+      { type:"remarques", title:"Inverse d'un nombre", items:[
+        "Deux nombres sont inverses l'un de l'autre quand leur produit est égal à 1.",
+        "L'inverse de a est 1/a",
+        "L'inverse de a/b est b/a",
+      ]},
+    ]
+  },
+  {
+    id:"arithmetique", title:"Arithmétique", emoji:"🧮", color:"#34D399",
+    content:[
+      { type:"section", title:"Multiples et diviseurs", items:[
+        { label:"Définition", text:"n est multiple de d ⟺ il existe un entier q tel que n = d × q", bg:"#D1FAE5", border:"#059669" },
+        { label:"Exemple", text:"48 = 6 × 8 → 48 est multiple de 8. 8 est un diviseur de 48.", bg:"#ECFDF5", border:"#059669" },
+      ]},
+      { type:"criteres", title:"Critères de divisibilité", criteres:[
+        { par:"2", regle:"Chiffre des unités : 0, 2, 4, 6 ou 8" },
+        { par:"5", regle:"Chiffre des unités : 0 ou 5" },
+        { par:"10", regle:"Chiffre des unités : 0" },
+        { par:"4", regle:"Les deux derniers chiffres forment un multiple de 4" },
+        { par:"3", regle:"La somme des chiffres est divisible par 3" },
+        { par:"9", regle:"La somme des chiffres est divisible par 9" },
+      ]},
+      { type:"division", title:"Division euclidienne",
+        formule:"a = b × q + r   avec   0 ≤ r < b",
+        legende:"a = dividende, b = diviseur, q = quotient, r = reste",
+        exemple:"1743 ÷ 9 : 1743 = 9 × 193 + 6  (reste 6, et 6 < 9 ✓)",
+        remarque:"Si le reste est 0, alors a est divisible par b."
+      },
+      { type:"remarques", title:"PGCD", items:[
+        "Le PGCD de a et b est le plus grand entier qui divise à la fois a et b.",
+        "Méthode : lister tous les diviseurs de chaque nombre, repérer les communs, prendre le plus grand.",
+        "Exemple : diviseurs de 24 : {1,2,3,4,6,8,12,24} | diviseurs de 18 : {1,2,3,6,9,18} → PGCD(24,18) = 6",
+      ]},
+    ]
+  },
+  {
+    id:"premiers", title:"Nombres premiers & Fractions irréductibles", emoji:"🔑", color:"#F87171",
+    content:[
+      { type:"section", title:"Nombres premiers", items:[
+        { label:"Définition ♥", text:"Un nombre premier est un entier ≥ 2 qui a exactement deux diviseurs : 1 et lui-même.", bg:"#FEE2E2", border:"#DC2626" },
+        { label:"⚠️ Attention", text:"1 n'est PAS un nombre premier (il n'a qu'un seul diviseur).", bg:"#FEF3C7", border:"#D97706" },
+        { label:"Liste des premiers < 100", text:"2 ; 3 ; 5 ; 7 ; 11 ; 13 ; 17 ; 19 ; 23 ; 29 ; 31 ; 37 ; 41 ; 43 ; 47 ; 53 ; 59 ; 61 ; 67 ; 71 ; 73 ; 79 ; 83 ; 89 ; 97", bg:"#DBEAFE", border:"#3B82F6" },
+      ]},
+      { type:"remarques", title:"Décomposition en facteurs premiers", items:[
+        "Tout entier ≥ 2 non premier se décompose de façon UNIQUE en produit de facteurs premiers.",
+        "Méthode : diviser successivement par 2, puis 3, puis 5, puis 7…",
+        "Exemple : 180 = 2² × 3² × 5",
+        "Exemple : 9 488 = 2⁴ × 593",
+        "Astuce : on s'arrête quand le quotient est 1.",
+      ]},
+      { type:"section", title:"Fractions irréductibles", items:[
+        { label:"Premiers entre eux", text:"Deux entiers sont premiers entre eux si leur PGCD = 1. Ex : 4 et 9 sont premiers entre eux.", bg:"#D1FAE5", border:"#059669" },
+        { label:"Fraction irréductible ♥", text:"Une fraction a/b est irréductible quand a et b sont premiers entre eux (PGCD = 1).", bg:"#EDE9FE", border:"#7C3AED" },
+        { label:"Méthode", text:"1) Décomposer numérateur et dénominateur. 2) Identifier les facteurs communs. 3) Simplifier. Ex : 12/18 = (2²×3)/(2×3²) = 2/3", bg:"#FEE2E2", border:"#DC2626" },
+      ]},
+    ]
+  },
+  {
+    id:"puissances", title:"Puissances", emoji:"⚡", color:"#FBBF24",
+    content:[
+      { type:"section", title:"Définition", items:[
+        { label:"aⁿ (n entier naturel ≥ 2)", text:"aⁿ = a × a × a × … × a  (n fois). On dit « a exposant n ».", bg:"#FEF3C7", border:"#D97706" },
+        { label:"Cas particuliers", text:"a⁰ = 1 (pour tout a ≠ 0)   |   a¹ = a   |   a⁻ⁿ = 1/aⁿ (pour a ≠ 0)", bg:"#FEF9C3", border:"#CA8A04" },
+        { label:"Puissances de 10", text:"10¹=10 ; 10²=100 ; 10³=1000 ; 10⁻¹=0,1 ; 10⁻²=0,01 ; 10⁻³=0,001", bg:"#DBEAFE", border:"#3B82F6" },
+      ]},
+      { type:"formules", title:"Règles de calcul (m et n entiers, a ≠ 0)", formules:[
+        { label:"Produit (même base)", f:"aᵐ × aⁿ = aᵐ⁺ⁿ" },
+        { label:"Quotient (même base)", f:"aᵐ ÷ aⁿ = aᵐ⁻ⁿ" },
+        { label:"Puissance de puissance", f:"(aᵐ)ⁿ = aᵐˣⁿ" },
+        { label:"Produit (même exposant)", f:"aⁿ × bⁿ = (a×b)ⁿ" },
+        { label:"Quotient (même exposant)", f:"aⁿ ÷ bⁿ = (a/b)ⁿ" },
+      ]},
+      { type:"remarques", title:"Exemples & Pièges", items:[
+        "3² × 3⁴ = 3⁶ = 729  (on ADDITIONNE les exposants)",
+        "5⁶ ÷ 5² = 5⁴ = 625  (on SOUSTRAIT les exposants)",
+        "(2³)⁴ = 2¹² = 4096  (on MULTIPLIE les exposants)",
+        "⚠️ 3² + 3³ ≠ 3⁵   — la règle ne s'applique qu'aux PRODUITS !",
+        "⚠️ (-2)² = 4  mais  -2² = -4  (les parenthèses changent tout !)",
+        "Notation scientifique : 3,45 × 10⁴ = 34 500",
+      ]},
+    ]
+  },
+  {
+    id:"racines", title:"Racines carrées & Calcul littéral", emoji:"√", color:"#A78BFA",
+    content:[
+      { type:"section", title:"Racine carrée", items:[
+        { label:"Définition", text:"√a est le nombre positif dont le carré vaut a. Autrement dit : (√a)² = a, pour a ≥ 0.", bg:"#EDE9FE", border:"#7C3AED" },
+        { label:"Exemples", text:"√9 = 3  (car 3²=9)  |  √25 = 5  |  √144 = 12  |  √2 ≈ 1,414…  |  √3 ≈ 1,732…", bg:"#F3E8FF", border:"#9333EA" },
+        { label:"⚠️ Attention", text:"√(a+b) ≠ √a + √b   et   √(a²) = |a| (la valeur absolue de a, toujours positive).", bg:"#FEF3C7", border:"#D97706" },
+      ]},
+      { type:"formules", title:"Propriétés des racines carrées (a ≥ 0, b ≥ 0)", formules:[
+        { label:"Produit", f:"√(a×b) = √a × √b" },
+        { label:"Quotient", f:"√(a/b) = √a / √b  (b ≠ 0)" },
+        { label:"Carré d'une racine", f:"(√a)² = a" },
+        { label:"Racine d'un carré", f:"√(a²) = a  (si a ≥ 0)" },
+      ]},
+      { type:"section", title:"Calcul littéral — Identités remarquables", items:[
+        { label:"(a + b)² = a² + 2ab + b²", text:"Ex : (x+3)² = x² + 6x + 9", bg:"#DBEAFE", border:"#3B82F6" },
+        { label:"(a − b)² = a² − 2ab + b²", text:"Ex : (x−5)² = x² − 10x + 25", bg:"#D1FAE5", border:"#059669" },
+        { label:"(a + b)(a − b) = a² − b²", text:"Ex : (x+4)(x−4) = x² − 16  ← carré de la différence", bg:"#FCE7F3", border:"#DB2777" },
+      ]},
+      { type:"remarques", title:"Développer vs Factoriser", items:[
+        "Développer : transformer un produit en somme → (x+2)(x+3) = x²+5x+6",
+        "Factoriser : transformer une somme en produit → x²−9 = (x+3)(x−3)",
+        "Réduire : regrouper les termes semblables → 3x²+2x−x²+5x = 2x²+7x",
+        "⚠️ Ne jamais 'simplifier' des termes d'une somme comme si c'était un produit !",
+      ]},
+    ]
+  },
+  {
+    id:"ppcm", title:"PGCD & PPCM (méthode)", emoji:"🔗", color:"#22D3EE",
+    content:[
+      { type:"section", title:"PGCD par décomposition en facteurs premiers", items:[
+        { label:"Méthode ♥", text:"1) Décomposer les deux nombres en facteurs premiers. 2) Le PGCD = produit des facteurs communs avec le PLUS PETIT exposant.", bg:"#CFFAFE", border:"#0891B2" },
+        { label:"Exemple : PGCD(270, 252)", text:"270 = 2 × 3³ × 5  |  252 = 2² × 3² × 7\nFacteurs communs : 2 (expo min=1) et 3 (expo min=2)\nPGCD(270, 252) = 2¹ × 3² = 2 × 9 = 18", bg:"#ECFEFF", border:"#0891B2" },
+      ]},
+      { type:"section", title:"PPCM — Plus Petit Commun Multiple", items:[
+        { label:"Définition", text:"Le PPCM de a et b est le plus petit entier divisible à la fois par a et par b.", bg:"#CFFAFE", border:"#0891B2" },
+        { label:"Méthode ♥", text:"1) Décomposer les deux nombres. 2) Le PPCM = produit de TOUS les facteurs (communs ou non) avec le PLUS GRAND exposant.", bg:"#ECFEFF", border:"#0891B2" },
+        { label:"Exemple : PPCM(153, 187)", text:"153 = 3² × 17  |  187 = 11 × 17\nTous les facteurs : 3² , 11 , 17\nPPCM(153, 187) = 3² × 11 × 17 = 1 683", bg:"#DBEAFE", border:"#3B82F6" },
+      ]},
+      { type:"remarques", title:"Lien entre PGCD et PPCM", items:[
+        "PGCD(a,b) × PPCM(a,b) = a × b",
+        "Si PGCD(a,b) = 1 (premiers entre eux) alors PPCM(a,b) = a × b",
+        "Utilité du PPCM : trouver un dénominateur commun pour additionner des fractions.",
+        "Ex : pour additionner 1/6 + 1/9, on cherche PPCM(6,9) = 18 → 3/18 + 2/18 = 5/18",
+      ]},
+    ]
+  },
+  {
+    id:"thales", title:"Théorème de Thalès", emoji:"📐", color:"#34D399",
+    content:[
+      { type:"section", title:"Énoncé du théorème", items:[
+        { label:"Configuration ♥", text:"Deux droites (d) et (d') sécantes en A. B et M sur (d), distincts de A. C et N sur (d'), distincts de A.", bg:"#D1FAE5", border:"#059669" },
+        { label:"Si (BC) // (MN) alors :", text:"AM/AB = AN/AC = MN/BC\n(Les rapports des longueurs sont égaux)", bg:"#ECFDF5", border:"#059669" },
+        { label:"Remarque", text:"Ce théorème traduit une relation de proportionnalité entre les côtés des triangles AMN et ABC.", bg:"#FEF3C7", border:"#D97706" },
+      ]},
+      { type:"formules", title:"Utilisation : calculer une longueur inconnue", formules:[
+        { label:"On pose l'égalité des rapports", f:"AM/AB = AN/AC = MN/BC" },
+        { label:"On isole l'inconnue (produit en croix)", f:"Si AM/AB = MN/BC → AM × BC = AB × MN" },
+      ]},
+      { type:"section", title:"Réciproque du théorème de Thalès", items:[
+        { label:"Énoncé complet ♥", text:"Si AM/AB = AN/AC, ET que les points A, B, M sont alignés dans cet ordre, ET que A, C, N sont alignés dans cet ordre, ALORS (MN) // (BC).", bg:"#D1FAE5", border:"#059669" },
+        { label:"Contraposée", text:"Si AM/AB ≠ AN/AC (ou ≠ MN/BC), alors (MN) et (BC) NE SONT PAS parallèles.", bg:"#FEE2E2", border:"#DC2626" },
+        { label:"⚠️ DOUBLE CONDITION", text:"1) Égalité des rapports. 2) Points alignés dans le même ordre. LES DEUX sont indispensables pour conclure au parallélisme !", bg:"#FEF3C7", border:"#D97706" },
+      ]},
+    ]
+  },
+  {
+    id:"calcul_litteral", title:"Calcul littéral & Factorisation", emoji:"🔤", color:"#FB923C",
+    content:[
+      { type:"section", title:"Développer une expression", items:[
+        { label:"Définition", text:"Développer = transformer un produit en une somme algébrique.", bg:"#FFEDD5", border:"#EA580C" },
+        { label:"Règles (a, b, c, d relatifs)", text:"k(a+b) = ka + kb\nk(a−b) = ka − kb\n(a+b)(c+d) = ac + ad + bc + bd", bg:"#FED7AA", border:"#EA580C" },
+        { label:"Exemple", text:"3x(4x−5) = 12x² − 15x\n(3x−5)(−2x+9) = −6x²+27x+10x−45 = −6x²+37x−45", bg:"#FFEDD5", border:"#EA580C" },
+      ]},
+      { type:"section", title:"Factoriser une expression", items:[
+        { label:"Définition", text:"Factoriser = transformer une somme en un produit (l'inverse de développer).", bg:"#FFEDD5", border:"#EA580C" },
+        { label:"Méthode : facteur commun", text:"Repérer le plus grand facteur commun k, puis écrire ka + kb = k(a+b).\nEx : 4x²−12x = 4x(x−3)", bg:"#FED7AA", border:"#EA580C" },
+        { label:"Méthode : facteur commun non évident", text:"C(x) = (3x−5)(x−3) − (−4x+8)(x−3)\n= (x−3)[(3x−5) − (−4x+8)]\n= (x−3)(7x−13)", bg:"#FFEDD5", border:"#EA580C" },
+      ]},
+      { type:"section", title:"Identités remarquables (rappel)", items:[
+        { label:"(a+b)² = a²+2ab+b²", text:"Ex : (3x−5)² = 9x²−30x+25", bg:"#DBEAFE", border:"#3B82F6" },
+        { label:"(a−b)² = a²−2ab+b²", text:"Ex : (4x−7)² = 16x²−56x+49", bg:"#D1FAE5", border:"#059669" },
+        { label:"a²−b² = (a+b)(a−b)", text:"Factoriser avec cette identité : 25x²−49 = (5x+7)(5x−7)", bg:"#FCE7F3", border:"#DB2777" },
+      ]},
+    ]
+  },
+  {
+    id:"equations", title:"Équations", emoji:"⚖️", color:"#F472B6",
+    content:[
+      { type:"section", title:"Équation du 1er degré à une inconnue", items:[
+        { label:"Définition", text:"Une équation du 1er degré est une égalité contenant une inconnue (souvent x) dont le plus grand exposant est 1.", bg:"#FCE7F3", border:"#DB2777" },
+        { label:"Propriétés de base", text:"Si a = b alors : a+c = b+c | a−c = b−c | a×c = b×c | a/c = b/c (c≠0)", bg:"#FDF4FF", border:"#C026D3" },
+        { label:"Méthode", text:"1) Développer. 2) Regrouper les x d'un côté, les nombres de l'autre. 3) Diviser.", bg:"#FCE7F3", border:"#DB2777" },
+        { label:"Exemple", text:"−3(5x+2) = 4(2x−7)\n−15x−6 = 8x−28\n−15x−8x = −28+6\n−23x = −22 → x = 22/23", bg:"#FDF4FF", border:"#C026D3" },
+      ]},
+      { type:"section", title:"Équation produit nul", items:[
+        { label:"Propriété ♥", text:"Si a × b = 0 alors a = 0 OU b = 0. C'est la propriété du produit nul.", bg:"#FCE7F3", border:"#DB2777" },
+        { label:"Méthode", text:"1) Ramener à la forme A × B = 0. 2) Résoudre A = 0 et B = 0 séparément. 3) L'ensemble solution S contient les deux valeurs.", bg:"#FDF4FF", border:"#C026D3" },
+        { label:"Exemple", text:"(−3x+7)(2x+6) = 0\n→ −3x+7 = 0  ou  2x+6 = 0\n→ x = 7/3  ou  x = −3\nS = {7/3 ; −3}", bg:"#FCE7F3", border:"#DB2777" },
+        { label:"Exemple avec identité", text:"81x²−64 = 0 → (9x)²−8² = 0 → (9x+8)(9x−8) = 0\n→ x = −8/9  ou  x = 8/9", bg:"#FDF4FF", border:"#C026D3" },
+      ]},
+    ]
+  },
+  {
+    id:"trigonometrie", title:"Trigonométrie", emoji:"📏", color:"#60A5FA",
+    content:[
+      { type:"section", title:"Vocabulaire — Triangle rectangle en B", items:[
+        { label:"Hypoténuse", text:"Le côté opposé à l'angle droit. C'est le plus grand côté. Dans le triangle ABC rectangle en B : c'est [AC].", bg:"#DBEAFE", border:"#3B82F6" },
+        { label:"Côté adjacent à un angle", text:"Le côté qui forme l'angle avec l'hypoténuse (mais qui n'est pas l'hypoténuse).", bg:"#EFF6FF", border:"#3B82F6" },
+        { label:"Côté opposé à un angle", text:"Le côté qui ne touche pas l'angle étudié.", bg:"#DBEAFE", border:"#3B82F6" },
+      ]},
+      { type:"formules", title:"Les trois rapports trigonométriques (angle aigu x)", formules:[
+        { label:"cosinus", f:"cos(x) = côté adjacent / hypoténuse" },
+        { label:"sinus", f:"sin(x) = côté opposé / hypoténuse" },
+        { label:"tangente", f:"tan(x) = côté opposé / côté adjacent" },
+        { label:"Moyen mnémotechnique", f:"SOH-CAH-TOA" },
+      ]},
+      { type:"section", title:"Propriétés fondamentales", items:[
+        { label:"Propriété 1", text:"Dans un triangle rectangle, pour tout angle aigu x : 0 ≤ cos(x) ≤ 1  et  0 ≤ sin(x) ≤ 1", bg:"#DBEAFE", border:"#3B82F6" },
+        { label:"Propriété 2 ♥", text:"cos²(x) + sin²(x) = 1  (relation de Pythagore trigonométrique)", bg:"#EFF6FF", border:"#3B82F6" },
+        { label:"Propriété 3", text:"tan(x) = sin(x) / cos(x)", bg:"#DBEAFE", border:"#3B82F6" },
+      ]},
+      { type:"remarques", title:"Valeurs à connaître", items:[
+        "cos(30°) = √3/2 ≈ 0,866  |  sin(30°) = 1/2 = 0,5  |  tan(30°) = √3/3 ≈ 0,577",
+        "cos(45°) = √2/2 ≈ 0,707  |  sin(45°) = √2/2 ≈ 0,707  |  tan(45°) = 1",
+        "cos(60°) = 1/2 = 0,5  |  sin(60°) = √3/2 ≈ 0,866  |  tan(60°) = √3 ≈ 1,732",
+        "Pour calculer un angle : utiliser cos⁻¹, sin⁻¹ ou tan⁻¹ sur la calculatrice.",
+        "Ex : cos(x) = 0,6 → x = cos⁻¹(0,6) ≈ 53,13°",
+      ]},
+    ]
+  },
+  {
+    id:"statistiques", title:"Statistiques", emoji:"📊", color:"#E879F9",
+    content:[
+      { type:"section", title:"Vocabulaire de base", items:[
+        { label:"Population", text:"L'ensemble sur lequel porte l'étude statistique.", bg:"#FDF4FF", border:"#C026D3" },
+        { label:"Individu", text:"Un élément de la population.", bg:"#FAE8FF", border:"#C026D3" },
+        { label:"Caractère quantitatif", text:"Caractère mesurable, prend des valeurs numériques. Ex : la taille, l'âge, les notes.", bg:"#FDF4FF", border:"#C026D3" },
+        { label:"Caractère qualitatif", text:"Caractère non mesurable. Ex : la couleur des yeux, la nationalité.", bg:"#FAE8FF", border:"#C026D3" },
+      ]},
+      { type:"section", title:"Effectif et fréquence", items:[
+        { label:"Effectif d'une valeur", text:"Le nombre de fois où cette valeur apparaît dans la série.", bg:"#FDF4FF", border:"#C026D3" },
+        { label:"Effectif total N", text:"Le nombre total de valeurs dans la série.", bg:"#FAE8FF", border:"#C026D3" },
+        { label:"Fréquence ♥", text:"f = effectif de la valeur / effectif total. Toujours compris entre 0 et 1. La somme de toutes les fréquences = 1.", bg:"#FDF4FF", border:"#C026D3" },
+        { label:"Fréquence en %", text:"Multiplier la fréquence par 100. Ex : f=0,56 → 56%. La somme des % = 100%.", bg:"#FAE8FF", border:"#C026D3" },
+      ]},
+      { type:"formules", title:"Indicateurs de position", formules:[
+        { label:"Moyenne ♥", f:"m̄ = Σ(valeur × effectif) / effectif total" },
+        { label:"Médiane (N impair)", f:"Valeur de rang (N+1)/2 dans la série triée" },
+        { label:"Médiane (N pair)", f:"Moyenne des valeurs de rang N/2 et N/2+1" },
+        { label:"Mode", f:"Valeur ayant le plus grand effectif" },
+        { label:"Étendue", f:"e = valeur max − valeur min" },
+      ]},
+      { type:"remarques", title:"Méthode complète pour la médiane", items:[
+        "1) Trier les données dans l'ordre croissant.",
+        "2) Calculer l'effectif total N.",
+        "3) Si N impair : médiane = valeur centrale, de rang (N+1)/2. Ex : N=9 → rang 5.",
+        "4) Si N pair : médiane = moyenne des deux valeurs centrales (rang N/2 et N/2+1). Ex : N=10 → moyenne des rangs 5 et 6.",
+        "Astuce : utiliser les effectifs cumulés croissants pour repérer rapidement le bon rang.",
+        "La médiane partage la série en deux moitiés : 50% des valeurs en-dessous, 50% au-dessus.",
+        "⚠️ La moyenne n'est pas toujours l'une des valeurs de la série, mais est toujours entre le min et le max.",
+      ]},
+    ]
+  },
+  {
+    id:"fonctions", title:"Fonctions", emoji:"📈", color:"#FB7185",
+    content:[
+      { type:"section", title:"Définition d'une fonction", items:[
+        { label:"Définition ♥", text:"Une fonction numérique f est un procédé de calcul qui, à tout nombre relatif x, associe un unique nombre qu'on note f(x).", bg:"#FFF1F2", border:"#FB7185" },
+        { label:"Image et antécédent", text:"f(x) est l'IMAGE de x par f. x est un ANTÉCÉDENT de f(x) par f.", bg:"#FFE4E6", border:"#FB7185" },
+        { label:"Notation", text:"f : x → f(x)   où f est le nom, x est la variable, f(x) est l'image.", bg:"#FFF1F2", border:"#FB7185" },
+        { label:"⚠️ Ne pas confondre", text:"f est le procédé de calcul (la machine). f(x) est un nombre (le résultat). Ex : f : x → x²−4 donne f(3) = 3²−4 = 5.", bg:"#FEF3C7", border:"#D97706" },
+      ]},
+      { type:"section", title:"Tableau de valeurs", items:[
+        { label:"Définition", text:"Un tableau de valeurs donne la correspondance entre des valeurs de x et leurs images f(x).", bg:"#FFF1F2", border:"#FB7185" },
+        { label:"Exemple : g(x) = x²−4", text:"x : −4, −3, −2, −1, 0, 1, 2, 3, 4\ng(x) : 12, 5, 0, −3, −4, −3, 0, 5, 12", bg:"#FFE4E6", border:"#FB7185" },
+        { label:"Antécédents d'une valeur", text:"Pour trouver les antécédents de k, résoudre f(x) = k. Il peut y en avoir 0, 1 ou plusieurs.", bg:"#FFF1F2", border:"#FB7185" },
+      ]},
+      { type:"remarques", title:"Représentation graphique", items:[
+        "La courbe représentative Cf de f dans un repère orthogonal est l'ensemble des points (x ; f(x)).",
+        "Pour tracer : construire le tableau de valeurs, puis placer les points (x ; f(x)) dans le repère.",
+        "Lire l'image de a : trouver l'ordonnée du point de Cf d'abscisse a.",
+        "Lire un antécédent de b : trouver les abscisses des points de Cf d'ordonnée b.",
+        "Ex : f : x → x²−1. f(−3) = (−3)²−1 = 8. Antécédents de 0 : résoudre x²−1=0 → x=1 ou x=−1.",
+      ]},
+    ]
+  },
+  {
+    id:"triangles", title:"Triangles égaux et semblables", emoji:"🔺", color:"#38BDF8",
+    content:[
+      { type:"section", title:"Triangles égaux (isométriques)", items:[
+        { label:"Définition ♥", text:"Deux triangles sont égaux (isométriques) lorsque leurs côtés sont deux à deux de même longueur.", bg:"#E0F2FE", border:"#0284C7" },
+        { label:"Propriété 1 (admise)", text:"Si deux triangles sont égaux, alors leurs angles sont deux à deux de même mesure.", bg:"#BAE6FD", border:"#0284C7" },
+        { label:"Propriété 2 — CAS (admise)", text:"Côté-Angle-Côté : si deux triangles ont deux à deux un angle de même mesure COMPRIS ENTRE deux côtés de même longueur, alors ils sont égaux.", bg:"#E0F2FE", border:"#0284C7" },
+        { label:"Propriété 3 — ASA (admise)", text:"Angle-Côté-Angle : si deux triangles ont deux à deux un côté de même longueur COMPRIS ENTRE deux angles de même mesure, alors ils sont égaux.", bg:"#BAE6FD", border:"#0284C7" },
+      ]},
+      { type:"section", title:"Triangles semblables", items:[
+        { label:"Définition ♥", text:"Deux triangles sont semblables lorsque leurs angles sont deux à deux de même mesure.", bg:"#E0F2FE", border:"#0284C7" },
+        { label:"Remarque", text:"Si deux triangles sont égaux alors ils sont semblables. La réciproque est FAUSSE (semblables ≠ forcément égaux).", bg:"#FEF3C7", border:"#D97706" },
+        { label:"Propriété 4 (admise)", text:"Si deux triangles ont deux paires d'angles deux à deux de même mesure, alors ils sont semblables.", bg:"#BAE6FD", border:"#0284C7" },
+        { label:"Propriété 5 (admise) ♥", text:"Si deux triangles sont semblables, alors les longueurs des côtés opposés aux angles égaux sont proportionnelles.", bg:"#E0F2FE", border:"#0284C7" },
+      ]},
+      { type:"remarques", title:"Utilisation de la proportionnalité", items:[
+        "Si △ABC et △EFG sont semblables avec AB/EF = AC/EG = BC/FG.",
+        "On peut calculer un côté inconnu en utilisant cette égalité de rapports.",
+        "Ex : AB=9, BC=6, EF=3, EG=4. Calculer AC et FG.",
+        "AB/EF = 9/3 = 3 = AC/EG → AC = 3×EG = 3×4 = 12 cm",
+        "AB/EF = 9/3 = 3 = BC/FG → FG = BC/3 = 6/3 = 2 cm",
+        "⚠️ Bien identifier les côtés opposés aux MÊMES angles pour établir la bonne correspondance.",
+      ]},
+    ]
+  },
+];
+
+const exercises = [
+  {
+    id:"ex1", chapter:"Nature des nombres", emoji:"🔢", difficulty:"⭐",
+    question:"Classe chacun des nombres suivants dans l'ensemble le plus petit possible (ℕ, ℤ, 𝔻, ℚ, ou Irrationnel) :",
+    subs:["-7","3/4","0,25","√5","2/10","0","-2/3","π","-√4","9/3"],
+    answers:["-7 → ℤ","3/4 → ℚ (ne s'écrit pas a/10ⁿ)","0,25 = 25/100 → 𝔻","√5 → Irrationnel (≈2,236…)","2/10 = 0,2 → 𝔻","0 → ℕ","-2/3 → ℚ","π → Irrationnel","-√4 = -2 → ℤ (car √4=2 exactement)","9/3 = 3 → ℕ (simplification complète)"],
+  },
+  {
+    id:"ex2", chapter:"Nature des nombres", emoji:"🔢", difficulty:"⭐⭐",
+    question:"Vrai ou Faux ? Justifier chaque réponse.",
+    subs:["Tout entier naturel est un entier relatif","Tout rationnel est un décimal","√2 est un nombre rationnel","0,333… = 1/3 est un nombre décimal","-5 appartient à 𝔻","π appartient à ℚ"],
+    answers:["VRAI — ℕ ⊂ ℤ, donc tout entier naturel est bien relatif","FAUX — Ex : 1/3 est rationnel mais pas décimal (ne s'écrit pas a/10ⁿ)","FAUX — √2 est irrationnel, sa décomposition décimale ne se termine jamais","FAUX — 0,333… = 1/3 ne s'écrit pas a/10ⁿ, c'est un rationnel non décimal","VRAI — -5 = -50/10 = -5/10⁰, donc c'est un décimal","FAUX — π est irrationnel (démontré), il n'appartient pas à ℚ"],
+  },
+  {
+    id:"ex3", chapter:"Fractions", emoji:"➗", difficulty:"⭐⭐",
+    question:"Calculer et simplifier si possible (penser à mettre au même dénominateur) :",
+    subs:["A = 2/5 + 3/5","B = 7/4 − 1/4","C = 3/8 × 4/9","D = 5/6 ÷ 10/3","E = 1/2 + 1/3","F = 5/6 − 3/4","G = 2/3 × 9/8 ÷ 3/4"],
+    answers:["A = 5/5 = 1","B = 6/4 = 3/2","C = 12/72 = 1/6","D = 5/6 × 3/10 = 15/60 = 1/4","E = 3/6 + 2/6 = 5/6 (dénominateur commun = 6)","F = 10/12 − 9/12 = 1/12 (dénominateur commun = 12)","G = 2/3 × 9/8 × 4/3 = 72/72 = 1 (enchaîner les opérations)"],
+  },
+  {
+    id:"ex4", chapter:"Diviseurs & Critères", emoji:"🧮", difficulty:"⭐",
+    question:"Sans effectuer la division, dire si les nombres sont divisibles par 2, 3, 4, 5, 9 ou 10. Justifier.",
+    subs:["360","1 234","4 815","2 520","7 056","13 500"],
+    answers:[
+      "360 : ÷2✓ ÷3✓(3+6+0=9) ÷4✓(60=4×15) ÷5✓ ÷9✓(9÷9=1) ÷10✓",
+      "1234 : ÷2✓ | ÷3✗(1+2+3+4=10) | ÷4✗(34 pas multiple de 4) | ÷5✗ | ÷9✗ | ÷10✗",
+      "4815 : ÷2✗ | ÷3✓(4+8+1+5=18) | ÷4✗ | ÷5✓(finit par 5) | ÷9✓(18÷9=2) | ÷10✗",
+      "2520 : ÷2✓ ÷3✓(2+5+2+0=9) ÷4✓(20=4×5) ÷5✓ ÷9✓ ÷10✓",
+      "7056 : ÷2✓ | ÷3✓(7+0+5+6=18) | ÷4✓(56=4×14) | ÷5✗ | ÷9✓(18÷9=2) | ÷10✗",
+      "13500 : ÷2✓ ÷3✓(1+3+5+0+0=9) ÷4✓(00=0=4×0) ÷5✓ ÷9✓ ÷10✓",
+    ],
+  },
+  {
+    id:"ex5", chapter:"Division euclidienne", emoji:"🧮", difficulty:"⭐⭐",
+    question:"Effectuer la division euclidienne et écrire l'égalité a = b×q + r. Vérifier que r < b.",
+    subs:["857 ÷ 7","1 000 ÷ 13","3 456 ÷ 25","10 007 ÷ 17","999 ÷ 11"],
+    answers:[
+      "857 = 7 × 122 + 3   (3 < 7 ✓)",
+      "1000 = 13 × 76 + 12   (12 < 13 ✓)",
+      "3456 = 25 × 138 + 6   (6 < 25 ✓)",
+      "10007 = 17 × 588 + 11   (11 < 17 ✓ — vérif : 17×588=9996, 10007−9996=11)",
+      "999 = 11 × 90 + 9   (9 < 11 ✓ — vérif : 11×90=990, 999−990=9)",
+    ],
+  },
+  {
+    id:"ex6", chapter:"PGCD", emoji:"🧮", difficulty:"⭐⭐",
+    question:"Calculer le PGCD en listant les diviseurs. Dire si les nombres sont premiers entre eux.",
+    subs:["PGCD(12, 30)","PGCD(17, 51)","PGCD(35, 48)","PGCD(84, 126)","PGCD(100, 75)"],
+    answers:[
+      "Div(12)={1,2,3,4,6,12} | Div(30)={1,2,3,5,6,10,15,30} → PGCD=6 (non premiers entre eux)",
+      "Div(17)={1,17} | Div(51)={1,3,17,51} → PGCD=17 (non premiers entre eux)",
+      "Div(35)={1,5,7,35} | Div(48)={1,2,3,4,6,8,12,16,24,48} → PGCD=1 (PREMIERS ENTRE EUX ✓)",
+      "Div(84)={1,2,3,4,6,7,12,14,21,28,42,84} | Div(126)={1,2,3,6,7,9,14,18,21,42,63,126} → PGCD=42",
+      "Div(100)={1,2,4,5,10,20,25,50,100} | Div(75)={1,3,5,15,25,75} → PGCD=25",
+    ],
+  },
+  {
+    id:"ex7", chapter:"Facteurs premiers & Fractions irréductibles", emoji:"🔑", difficulty:"⭐⭐⭐",
+    question:"Décomposer en produit de facteurs premiers, puis réduire à la forme irréductible :",
+    subs:["360/252","1260/294","504/378","2310/1155"],
+    answers:[
+      "360=2³×3²×5 | 252=2²×3²×7 → PGCD=36 → 360/252 = 10/7",
+      "1260=2²×3²×5×7 | 294=2×3×7² → PGCD=42 → 1260/294 = 30/7",
+      "504=2³×3²×7 | 378=2×3³×7 → PGCD=126 → 504/378 = 4/3",
+      "2310=2×3×5×7×11 | 1155=3×5×7×11 → PGCD=1155 → 2310/1155 = 2/1 = 2",
+    ],
+  },
+  {
+    id:"ex8", chapter:"Puissances", emoji:"⚡", difficulty:"⭐⭐",
+    question:"Calculer ou simplifier (sans calculatrice) :",
+    subs:["A = 2³ × 2⁴","B = 5⁶ ÷ 5²","C = (3²)³","D = 10⁻³","E = 3² + 4²","F = (−2)⁴  et  −2⁴"],
+    answers:[
+      "A = 2³⁺⁴ = 2⁷ = 128",
+      "B = 5⁶⁻² = 5⁴ = 625",
+      "C = 3²ˣ³ = 3⁶ = 729",
+      "D = 1/10³ = 1/1000 = 0,001",
+      "E = 9 + 16 = 25  (pas de règle de puissance pour les sommes !)",
+      "(−2)⁴ = 16  (exposant pair, résultat positif)  |  −2⁴ = −16  (on élève 2 à la puissance 4 PUIS on met le signe −)",
+    ],
+  },
+  {
+    id:"ex9", chapter:"Puissances — Notation scientifique", emoji:"⚡", difficulty:"⭐⭐",
+    question:"Écrire en notation scientifique (a × 10ⁿ avec 1 ≤ a < 10) :",
+    subs:["0,00456","123 000 000","0,0000071","84 500","3,2 × 10² × 4 × 10³"],
+    answers:[
+      "0,00456 = 4,56 × 10⁻³",
+      "123 000 000 = 1,23 × 10⁸",
+      "0,0000071 = 7,1 × 10⁻⁶",
+      "84 500 = 8,45 × 10⁴",
+      "3,2 × 10² × 4 × 10³ = (3,2×4) × 10²⁺³ = 12,8 × 10⁵ = 1,28 × 10⁶",
+    ],
+  },
+  {
+    id:"ex10", chapter:"Racines carrées", emoji:"√", difficulty:"⭐⭐",
+    question:"Simplifier ou calculer :",
+    subs:["A = √36","B = √(9×25)","C = √50","D = √75","E = (√7)²","F = √(3²+4²)"],
+    answers:[
+      "A = 6  (car 6²=36)",
+      "B = √9 × √25 = 3 × 5 = 15",
+      "C = √(25×2) = 5√2  (forme simplifiée)",
+      "D = √(25×3) = 5√3",
+      "E = 7  (par définition : (√a)²=a)",
+      "F = √(9+16) = √25 = 5  (triangle rectangle 3-4-5 !)",
+    ],
+  },
+  {
+    id:"ex11", chapter:"Calcul littéral — Identités remarquables", emoji:"√", difficulty:"⭐⭐⭐",
+    question:"Développer et réduire :",
+    subs:["A = (x+4)²","B = (2x−3)²","C = (x+5)(x−5)","D = (3x+1)(3x−1)","E = (x+2)²−(x−2)²"],
+    answers:[
+      "A = x²+8x+16",
+      "B = 4x²−12x+9",
+      "C = x²−25  (identité a²−b²)",
+      "D = 9x²−1",
+      "E = (x²+4x+4)−(x²−4x+4) = 8x  (développer puis soustraire terme à terme)",
+    ],
+  },
+  {
+    id:"ex12", chapter:"Calcul littéral — Factorisation", emoji:"√", difficulty:"⭐⭐⭐",
+    question:"Factoriser en utilisant les identités remarquables :",
+    subs:["A = x²−49","B = 4x²−1","C = x²+6x+9","D = 9x²−12x+4","E = x²−10x+25"],
+    answers:[
+      "A = (x+7)(x−7)  [forme a²−b² avec a=x, b=7]",
+      "B = (2x+1)(2x−1)  [forme a²−b² avec a=2x, b=1]",
+      "C = (x+3)²  [forme a²+2ab+b² avec a=x, b=3]",
+      "D = (3x−2)²  [forme a²−2ab+b² avec a=3x, b=2 — vérif: (3x)²=9x², 2×3x×2=12x, 2²=4 ✓]",
+      "E = (x−5)²  [forme a²−2ab+b² avec a=x, b=5]",
+    ],
+  },
+  {
+    id:"ex13", chapter:"PPCM", emoji:"🔗", difficulty:"⭐⭐",
+    question:"Calculer le PGCD et le PPCM par décomposition en facteurs premiers :",
+    subs:["PGCD(270, 252)","PPCM(153, 187)","PGCD(120, 180) puis PPCM(120, 180)"],
+    answers:[
+      "270=2×3³×5 | 252=2²×3²×7 → PGCD = 2¹×3² = 18",
+      "153=3²×17 | 187=11×17 → PPCM = 3²×11×17 = 1 683",
+      "120=2³×3×5 | 180=2²×3²×5 → PGCD=2²×3×5=60 | PPCM=2³×3²×5=360  Vérif: 60×360=21600=120×180 ✓",
+    ],
+  },
+  {
+    id:"ex14", chapter:"Théorème de Thalès", emoji:"📐", difficulty:"⭐⭐",
+    question:"Dans chaque figure, les droites (BC) et (MN) sont parallèles. Calculer la longueur demandée.",
+    subs:[
+      "AM=2cm, AB=5cm, BC=4cm. Calculer MN.",
+      "AM=3cm, MN=4,5cm, BC=9cm. Calculer AB.",
+      "AB=8cm, AM=6cm, BC=10cm. Calculer MN.",
+    ],
+    answers:[
+      "AM/AB = MN/BC → 2/5 = MN/4 → MN = 4×2/5 = 8/5 = 1,6 cm",
+      "AM/AB = MN/BC → 3/AB = 4,5/9 = 1/2 → AB = 3×2 = 6 cm",
+      "MN/BC = AM/AB → MN/10 = 6/8 = 3/4 → MN = 10×3/4 = 7,5 cm",
+    ],
+  },
+  {
+    id:"ex15", chapter:"Réciproque de Thalès", emoji:"📐", difficulty:"⭐⭐⭐",
+    question:"Dans la figure, (BC) et (AD) sont sécantes en E. Dire si (CD) // (AB) en justifiant.",
+    subs:[
+      "CE=1,6cm ; EB=3,4cm ; EA=2,8cm ; ED=1,2cm",
+      "CE=3cm ; EB=6cm ; EA=5cm ; ED=2,5cm",
+    ],
+    answers:[
+      "EC/EB = 1,6/3,4 = 16/34 = 8/17 | ED/EA = 1,2/2,8 = 12/28 = 3/7 | 8/17 ≠ 3/7 → (CD) et (AB) ne sont PAS parallèles.",
+      "EC/EB = 3/6 = 1/2 | ED/EA = 2,5/5 = 1/2 | EC/EB = ED/EA = 1/2, et les points sont dans le même ordre → d'après la réciproque de Thalès, (CD) // (AB) ✓",
+    ],
+  },
+  {
+    id:"ex16", chapter:"Équations du 1er degré", emoji:"⚖️", difficulty:"⭐⭐",
+    question:"Résoudre les équations suivantes :",
+    subs:[
+      "5x + 3 = −7x + 2",
+      "−3(5x+2) = 4(2x−7)",
+      "2(3x−1) − 4(x+2) = 3x + 5",
+      "(x+3)/2 = (2x−1)/3",
+    ],
+    answers:[
+      "5x+7x = 2−3 → 12x = −1 → x = −1/12",
+      "−15x−6 = 8x−28 → −23x = −22 → x = 22/23",
+      "6x−2−4x−8 = 3x+5 → 2x−10 = 3x+5 → −x = 15 → x = −15",
+      "3(x+3) = 2(2x−1) → 3x+9 = 4x−2 → x = 11",
+    ],
+  },
+  {
+    id:"ex17", chapter:"Équations produit nul", emoji:"⚖️", difficulty:"⭐⭐⭐",
+    question:"Résoudre par la méthode du produit nul :",
+    subs:[
+      "(−3x+7)(2x+6) = 0",
+      "81x²−64 = 0",
+      "(x+1)(−3x+5) = (x+1)(3x−7)",
+    ],
+    answers:[
+      "−3x+7=0 → x=7/3  ou  2x+6=0 → x=−3 | S={7/3 ; −3}",
+      "(9x)²−8²=0 → (9x+8)(9x−8)=0 → x=−8/9 ou x=8/9 | S={−8/9 ; 8/9}",
+      "(x+1)(−3x+5)−(x+1)(3x−7)=0 → (x+1)[(−3x+5)−(3x−7)]=0 → (x+1)(−6x+12)=0 → x=−1 ou x=2 | S={−1 ; 2}",
+    ],
+  },
+  {
+    id:"ex18", chapter:"Trigonométrie", emoji:"📏", difficulty:"⭐⭐",
+    question:"Soit EFG un triangle rectangle en F, avec l'angle FEG = 30° et EG = 5 cm (hypoténuse).",
+    subs:[
+      "Calculer FG.",
+      "Calculer EF.",
+      "Si cos(ABC) = 0,6 dans un triangle rectangle en B, calculer sin(ABC) et tan(ABC)",
+    ],
+    answers:[
+      "cos(30°) = FG/EG (côté adjacent à E / hypoténuse) → FG = 5 × cos(30°) = 5 × (√3/2) ≈ 5 × 0,866 ≈ 4,33 cm",
+      "sin(30°) = EF/EG (côté opposé à E / hypoténuse) → EF = 5 × sin(30°) = 5 × 0,5 = 2,5 cm",
+      "cos²+sin²=1 → 0,36+sin²=1 → sin²=0,64 → sin=0,8 | tan = sin/cos = 0,8/0,6 = 4/3",
+    ],
+  },
+  {
+    id:"ex19", chapter:"Statistiques", emoji:"📊", difficulty:"⭐⭐",
+    question:"Les notes d'un élève sont : 7 (×7), 9 (×2), 11 (×3), 13 (×5), 18 (×4), 20 (×1). Calculer :",
+    subs:["L'effectif total N","La moyenne","La médiane","La note la plus fréquente (mode) et la fréquence de la note 13"],
+    answers:[
+      "N = 7+2+3+5+4+1 = 22 élèves",
+      "m = (7×7+9×2+11×3+13×5+18×4+20×1)/22 = (49+18+33+65+72+20)/22 = 257/22 ≈ 11,7",
+      "N=22 (pair) → médiane = moyenne des 11ème et 12ème valeurs. Effectifs cumulés : 7→7, 9→9, 11→12. Les 11ème et 12ème valeurs sont 11 et 11 → médiane = 11",
+      "Mode = 7 (effectif 7, le plus grand) | Fréquence de 13 = 5/22 ≈ 0,227 = 22,7%",
+    ],
+  },
+  {
+    id:"ex20", chapter:"Statistiques — Fréquences", emoji:"📊", difficulty:"⭐⭐",
+    question:"Dans une forêt, on a ramassé 12 cèpes, 28 girolles et 10 chanterelles.",
+    subs:["Calculer l'effectif total","Calculer la fréquence des girolles (fraction, décimal, %)","Calculer la fréquence des cèpes (fraction, décimal, %)","Vérifier que la somme des fréquences = 1"],
+    answers:[
+      "N = 12 + 28 + 10 = 50 champignons",
+      "Fréquence girolles = 28/50 = 14/25 = 0,56 = 56%",
+      "Fréquence cèpes = 12/50 = 6/25 = 0,24 = 24%",
+      "0,56 + 0,24 + 10/50 = 0,56 + 0,24 + 0,20 = 1,00 ✓",
+    ],
+  },
+  {
+    id:"ex21", chapter:"Fonctions — Image et antécédent", emoji:"📈", difficulty:"⭐⭐",
+    question:"Soit f : x → (x−5)² − 16",
+    subs:["Calculer f(−1)","Calculer f(0) et f(7)","Déterminer les antécédents de 0 par f (résoudre f(x) = 0)","Déterminer les antécédents de 20 par f"],
+    answers:[
+      "f(−1) = (−1−5)²−16 = (−6)²−16 = 36−16 = 20",
+      "f(0) = (0−5)²−16 = 25−16 = 9 | f(7) = (7−5)²−16 = 4−16 = −12",
+      "f(x)=0 → (x−5)²=16 → (x−5)²−4²=0 → (x−5−4)(x−5+4)=0 → (x−9)(x−1)=0 → x=9 ou x=1",
+      "f(x)=20 → (x−5)²−16=20 → (x−5)²=36 → x−5=±6 → x=11 ou x=−1",
+    ],
+  },
+  {
+    id:"ex22", chapter:"Fonctions — Tableau de valeurs", emoji:"📈", difficulty:"⭐",
+    question:"Soit g : x → x² − 4. Compléter le tableau de valeurs.",
+    subs:["g(−4)","g(−2)","g(0)","g(2) et g(4)","Quelles sont les antécédents de 0 par g ?"],
+    answers:[
+      "g(−4) = (−4)²−4 = 16−4 = 12",
+      "g(−2) = (−2)²−4 = 4−4 = 0",
+      "g(0) = 0²−4 = −4",
+      "g(2) = 4−4 = 0 | g(4) = 16−4 = 12",
+      "Les antécédents de 0 sont x = −2 et x = 2 (car g(−2)=0 et g(2)=0)",
+    ],
+  },
+  {
+    id:"ex23", chapter:"Triangles semblables", emoji:"🔺", difficulty:"⭐⭐⭐",
+    question:"Les triangles ABC et EFG sont semblables avec AB=9cm, BC=6cm, EF=3cm, EG=4cm.",
+    subs:["Calculer le rapport de similitude AB/EF","Calculer AC","Calculer FG","Calculer l'étendue des longueurs du triangle EFG si FG est trouvée"],
+    answers:[
+      "AB/EF = 9/3 = 3 (rapport de similitude = 3)",
+      "AB/EF = AC/EG → 3 = AC/4 → AC = 3×4 = 12 cm",
+      "AB/EF = BC/FG → 3 = 6/FG → FG = 6/3 = 2 cm",
+      "Étendue triangle EFG : max=4, min=2 → étendue = 4−2 = 2 cm",
+    ],
+  },
+];
+
+let currentTab = 'lessons';
+let currentLesson = 0;
+let currentEx = 0;
+let currentPb = 0;
+let revealed = {};
+let revealedPb = {};
+
+const problems = [
+  {
+    id:"pb1",
+    title:"La fête d'anniversaire",
+    emoji:"🎂",
+    difficulty:"⭐⭐",
+    theme:"Fractions & Nombres décimaux",
+    context:"Lucas organise sa fête d'anniversaire. Il commande 5 pizzas identiques pour ses amis. À la fin de la soirée, il reste 3/8 de pizza sur la première, 1/4 sur la deuxième, et les trois autres ont été entièrement mangées.",
+    steps:[
+      {
+        q:"Quelle fraction de pizza reste-t-il au total ? Donner le résultat sous la forme d'une fraction simplifiée.",
+        hint:"Mettre les fractions au même dénominateur avant d'additionner.",
+        correction:"3/8 + 1/4 = 3/8 + 2/8 = 5/8\nIl reste 5/8 de pizza au total.",
+      },
+      {
+        q:"Exprimer ce reste en nombre décimal. Ce nombre décimal appartient-il à ℕ, ℤ ou 𝔻 ?",
+        hint:"5/8 = 5 ÷ 8. Vérifier s'il peut s'écrire a/10ⁿ.",
+        correction:"5/8 = 0,625\n0,625 = 625/1000 = 625/10³ → c'est un nombre décimal.\nIl appartient à 𝔻 (et donc aussi à ℚ, mais pas à ℤ ni à ℕ).",
+      },
+      {
+        q:"Lucas veut partager équitablement ce reste entre ses 5 amis. Quelle fraction de pizza chaque ami reçoit-il ?",
+        hint:"Diviser 5/8 par 5.",
+        correction:"(5/8) ÷ 5 = (5/8) × (1/5) = 5/40 = 1/8\nChaque ami reçoit 1/8 de pizza.",
+      },
+    ],
+  },
+  {
+    id:"pb2",
+    title:"Le tournoi sportif",
+    emoji:"⚽",
+    difficulty:"⭐⭐",
+    theme:"Diviseurs & PGCD",
+    context:"Un collège organise un tournoi. Il y a 48 filles et 36 garçons qui souhaitent participer. Le professeur veut former des équipes mixtes identiques (même composition) en utilisant TOUS les élèves, sans qu'il en reste.",
+    steps:[
+      {
+        q:"Trouver tous les diviseurs communs de 48 et 36.",
+        hint:"Lister d'abord tous les diviseurs de 48, puis tous ceux de 36.",
+        correction:"Diviseurs de 48 : 1, 2, 3, 4, 6, 8, 12, 16, 24, 48\nDiviseurs de 36 : 1, 2, 3, 4, 6, 9, 12, 18, 36\nDiviseurs communs : 1, 2, 3, 4, 6, 12",
+      },
+      {
+        q:"Quel est le nombre maximum d'équipes que le professeur peut former ? Combien y aura-t-il de filles et de garçons par équipe dans ce cas ?",
+        hint:"Le nombre max d'équipes = PGCD(48, 36).",
+        correction:"PGCD(48, 36) = 12\nOn peut former au maximum 12 équipes.\nFilles par équipe : 48 ÷ 12 = 4 filles\nGarçons par équipe : 36 ÷ 12 = 3 garçons\nChaque équipe : 4 filles + 3 garçons = 7 joueurs.",
+      },
+      {
+        q:"Le nombre total d'élèves est-il divisible par 7 ? Justifier avec un critère de divisibilité.",
+        hint:"Calculer 48 + 36, puis appliquer le critère de divisibilité par 7 (division euclidienne).",
+        correction:"Total : 48 + 36 = 84 élèves\n84 = 7 × 12 + 0 → reste = 0\nDonc 84 est bien divisible par 7. ✓\nCohérent : 12 équipes × 7 joueurs = 84 élèves.",
+      },
+    ],
+  },
+  {
+    id:"pb3",
+    title:"La bibliothèque",
+    emoji:"📚",
+    difficulty:"⭐⭐⭐",
+    theme:"Nombres premiers & Fractions irréductibles",
+    context:"Une bibliothèque possède 360 romans et 252 BD. La bibliothécaire veut ranger tous ces livres dans des étagères identiques, chaque étagère ne contenant qu'un seul type de livre, et toutes les étagères étant remplies au maximum de la même façon.",
+    steps:[
+      {
+        q:"Décomposer 360 et 252 en produit de facteurs premiers.",
+        hint:"Diviser successivement par 2, puis 3, puis 5, etc.",
+        correction:"360 = 2 × 180 = 2 × 2 × 90 = 2 × 2 × 2 × 45 = 2³ × 9 × 5 = 2³ × 3² × 5\n252 = 2 × 126 = 2 × 2 × 63 = 2² × 63 = 2² × 9 × 7 = 2² × 3² × 7",
+      },
+      {
+        q:"En déduire le PGCD(360, 252), puis déterminer le nombre maximum d'étagères et le nombre de livres par étagère.",
+        hint:"Le PGCD se lit en prenant les facteurs communs avec le plus petit exposant.",
+        correction:"PGCD(360, 252) = 2² × 3² = 4 × 9 = 36\nNombre max d'étagères : 36\nRomans par étagère de romans : 360 ÷ 36 = 10\nBD par étagère de BD : 252 ÷ 36 = 7",
+      },
+      {
+        q:"Exprimer la fraction (romans/BD) sous sa forme irréductible. Interpréter le résultat.",
+        hint:"Utiliser les décompositions trouvées à la question 1 pour simplifier.",
+        correction:"360/252 = (2³ × 3² × 5) / (2² × 3² × 7)\n= (2 × 5) / 7 (on simplifie 2² et 3²)\n= 10/7\nLa fraction 10/7 est irréductible car PGCD(10, 7) = 1.\nInterprétation : pour 10 romans rangés, il y a 7 BD — on retrouve bien les chiffres par étagère.",
+      },
+    ],
+  },
+  {
+    id:"pb4",
+    title:"Le marché de Noël",
+    emoji:"🎄",
+    difficulty:"⭐⭐⭐",
+    theme:"Division euclidienne & Multiples",
+    context:"Une artisane fabrique des bougies et des porte-clés pour un marché de Noël. Elle a fabriqué 157 bougies et 98 porte-clés. Elle veut les vendre en lots : chaque lot contiendra le même nombre de bougies, et chaque lot le même nombre de porte-clés. Elle ne veut pas avoir de restes.",
+    steps:[
+      {
+        q:"Elle veut faire des lots de 6 bougies. Peut-elle écouler toutes ses bougies sans reste ? Effectuer la division euclidienne de 157 par 6.",
+        hint:"Écrire l'égalité a = b × q + r avec r < b.",
+        correction:"157 = 6 × 26 + 1   (car 6 × 26 = 156, et 157 − 156 = 1)\nReste = 1 ≠ 0 → Non, elle ne peut pas vendre toutes ses bougies en lots de 6 sans reste.\nIl lui resterait 1 bougie.",
+      },
+      {
+        q:"Trouver tous les diviseurs de 98 (pour les porte-clés). Quelles tailles de lot sont possibles ?",
+        hint:"98 = 2 × 49. Décomposer en facteurs premiers pour trouver tous les diviseurs.",
+        correction:"98 = 2 × 49 = 2 × 7²\nDiviseurs de 98 : 1, 2, 7, 14, 49, 98\nToutes ces valeurs sont des tailles de lots possibles pour les porte-clés (sans reste).",
+      },
+      {
+        q:"L'artisane décide finalement de vendre des porte-clés par lots de 7. Elle réalise 14 lots. A-t-elle utilisé tous ses porte-clés ? Si non, combien en reste-t-il ?",
+        hint:"Calculer 7 × 14 et comparer à 98.",
+        correction:"7 × 14 = 98\n98 = 98 → reste = 0 ✓\nOui, elle a utilisé exactement tous ses porte-clés ! (98 est un multiple de 7)",
+      },
+    ],
+  },
+  {
+    id:"pb5",
+    title:"La recette de cuisine",
+    emoji:"🍰",
+    difficulty:"⭐⭐",
+    theme:"Fractions & Proportions",
+    context:"Une recette de gâteau au chocolat pour 6 personnes nécessite : 3/4 de tasse de farine, 2/3 de tasse de sucre, 1/2 tasse de beurre et 3 œufs. Théo veut adapter la recette.",
+    steps:[
+      {
+        q:"Théo veut faire le gâteau pour 4 personnes. Calculer les nouvelles quantités de farine et de sucre.",
+        hint:"Multiplier chaque quantité par 4/6 = 2/3.",
+        correction:"Farine : 3/4 × 2/3 = 6/12 = 1/2 tasse\nSucre : 2/3 × 2/3 = 4/9 de tasse\nLe coefficient est 4/6 = 2/3 (on passe de 6 à 4 personnes).",
+      },
+      {
+        q:"Théo veut faire le gâteau pour 9 personnes. Combien d'œufs faut-il ? Est-ce que le résultat est un nombre entier ?",
+        hint:"Coefficient = 9/6 = 3/2. Multiplier 3 œufs par 3/2.",
+        correction:"Coefficient : 9/6 = 3/2\nŒufs : 3 × 3/2 = 9/2 = 4,5 œufs\nC'est 4,5, ce n'est pas un entier. En pratique, Théo arrondit à 4 ou 5 œufs.",
+      },
+      {
+        q:"Pour combien de personnes la recette donne-t-elle un nombre ENTIER d'œufs ? (Les seuls multiples de 6 entre 1 et 20 qui donnent un résultat entier de 3×n/6)",
+        hint:"On veut que 3 × n/6 = n/2 soit entier, donc n doit être un multiple de 2.",
+        correction:"3 œufs × n/6 = n/2 → entier si et seulement si n est pair.\nEntre 1 et 20, les valeurs qui fonctionnent : 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 personnes.",
+      },
+    ],
+  },
+  {
+    id:"pb6",
+    title:"Le concours de maths",
+    emoji:"🏆",
+    difficulty:"⭐⭐⭐",
+    theme:"Nombres premiers & Puissances",
+    context:"Dans un concours, les élèves doivent répondre à des questions sur les nombres. Voici les 3 questions posées. Aide ton fils à y répondre !",
+    steps:[
+      {
+        q:"Question 1 — Un nombre est divisible par 8 et par 9. Est-il nécessairement divisible par 72 ? Justifier.",
+        hint:"8 = 2³ et 9 = 3². Ces deux nombres sont-ils premiers entre eux ? PGCD(8,9) = ?",
+        correction:"PGCD(8, 9) = 1 (8 = 2³ et 9 = 3², aucun facteur commun).\nDonc si un nombre est divisible par 8 ET par 9, il est divisible par 8 × 9 = 72.\nOUI, c'est nécessairement vrai quand les deux diviseurs sont premiers entre eux.",
+      },
+      {
+        q:"Question 2 — Décomposer 2025 en facteurs premiers. Que remarque-t-on ?",
+        hint:"Commencer par vérifier la divisibilité par 3, puis continuer.",
+        correction:"2025 ÷ 3 = 675\n675 ÷ 3 = 225\n225 ÷ 3 = 75\n75 ÷ 3 = 25\n25 ÷ 5 = 5\n5 ÷ 5 = 1\nDonc 2025 = 3⁴ × 5² = 81 × 25\nRemarque : 2025 = 45² = (9 × 5)² — c'est un carré parfait !",
+      },
+      {
+        q:"Question 3 — Calculer 2⁰ + 2¹ + 2² + 2³ + 2⁴ + 2⁵. Que vaut 2⁶ − 1 ? Conclure.",
+        hint:"Calculer chaque puissance de 2 séparément, puis additionner.",
+        correction:"2⁰=1, 2¹=2, 2²=4, 2³=8, 2⁴=16, 2⁵=32\nSomme = 1+2+4+8+16+32 = 63\n2⁶ − 1 = 64 − 1 = 63 ✓\nConclusion : 1 + 2 + 4 + … + 2ⁿ = 2ⁿ⁺¹ − 1 (propriété générale des suites géométriques de raison 2)",
+      },
+    ],
+  },
+  {
+    id:"pb7",
+    title:"La piscine municipale",
+    emoji:"🏊",
+    difficulty:"⭐⭐⭐",
+    theme:"Racines carrées & Calcul littéral",
+    context:"La ville construit une piscine carrée dont l'aire est de 1 156 m². À côté, on installe un bassin rectangulaire de dimensions (x+5) mètres par (x−5) mètres.",
+    steps:[
+      {
+        q:"Calculer le côté de la piscine carrée. Est-ce un nombre entier ? Justifier.",
+        hint:"Le côté = √1156. Essayer de décomposer 1156 en facteurs premiers.",
+        correction:"1156 = 4 × 289 = 2² × 17²\n√1156 = √(2² × 17²) = 2 × 17 = 34\nOui, c'est un entier. Le côté de la piscine est 34 mètres.",
+      },
+      {
+        q:"Développer l'expression (x+5)(x−5) pour calculer l'aire du bassin rectangulaire.",
+        hint:"Reconnaître une identité remarquable : (a+b)(a−b) = a² − b²",
+        correction:"(x+5)(x−5) = x² − 5² = x² − 25\nL'aire du bassin est (x² − 25) m².",
+      },
+      {
+        q:"Si x = 34 m (même longueur que le côté de la piscine), calculer l'aire du bassin. Quelle est la différence d'aire avec la piscine carrée ?",
+        hint:"Substituer x = 34 dans l'expression trouvée à la question 2.",
+        correction:"Aire bassin = 34² − 25 = 1156 − 25 = 1131 m²\nAire piscine carrée = 1156 m²\nDifférence = 1156 − 1131 = 25 m²\nLogique : la différence est exactement b² = 5² = 25 m², comme le montre l'identité !",
+      },
+    ],
+  },
+  {
+    id:"pb8",
+    title:"Le pont de la rivière",
+    emoji:"🌉",
+    difficulty:"⭐⭐⭐",
+    theme:"Théorème de Thalès",
+    context:"Des géomètres veulent mesurer la largeur AB d'une rivière sans la traverser. Ils placent des piquets M et N sur la rive (M sur [AB] et N sur [AC]), et des piquets B et C sur l'autre rive de sorte que (MN) // (BC). Ils mesurent : AM = 4 m, MB = 6 m, AN = 3 m, MN = 5 m.",
+    steps:[
+      {
+        q:"Vérifier que les conditions d'application du théorème de Thalès sont bien réunies.",
+        hint:"Il faut deux droites sécantes en A, et (MN) // (BC).",
+        correction:"Les droites (AB) et (AC) sont sécantes en A.\nM est sur (AB), N est sur (AC), distincts de A.\n(MN) // (BC) est donné.\nToutes les conditions sont réunies ✓",
+      },
+      {
+        q:"Calculer la longueur NC.",
+        hint:"Appliquer AM/AB = AN/AC. D'abord trouver AB = AM + MB.",
+        correction:"AB = AM + MB = 4 + 6 = 10 m\nd'après Thalès : AM/AB = AN/AC → 4/10 = 3/AC → AC = 3×10/4 = 7,5 m\nNC = AC − AN = 7,5 − 3 = 4,5 m",
+      },
+      {
+        q:"Calculer la largeur BC de la rivière.",
+        hint:"Utiliser le rapport MN/BC = AM/AB.",
+        correction:"AM/AB = MN/BC → 4/10 = 5/BC → BC = 5×10/4 = 12,5 m\nLa rivière fait 12,5 m de large.",
+      },
+    ],
+  },
+  {
+    id:"pb9",
+    title:"Le plan incliné",
+    emoji:"⛰️",
+    difficulty:"⭐⭐⭐",
+    theme:"Trigonométrie",
+    context:"Une piste de ski forme un angle de 25° avec l'horizontale. La longueur de la piste (l'hypoténuse) est de 800 m. On cherche la dénivelée (hauteur) et la distance horizontale.",
+    steps:[
+      {
+        q:"Faire un schéma et identifier : l'angle (25°), l'hypoténuse (800 m), le côté opposé (dénivelée h) et le côté adjacent (distance horizontale d).",
+        hint:"Triangle rectangle : angle de 25°, hypoténuse = 800 m.",
+        correction:"Schéma : triangle rectangle avec l'angle de 25° en bas à gauche.\nHypoténuse = piste = 800 m\nCôté opposé = dénivelée h (hauteur)\nCôté adjacent = distance horizontale d",
+      },
+      {
+        q:"Calculer la dénivelée h (hauteur de la piste).",
+        hint:"sin(25°) = côté opposé / hypoténuse",
+        correction:"sin(25°) = h/800 → h = 800 × sin(25°) ≈ 800 × 0,4226 ≈ 338 m\nLa dénivelée est d'environ 338 m.",
+      },
+      {
+        q:"Calculer la distance horizontale d. Vérifier avec le théorème de Pythagore.",
+        hint:"cos(25°) = d/800, puis vérifier d² + h² = 800²",
+        correction:"cos(25°) = d/800 → d = 800 × cos(25°) ≈ 800 × 0,9063 ≈ 725 m\nVérif Pythagore : 725² + 338² ≈ 525 625 + 114 244 = 639 869 ≈ 640 000 = 800² ✓ (écart dû aux arrondis intermédiaires)",
+      },
+    ],
+  },
+  {
+    id:"pb10",
+    title:"Les résultats de la classe",
+    emoji:"📊",
+    difficulty:"⭐⭐",
+    theme:"Statistiques",
+    context:"Voici les notes sur 20 d'une classe de 30 élèves lors d'un contrôle de maths : 8 (×3), 10 (×5), 12 (×8), 14 (×7), 16 (×4), 18 (×2), 20 (×1).",
+    steps:[
+      {
+        q:"Vérifier que l'effectif total est bien 30. Construire le tableau des effectifs cumulés croissants.",
+        hint:"Additionner les effectifs un par un.",
+        correction:"3+5+8+7+4+2+1 = 30 ✓\nEffectifs cumulés : 8→3, 10→8, 12→16, 14→23, 16→27, 18→29, 20→30",
+      },
+      {
+        q:"Calculer la moyenne de la classe.",
+        hint:"m = Σ(valeur × effectif) / effectif total",
+        correction:"m = (8×3 + 10×5 + 12×8 + 14×7 + 16×4 + 18×2 + 20×1) / 30\n= (24+50+96+98+64+36+20) / 30\n= 388 / 30 ≈ 12,9",
+      },
+      {
+        q:"Déterminer la médiane et l'étendue. Interpréter la médiane.",
+        hint:"N=30 (pair) → médiane = moyenne des 15ème et 16ème valeurs.",
+        correction:"N=30 → médiane = moyenne des 15ème et 16ème valeurs.\nCumulés : jusqu'à 12 on a 16 valeurs. La 15ème et 16ème valeur sont toutes les deux 12.\nMédiane = 12.\nÉtendue = 20 − 8 = 12\nInterprétation : la médiane est 12 → au moins la moitié des élèves a une note inférieure ou égale à 12, et au moins la moitié a une note supérieure ou égale à 12.",
+      },
+    ],
+  },
+  {
+    id:"pb11",
+    title:"Le salaire médian",
+    emoji:"💼",
+    difficulty:"⭐⭐",
+    theme:"Statistiques — Médiane & Étendue",
+    context:"Les salaires (en €) des employés d'une PME sont : Ouvrier (950€, ×50), Ouvrier spécialisé (1 300€, ×25), Cadre moyen (1 700€, ×15), Cadre supérieur (2 500€, ×10), Dirigeant (8 000€, ×2).",
+    steps:[
+      {
+        q:"Calculer l'effectif total N et compléter les effectifs cumulés croissants.",
+        hint:"Additionner les effectifs catégorie par catégorie.",
+        correction:"N = 50+25+15+10+2 = 102 employés\nCumulés : 950→50, 1300→75, 1700→90, 2500→100, 8000→102",
+      },
+      {
+        q:"Déterminer le salaire médian. N est-il pair ou impair ?",
+        hint:"N=102 pair → médiane = moyenne des 51ème et 52ème valeurs.",
+        correction:"N=102 est pair → médiane = moyenne des 51ème et 52ème valeurs.\nCumulé jusqu'à 1300€ : 75 valeurs. La 51ème et 52ème valeur sont donc à 1 300€.\nMédiane = (1300+1300)/2 = 1 300€",
+      },
+      {
+        q:"Calculer l'étendue des salaires. Interpréter ce résultat par rapport à la médiane.",
+        hint:"Étendue = max − min.",
+        correction:"Étendue = 8000 − 950 = 7 050€\nInterprétation : les salaires varient énormément (7050€ d'écart entre le plus bas et le plus haut).\nPourtant la médiane est 1300€ → la moitié des employés gagne ≤ 1300€.\nLa moyenne serait tirée vers le haut par les hauts salaires, mais la médiane reflète mieux la réalité de la majorité.",
+      },
+    ],
+  },
+  {
+    id:"pb12",
+    title:"La fonction mystère",
+    emoji:"📈",
+    difficulty:"⭐⭐⭐",
+    theme:"Fonctions",
+    context:"Soit la fonction f définie par f(x) = x² − 1 pour tout nombre x.",
+    steps:[
+      {
+        q:"Compléter le tableau de valeurs pour x allant de −3 à 3 (par pas de 0,5).",
+        hint:"Calculer f(x) = x²−1 pour chaque valeur. Ex : f(−3) = (−3)²−1 = 8.",
+        correction:"f(−3)=8 | f(−2,5)=5,25 | f(−2)=3 | f(−1,5)=1,25 | f(−1)=0 | f(−0,5)=−0,75\nf(0)=−1 | f(0,5)=−0,75 | f(1)=0 | f(1,5)=1,25 | f(2)=3 | f(2,5)=5,25 | f(3)=8",
+      },
+      {
+        q:"Quelles sont les antécédents de 0 par f ? Et de −1 ?",
+        hint:"Résoudre f(x)=0 puis f(x)=−1.",
+        correction:"f(x)=0 → x²−1=0 → x²=1 → x=1 ou x=−1\nf(x)=−1 → x²−1=−1 → x²=0 → x=0\nAntécédents de 0 : x=1 et x=−1 | Antécédent de −1 : x=0 (unique)",
+      },
+      {
+        q:"D'après le tableau, pour quelles valeurs de x a-t-on f(x) < 0 ? Interpréter graphiquement.",
+        hint:"Repérer les lignes où f(x) est négatif dans le tableau.",
+        correction:"f(x) < 0 pour −1 < x < 1 (entre −1 et 1 exclus).\nGraphiquement : la courbe de f est en-dessous de l'axe des abscisses entre x=−1 et x=1.\nLa courbe touche l'axe des x en x=−1 et x=1 (les antécédents de 0).",
+      },
+    ],
+  },
+];
+
+
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab-btn').forEach((b,i) => {
+    b.classList.toggle('active',
+      (i===0 && tab==='lessons') ||
+      (i===1 && tab==='exercises') ||
+      (i===2 && tab==='problems') ||
+      (i===3 && tab==='quiz')
+    );
+  });
+  ['lessons','exercises','problems','quiz'].forEach(t => {
+    document.getElementById('tab-'+t).classList.toggle('active', t===tab);
+  });
+  if (tab === 'quiz') renderQuizStart();
+}
+
+function renderLessons() {
+  const pillsEl = document.getElementById('lesson-pills');
+  pillsEl.innerHTML = lessons.map((l,i) => `
+    <button class="pill" id="lpill-${i}" onclick="selectLesson(${i})">${l.emoji} ${l.title}</button>
+  `).join('');
+  selectLesson(0);
+}
+
+function selectLesson(i) {
+  currentLesson = i;
+  document.querySelectorAll('#lesson-pills .pill').forEach((p,j) => {
+    const l = lessons[j];
+    p.style.borderColor = j===i ? l.color : '#334155';
+    p.style.color = j===i ? l.color : '#94A3B8';
+    p.style.background = j===i ? l.color+'22' : 'transparent';
+    p.style.fontWeight = j===i ? 'bold' : 'normal';
+  });
+  const l = lessons[i];
+  document.getElementById('lesson-content').innerHTML = l.content.map(block => renderBlock(block, l.color)).join('');
+}
+
+function renderBlock(block, color) {
+  let html = `<div class="block"><h2 class="block-title" style="color:${color};border-bottom-color:${color}44">${block.title}</h2>`;
+  if (block.type === 'section') {
+    html += block.items.map(item => `
+      <div class="card" style="background:${item.bg};border:1px solid ${item.border}">
+        <strong>${item.label}</strong>
+        <p>${item.text}</p>
+      </div>`).join('');
+  } else if (block.type === 'inclusion') {
+    html += `<div class="inclusion-box">
+      <div class="inclusion-schema">${block.schema}</div>
+      <p class="inclusion-note">${block.note}</p>
+    </div>`;
+  } else if (block.type === 'remarques') {
+    html += `<ul class="remark-list">${block.items.map(it=>`<li>${it}</li>`).join('')}</ul>`;
+  } else if (block.type === 'formules') {
+    html += block.formules.map(f=>`
+      <div class="formule-row">
+        <span class="formule-label">${f.label}</span>
+        <code class="formule-code">${f.f}</code>
+      </div>`).join('');
+  } else if (block.type === 'criteres') {
+    html += `<div class="criteres-grid">${block.criteres.map(c=>`
+      <div class="critere-card">
+        <div class="critere-by">÷${c.par}</div>
+        <p class="critere-rule">${c.regle}</p>
+      </div>`).join('')}</div>`;
+  } else if (block.type === 'division') {
+    html += `
+      <div class="division-box">
+        <div class="division-formule">${block.formule}</div>
+        <p class="division-legend">${block.legende}</p>
+      </div>
+      <div class="dark-card"><strong>Exemple :</strong><p>${block.exemple}</p></div>
+      <div class="warn-box">⚠️ ${block.remarque}</div>`;
+  }
+  html += '</div>';
+  return html;
+}
+
+function renderExercises() {
+  const pillsEl = document.getElementById('ex-pills');
+  pillsEl.innerHTML = exercises.map((ex,i) => `
+    <button class="pill" id="expill-${i}" onclick="selectEx(${i})">Ex ${i+1} ${ex.difficulty}</button>
+  `).join('');
+  selectEx(0);
+}
+
+function selectEx(i) {
+  currentEx = i;
+  revealed = {};
+  document.querySelectorAll('#ex-pills .pill').forEach((p,j) => {
+    p.style.borderColor = j===i ? '#F59E0B' : '#334155';
+    p.style.color = j===i ? '#FCD34D' : '#94A3B8';
+    p.style.background = j===i ? '#F59E0B22' : 'transparent';
+  });
+  renderExContent();
+}
+
+function renderExContent() {
+  const ex = exercises[currentEx];
+  const subsHtml = ex.subs.map((sq, si) => {
+    const key = ex.id + si;
+    const isRevealed = revealed[key];
+    return `
+      <div class="sub-card">
+        <div class="sub-label">${String.fromCharCode(65+si)}) ${sq}</div>
+        ${isRevealed
+          ? `<div class="correction">✓ ${ex.answers[si]}</div>`
+          : `<button class="reveal-btn" onclick="revealAnswer('${ex.id}',${si})">Voir la correction →</button>`
+        }
+      </div>`;
+  }).join('');
+
+  document.getElementById('ex-content').innerHTML = `
+    <div class="ex-card">
+      <div class="ex-meta">
+        <span class="ex-chapter">${ex.emoji} ${ex.chapter}</span>
+        <span style="font-size:16px">${ex.difficulty}</span>
+      </div>
+      <p class="ex-question">${ex.question}</p>
+      ${subsHtml}
+    </div>
+    <div class="nav-btns">
+      <button class="nav-btn" onclick="selectEx(${currentEx-1})" ${currentEx===0?'disabled':''}>← Exercice précédent</button>
+      <button class="nav-btn" onclick="selectEx(${currentEx+1})" ${currentEx===exercises.length-1?'disabled':''}>Exercice suivant →</button>
+    </div>`;
+}
+
+const CODE = 'qsdf';
+
+function askCode(onSuccess) {
+  const input = prompt('🔒 Entrez le code pour voir la correction :');
+  if (input === null) return; // annulé
+  if (input.trim() === CODE) {
+    onSuccess();
+  } else {
+    alert('❌ Code incorrect. Cherche encore un peu !');
+  }
+}
+
+function revealAnswer(exId, si) {
+  askCode(() => {
+    revealed[exId + si] = true;
+    renderExContent();
+  });
+}
+
+function renderProblems() {
+  const pillsEl = document.getElementById('pb-pills');
+  pillsEl.innerHTML = problems.map((pb,i) => `
+    <button class="pill" id="pbpill-${i}" onclick="selectPb(${i})">${pb.emoji} Pb ${i+1} ${pb.difficulty}</button>
+  `).join('');
+  selectPb(0);
+}
+
+function selectPb(i) {
+  currentPb = i;
+  revealedPb = {};
+  document.querySelectorAll('#pb-pills .pill').forEach((p,j) => {
+    p.style.borderColor = j===i ? '#A78BFA' : '#334155';
+    p.style.color = j===i ? '#C4B5FD' : '#94A3B8';
+    p.style.background = j===i ? '#7C3AED22' : 'transparent';
+    p.style.fontWeight = j===i ? 'bold' : 'normal';
+  });
+  renderPbContent();
+}
+
+function renderPbContent() {
+  const pb = problems[currentPb];
+  const stepsHtml = pb.steps.map((step, si) => {
+    const key = pb.id + si;
+    const shown = revealedPb[key];
+    const corrLines = step.correction.split('\n').map(l => `<div>${l}</div>`).join('');
+    return `
+      <div class="pb-step">
+        <div class="pb-step-header">
+          <div class="pb-step-num">${si+1}</div>
+          <div class="pb-step-q">${step.q}</div>
+        </div>
+        ${step.hint ? `` : ''}
+        ${shown
+          ? `<div class="pb-correction">
+               <div class="pb-correction-title">✓ CORRECTION</div>
+               <div class="pb-correction-text">${corrLines}</div>
+             </div>`
+          : `<button class="reveal-btn" style="margin-top:8px" onclick="revealPb('${pb.id}',${si})">Voir la correction →</button>`
+        }
+      </div>`;
+  }).join('');
+
+  document.getElementById('pb-content').innerHTML = `
+    <div class="pb-context">
+      <div class="pb-context-tag">📐 ${pb.theme}</div>
+      <h2 style="color:#E2E8F0;font-size:17px;margin-bottom:10px">${pb.emoji} ${pb.title}</h2>
+      <p class="pb-context-text">${pb.context}</p>
+    </div>
+    ${stepsHtml}
+    <div class="nav-btns" style="margin-top:16px">
+      <button class="nav-btn" onclick="selectPb(${currentPb-1})" ${currentPb===0?'disabled':''}>← Problème précédent</button>
+      <button class="nav-btn" onclick="selectPb(${currentPb+1})" ${currentPb===problems.length-1?'disabled':''}>Problème suivant →</button>
+    </div>`;
+}
+
+function revealPb(pbId, si) {
+  askCode(() => {
+    revealedPb[pbId + si] = true;
+    renderPbContent();
+  });
+}
+
+// ===== QUIZ DATA =====
+const allQuestions = [
+  // Nature des nombres
+  { cat:"Nature des nombres", q:"-7 appartient à quel ensemble ?", choices:["ℕ uniquement","ℤ uniquement","𝔻 uniquement","ℚ uniquement"], correct:1, expl:"-7 est un entier négatif → il appartient à ℤ (et aussi ℚ, mais l'ensemble le plus petit est ℤ)." },
+  { cat:"Nature des nombres", q:"Quel nombre N'est PAS un décimal ?", choices:["0,25","−0,18","1/3","3/10"], correct:2, expl:"1/3 ne peut pas s'écrire a/10ⁿ car 3 n'est pas une puissance de 10." },
+  { cat:"Nature des nombres", q:"ℕ ⊂ ℤ signifie :", choices:["ℤ est inclus dans ℕ","ℕ est inclus dans ℤ","ℕ et ℤ sont égaux","ℕ et ℤ sont disjoints"], correct:1, expl:"⊂ signifie 'est inclus dans'. Tout entier naturel est aussi un entier relatif." },
+  { cat:"Nature des nombres", q:"√2 est un nombre :", choices:["Entier naturel","Décimal","Rationnel","Irrationnel"], correct:3, expl:"√2 ne peut pas s'écrire sous forme de fraction. C'est un nombre irrationnel." },
+  { cat:"Nature des nombres", q:"0 appartient à :", choices:["ℕ seulement","ℤ seulement","ℚ seulement","ℕ, ℤ, 𝔻 et ℚ"], correct:3, expl:"0 est entier naturel, donc aussi entier relatif, décimal et rationnel." },
+  { cat:"Nature des nombres", q:"3/4 est-il un nombre décimal ?", choices:["Non, 4 n'est pas puissance de 10","Oui : 3/4=0,75=75/100","Non, c'est seulement rationnel","On ne peut pas savoir"], correct:1, expl:"3/4=0,75=75/10². On peut l'écrire a/10ⁿ donc c'est bien un décimal." },
+  { cat:"Nature des nombres", q:"π appartient à :", choices:["ℚ","𝔻","ℤ","Aucun — c'est un irrationnel"], correct:3, expl:"π est irrationnel. Il n'appartient ni à ℕ, ℤ, 𝔻 ni ℚ." },
+  { cat:"Nature des nombres", q:"Laquelle est FAUSSE ?", choices:["Tout décimal est rationnel","Tout entier relatif est rationnel","Tout rationnel est décimal","ℕ ⊂ ℤ"], correct:2, expl:"FAUX : 1/3 est rationnel mais pas décimal. La réciproque n'est pas vraie." },
+  { cat:"Nature des nombres", q:"-√4 appartient à quel ensemble (le plus petit) ?", choices:["Irrationnel","𝔻","ℤ","ℕ"], correct:2, expl:"-√4 = -2. C'est un entier négatif → ℤ." },
+  { cat:"Nature des nombres", q:"9/3 appartient à quel ensemble (le plus petit) ?", choices:["ℚ","𝔻","ℤ","ℕ"], correct:3, expl:"9/3 = 3. C'est un entier naturel → ℕ." },
+
+  // Fractions
+  { cat:"Fractions", q:"2/7 + 3/7 = ?", choices:["5/14","5/7","1/7","6/49"], correct:1, expl:"Même dénominateur → (2+3)/7 = 5/7." },
+  { cat:"Fractions", q:"3/4 × 8/9 = ?", choices:["11/13","2/3","24/36","3/8"], correct:1, expl:"(3×8)/(4×9)=24/36=2/3." },
+  { cat:"Fractions", q:"5/6 ÷ 5/3 = ?", choices:["25/18","1/2","3/6","1/3"], correct:1, expl:"5/6 × 3/5 = 15/30 = 1/2." },
+  { cat:"Fractions", q:"L'inverse de 3/7 est :", choices:["−3/7","7/3","3/7","1/21"], correct:1, expl:"Inverse de a/b = b/a." },
+  { cat:"Fractions", q:"1/2 + 1/3 = ?", choices:["2/5","2/6","5/6","1/6"], correct:2, expl:"3/6 + 2/6 = 5/6." },
+  { cat:"Fractions", q:"Quelle fraction est égale à 0,4 ?", choices:["4/100","2/5","4/5","1/4"], correct:1, expl:"0,4 = 4/10 = 2/5." },
+  { cat:"Fractions", q:"5/6 − 3/4 = ?", choices:["2/2","1/12","2/12","1/6"], correct:1, expl:"10/12 − 9/12 = 1/12." },
+  { cat:"Fractions", q:"2/3 × 9/8 = ?", choices:["18/24","3/4","11/11","6/11"], correct:1, expl:"18/24 = 3/4." },
+  { cat:"Fractions", q:"Laquelle est déjà irréductible ?", choices:["4/6","9/15","5/7","8/12"], correct:2, expl:"PGCD(5,7)=1 → irréductible. Les autres se simplifient." },
+  { cat:"Fractions", q:"3/8 de 400 = ?", choices:["150","100","120","75"], correct:0, expl:"3/8 × 400 = 1200/8 = 150." },
+
+  // Divisibilité
+  { cat:"Divisibilité", q:"1 234 est-il divisible par 3 ?", choices:["Oui","Non"], correct:1, expl:"1+2+3+4=10. 10 n'est pas divisible par 3." },
+  { cat:"Divisibilité", q:"Quel nombre est divisible par 9 ?", choices:["1 234","4 815","3 572","2 461"], correct:1, expl:"4815 : 4+8+1+5=18=9×2 ✓" },
+  { cat:"Divisibilité", q:"Pour être divisible par 4, il faut :", choices:["Unités paires","Somme ÷4","2 derniers chiffres multiples de 4","Dizaines paires"], correct:2, expl:"Ex : 312 → 12=4×3 ✓" },
+  { cat:"Divisibilité", q:"48 est un multiple de :", choices:["7","9","6","11"], correct:2, expl:"48 = 6 × 8." },
+  { cat:"Divisibilité", q:"Plus petit diviseur de 35 (autre que 1) ?", choices:["2","3","5","7"], correct:2, expl:"35 = 5×7. Plus petit diviseur ≠1 : c'est 5." },
+  { cat:"Divisibilité", q:"360 est divisible par :", choices:["7 seulement","2, 3, 4, 5, 9 et 10","5 et 7","3 et 7"], correct:1, expl:"360 : unités=0 (÷2,5,10✓) ; 3+6+0=9 (÷3,9✓) ; 60=4×15 (÷4✓)" },
+  { cat:"Divisibilité", q:"Quel nombre n'est PAS diviseur de 24 ?", choices:["8","6","9","12"], correct:2, expl:"24=2³×3. Ses diviseurs : 1,2,3,4,6,8,12,24. 9 n'y est pas." },
+  { cat:"Divisibilité", q:"2520 est divisible par tous ces nombres sauf :", choices:["7","9","11","5"], correct:2, expl:"2520=2³×3²×5×7. Pas de facteur 11." },
+
+  // Division euclidienne
+  { cat:"Division euclidienne", q:"Dans 100 = 7×14 + 2, le reste est :", choices:["7","14","2","100"], correct:2, expl:"r=2, et 2 < 7 ✓" },
+  { cat:"Division euclidienne", q:"Reste de 50 ÷ 7 ?", choices:["0","1","6","8"], correct:1, expl:"7×7=49, 50−49=1 → reste=1." },
+  { cat:"Division euclidienne", q:"Si reste de a÷b est 0, alors :", choices:["a est premier","b est premier","a est divisible par b","b est divisible par a"], correct:2, expl:"Reste 0 ⟺ a divisible par b." },
+  { cat:"Division euclidienne", q:"59 = 8×q + r. Quel est q ?", choices:["6","7","8","9"], correct:1, expl:"8×7=56, 59−56=3. q=7, r=3." },
+  { cat:"Division euclidienne", q:"Quotient de 1000 ÷ 13 ?", choices:["75","76","77","78"], correct:1, expl:"13×76=988, 1000−988=12. Quotient=76." },
+  { cat:"Division euclidienne", q:"278 = 45×? + 8", choices:["5","6","7","4"], correct:1, expl:"45×6=270, 270+8=278 ✓" },
+  { cat:"Division euclidienne", q:"856 = 7×q + 2. q = ?", choices:["121","122","123","124"], correct:1, expl:"7×122=854, 854+2=856 ✓" },
+
+  // PGCD & Nombres premiers
+  { cat:"PGCD & Nombres premiers", q:"Quel nombre est premier ?", choices:["1","9","17","21"], correct:2, expl:"17 a exactement 2 diviseurs. 1 non premier, 9=3², 21=3×7." },
+  { cat:"PGCD & Nombres premiers", q:"PGCD(12, 18) = ?", choices:["3","6","9","12"], correct:1, expl:"Diviseurs communs : 1,2,3,6 → PGCD=6." },
+  { cat:"PGCD & Nombres premiers", q:"20 en facteurs premiers = ?", choices:["2×10","4×5","2²×5","2×2×5×1"], correct:2, expl:"20 = 2² × 5." },
+  { cat:"PGCD & Nombres premiers", q:"15/35 simplifiée = ?", choices:["1/2","3/5","3/7","5/7"], correct:2, expl:"PGCD(15,35)=5 → 3/7." },
+  { cat:"PGCD & Nombres premiers", q:"12 et 35 premiers entre eux ?", choices:["Oui, PGCD=1","Non, PGCD=4","Non, PGCD=7","Oui, PGCD=2"], correct:0, expl:"12=2²×3, 35=5×7 → PGCD=1 ✓" },
+  { cat:"PGCD & Nombres premiers", q:"PGCD(84, 126) = ?", choices:["14","21","42","63"], correct:2, expl:"84=2²×3×7, 126=2×3²×7 → PGCD=2×3×7=42." },
+  { cat:"PGCD & Nombres premiers", q:"Quel nombre N'est PAS premier ?", choices:["29","31","39","41"], correct:2, expl:"39 = 3×13." },
+  { cat:"PGCD & Nombres premiers", q:"Combien de nombres premiers entre 10 et 20 ?", choices:["2","3","4","5"], correct:2, expl:"11, 13, 17, 19 → 4 nombres." },
+
+  // Puissances
+  { cat:"Puissances", q:"2³ × 2⁴ = ?", choices:["4⁷","2¹²","2⁷","2¹"], correct:2, expl:"2³⁺⁴ = 2⁷ = 128." },
+  { cat:"Puissances", q:"5⁶ ÷ 5² = ?", choices:["1⁴","5³","5⁴","25²"], correct:2, expl:"5⁶⁻² = 5⁴ = 625." },
+  { cat:"Puissances", q:"(3²)³ = ?", choices:["3⁵","3⁶","9³","6²"], correct:1, expl:"3²ˣ³ = 3⁶ = 729." },
+  { cat:"Puissances", q:"10⁻³ = ?", choices:["−1000","0,001","−0,001","1/30"], correct:1, expl:"1/10³ = 0,001." },
+  { cat:"Puissances", q:"(−2)⁴ = ?", choices:["−16","16","−8","8"], correct:1, expl:"Exposant pair → positif : 16." },
+  { cat:"Puissances", q:"3,45 × 10⁴ = ?", choices:["34 500","345 000","3 450","3,45"], correct:0, expl:"Virgule → 4 rangs à droite = 34 500." },
+  { cat:"Puissances", q:"2⁰ = ?", choices:["0","2","1","−1"], correct:2, expl:"Tout a≠0 à la puissance 0 vaut 1." },
+  { cat:"Puissances", q:"3² + 4² = ?", choices:["7²","5²","3⁴","(3+4)²"], correct:1, expl:"9+16=25=5². (Triangle 3-4-5 !)" },
+
+  // Racines carrées & Calcul littéral
+  { cat:"Racines carrées", q:"√144 = ?", choices:["12","14","72","11"], correct:0, expl:"12² = 144." },
+  { cat:"Racines carrées", q:"√50 simplifié = ?", choices:["5√2","√25×2","25√2","2√5"], correct:0, expl:"√50 = √(25×2) = 5√2." },
+  { cat:"Racines carrées", q:"(√7)² = ?", choices:["49","√49","7","14"], correct:2, expl:"(√a)² = a par définition." },
+  { cat:"Racines carrées", q:"√(3²+4²) = ?", choices:["7","√7","5","25"], correct:2, expl:"√(9+16) = √25 = 5." },
+  { cat:"Calcul littéral", q:"(x+3)² développé = ?", choices:["x²+9","x²+3x+9","x²+6x+9","x²+6x+3"], correct:2, expl:"x²+2×3x+9 = x²+6x+9." },
+  { cat:"Calcul littéral", q:"(x+4)(x−4) développé = ?", choices:["x²−16","x²+16","x²−8","x²−4x−16"], correct:0, expl:"(a+b)(a−b)=a²−b² → x²−16." },
+  { cat:"Calcul littéral", q:"(2x−3)² développé = ?", choices:["4x²+9","4x²−12x+9","4x²−6x+9","2x²−6x+9"], correct:1, expl:"4x²−2×2x×3+9 = 4x²−12x+9." },
+  { cat:"Calcul littéral", q:"x²−25 factorisé = ?", choices:["(x−5)²","(x+5)(x−5)","(x+25)(x−1)","(x−5)(x+1)"], correct:1, expl:"a²−b²=(a+b)(a−b) → (x+5)(x−5)." },
+  { cat:"Calcul littéral", q:"x²+10x+25 factorisé = ?", choices:["(x+5)(x−5)","(x+25)²","(x+5)²","(x−5)²"], correct:2, expl:"2ab=10x → b=5 → (x+5)²." },
+  { cat:"Calcul littéral", q:"(x+1)(x−1) pour x=10 = ?", choices:["99","100","101","9"], correct:0, expl:"x²−1 = 100−1 = 99." },
+
+  // PGCD & PPCM
+  { cat:"PGCD & PPCM", q:"PGCD(270, 252) par facteurs premiers = ?", choices:["9","18","36","54"], correct:1, expl:"270=2×3³×5 | 252=2²×3²×7 → PGCD = 2¹×3² = 18." },
+  { cat:"PGCD & PPCM", q:"Le PPCM prend les facteurs communs avec :", choices:["le plus petit exposant","le plus grand exposant","la somme des exposants","le produit des exposants"], correct:1, expl:"PPCM = produit de TOUS les facteurs avec le PLUS GRAND exposant." },
+  { cat:"PGCD & PPCM", q:"Si PGCD(a,b)=1, alors PPCM(a,b) = ?", choices:["1","a+b","a×b","a/b"], correct:2, expl:"Si premiers entre eux, PPCM = a × b." },
+  { cat:"PGCD & PPCM", q:"PGCD(a,b) × PPCM(a,b) = ?", choices:["a+b","a²+b²","a×b","(a×b)²"], correct:2, expl:"Relation fondamentale : PGCD × PPCM = a × b." },
+  { cat:"PGCD & PPCM", q:"Pour additionner 1/6 + 1/9, le dénominateur commun est :", choices:["3","18","54","15"], correct:1, expl:"PPCM(6,9) = 18. On écrit 3/18 + 2/18 = 5/18." },
+
+  // Thalès
+  { cat:"Théorème de Thalès", q:"Si (MN)//(BC) et AM/AB = 2/5, alors AN/AC = ?", choices:["5/2","3/5","2/5","2/3"], correct:2, expl:"D'après Thalès : AM/AB = AN/AC = MN/BC = 2/5." },
+  { cat:"Théorème de Thalès", q:"AM=3, AB=9, MN=4. Quelle est BC ?", choices:["12","6","9","36"], correct:0, expl:"MN/BC = AM/AB → 4/BC = 3/9 = 1/3 → BC = 12." },
+  { cat:"Théorème de Thalès", q:"La réciproque de Thalès permet de :", choices:["Calculer une longueur","Démontrer que deux droites sont parallèles","Démontrer qu'un triangle est rectangle","Calculer un angle"], correct:1, expl:"La réciproque permet de conclure au parallélisme si les rapports sont égaux." },
+  { cat:"Théorème de Thalès", q:"Pour appliquer la réciproque de Thalès, il faut aussi vérifier :", choices:["Que les droites sont perpendiculaires","Que les angles sont égaux","Que les points sont alignés dans le même ordre","Que les longueurs sont entières"], correct:2, expl:"Condition indispensable : les points A, B, M et A, C, N doivent être dans le même ordre." },
+
+  // Équations
+  { cat:"Équations", q:"Résoudre 5x + 3 = −7x + 2. Solution ?", choices:["x = −1/12","x = 1/12","x = 5/12","x = −5/12"], correct:0, expl:"12x = −1 → x = −1/12." },
+  { cat:"Équations", q:"Propriété du produit nul : si a×b = 0 alors :", choices:["a = 0 et b = 0","a = 0 ou b = 0","a = b","a + b = 0"], correct:1, expl:"Si un produit est nul, AU MOINS un des facteurs est nul." },
+  { cat:"Équations", q:"Solutions de (2x−4)(x+3) = 0 :", choices:["x=2 et x=−3","x=4 et x=3","x=2 ou x=−3","x=−2 ou x=3"], correct:2, expl:"2x−4=0 → x=2 | x+3=0 → x=−3. S={2;−3}." },
+  { cat:"Équations", q:"81x² − 64 = 0. Solutions ?", choices:["x = ±8","x = ±9","x = ±8/9","x = ±9/8"], correct:2, expl:"(9x)²−8²=0 → (9x+8)(9x−8)=0 → x=−8/9 ou x=8/9." },
+  { cat:"Équations", q:"−3(5x+2) = 4(2x−7). Solution ?", choices:["x = 22/23","x = −22/23","x = 22","x = −22"], correct:0, expl:"−15x−6=8x−28 → −23x=−22 → x=22/23." },
+
+  // Trigonométrie
+  { cat:"Trigonométrie", q:"cos(x) = ?", choices:["opposé/hypoténuse","adjacent/hypoténuse","opposé/adjacent","hypoténuse/adjacent"], correct:1, expl:"cos = côté ADjacent / Hypoténuse (CAH dans SOH-CAH-TOA)." },
+  { cat:"Trigonométrie", q:"sin(x) = ?", choices:["opposé/hypoténuse","adjacent/hypoténuse","opposé/adjacent","hypoténuse/opposé"], correct:0, expl:"sin = côté OPposé / Hypoténuse (SOH dans SOH-CAH-TOA)." },
+  { cat:"Trigonométrie", q:"tan(x) = ?", choices:["adjacent/opposé","opposé/hypoténuse","hypoténuse/opposé","opposé/adjacent"], correct:3, expl:"tan = côté OPposé / côté ADjacent (TOA dans SOH-CAH-TOA)." },
+  { cat:"Trigonométrie", q:"cos²(x) + sin²(x) = ?", choices:["0","2","1","cos(x)×sin(x)"], correct:2, expl:"Relation fondamentale : cos²(x) + sin²(x) = 1 (pour tout angle aigu)." },
+  { cat:"Trigonométrie", q:"tan(x) = sin(x)/cos(x). Si cos(x)=0,6 et sin(x)=0,8, tan(x) = ?", choices:["1/2","4/3","3/4","2"], correct:1, expl:"tan(x) = 0,8/0,6 = 8/6 = 4/3." },
+  { cat:"Trigonométrie", q:"cos(30°) ≈ ?", choices:["0,5","0,707","0,866","1"], correct:2, expl:"cos(30°) = √3/2 ≈ 0,866. À retenir !" },
+  { cat:"Trigonométrie", q:"sin(45°) ≈ ?", choices:["0,5","0,707","0,866","1"], correct:1, expl:"sin(45°) = cos(45°) = √2/2 ≈ 0,707." },
+
+  // Statistiques
+  { cat:"Statistiques", q:"L'effectif d'une valeur, c'est :", choices:["Le nombre total de données","Le nombre de fois où cette valeur apparaît","La valeur divisée par le total","La valeur la plus fréquente"], correct:1, expl:"Effectif = nombre d'occurrences de la valeur dans la série." },
+  { cat:"Statistiques", q:"La fréquence d'une valeur est :", choices:["son effectif","son effectif × total","son effectif / total","son effectif + total"], correct:2, expl:"Fréquence = effectif de la valeur / effectif total. Résultat entre 0 et 1." },
+  { cat:"Statistiques", q:"La médiane d'une série de 15 valeurs est :", choices:["la 7ème valeur","la 8ème valeur","la moyenne des 7ème et 8ème","la valeur la plus fréquente"], correct:1, expl:"N=15 impair → rang médian = (15+1)/2 = 8. La médiane est la 8ème valeur triée." },
+  { cat:"Statistiques", q:"L'étendue d'une série est :", choices:["la valeur médiane","la valeur maximum","max − min","la moyenne"], correct:2, expl:"Étendue = valeur maximale − valeur minimale. Mesure la dispersion." },
+  { cat:"Statistiques", q:"Le mode d'une série, c'est :", choices:["la valeur centrale","la valeur la plus fréquente","la moyenne","la valeur minimale"], correct:1, expl:"Le mode est la valeur qui a le plus grand effectif." },
+  { cat:"Statistiques", q:"La somme de toutes les fréquences d'une série vaut :", choices:["0","100","1","N"], correct:2, expl:"La somme des fréquences est toujours égale à 1 (ou 100%)." },
+  { cat:"Statistiques", q:"N=10 (pair). La médiane est la moyenne des valeurs de rang :", choices:["4 et 5","5 et 6","4 et 6","5 et 7"], correct:1, expl:"N pair : médiane = moyenne des rangs N/2=5 et N/2+1=6." },
+  { cat:"Statistiques", q:"Fréquence des girolles : effectif=28, total=50. Fréquence = ?", choices:["0,28","0,56","28","56"], correct:1, expl:"28/50 = 0,56 = 56%." },
+
+  // Fonctions
+  { cat:"Fonctions", q:"f : x → x²−4. f(3) = ?", choices:["5","9","−4","13"], correct:0, expl:"f(3) = 3²−4 = 9−4 = 5." },
+  { cat:"Fonctions", q:"f(x) désigne :", choices:["le nom de la fonction","la variable","l'image de x par f","la règle de calcul"], correct:2, expl:"f(x) est l'image de x par f. C'est un nombre." },
+  { cat:"Fonctions", q:"Si f(a) = b, alors a est :", choices:["l'image de b","l'antécédent de b","la variable","l'image de f"], correct:1, expl:"a est un antécédent de b par f." },
+  { cat:"Fonctions", q:"g : x → x²−4. Les antécédents de 0 sont :", choices:["x=0","x=2 seulement","x=−2 et x=2","x=4 et x=−4"], correct:2, expl:"x²−4=0 → x²=4 → x=2 ou x=−2." },
+  { cat:"Fonctions", q:"f : x → (x−5)²−16. f(−1) = ?", choices:["20","−20","36","4"], correct:0, expl:"f(−1) = (−1−5)²−16 = 36−16 = 20." },
+  { cat:"Fonctions", q:"D'après un tableau de valeurs, si f(1)=0 et f(3)=0, alors :", choices:["f(2)=0","1 et 3 sont des images de 0","1 et 3 sont des antécédents de 0","f est nulle partout"], correct:2, expl:"Si f(1)=0 et f(3)=0, alors 1 et 3 sont des antécédents de 0 par f." },
+
+  // Triangles
+  { cat:"Triangles", q:"Deux triangles égaux ont nécessairement :", choices:["Les mêmes angles seulement","Les mêmes côtés seulement","Les mêmes angles ET les mêmes côtés","La même aire seulement"], correct:2, expl:"Triangles égaux = mêmes côtés 2 à 2 ET mêmes angles 2 à 2." },
+  { cat:"Triangles", q:"Deux triangles semblables ont :", choices:["Les mêmes côtés","Les mêmes angles 2 à 2","Les mêmes aires","Tout en commun"], correct:1, expl:"Semblables = angles 2 à 2 de même mesure (mais pas forcément les mêmes côtés)." },
+  { cat:"Triangles", q:"Si △ABC et △EFG sont semblables et AB/EF = 3, alors :", choices:["Les aires sont égales","Tous les côtés de ABC valent 3 fois ceux de EFG","Les angles sont triplés","Les côtés sont additionnés"], correct:1, expl:"Rapport de similitude = 3 : tous les côtés de ABC sont 3 fois ceux de EFG." },
+  { cat:"Triangles", q:"Cas CAS pour deux triangles égaux signifie :", choices:["Côté-Angle-Côté","Cercle-Angle-Sommet","Côté-Aire-Surface","Carré-Angle-Carré"], correct:0, expl:"CAS = Côté-Angle-Côté : angle de même mesure ENTRE deux côtés de même longueur." },
+];
+
+const QUIZ_MODES = {
+  sprint:  { label:"Sprint",   icon:"⚡", desc:"10 questions · 30s par question", count:10, timePerQ:30 },
+  blitz:   { label:"Blitz",    icon:"🔥", desc:"15 questions · 20s par question", count:15, timePerQ:20 },
+  marathon:{ label:"Marathon", icon:"🏃", desc:"20 questions · 45s par question", count:20, timePerQ:45 },
+  zen:     { label:"Zen",      icon:"🧘", desc:"10 questions · pas de chrono",    count:10, timePerQ:0  },
+};
+
+let quizState = {
+  mode: null, questions: [], current: 0,
+  score: 0, answered: false, timer: null,
+  timeLeft: 0, history: [], totalTime: 0, startTime: 0,
+};
+
+function renderQuizStart() {
+  const sel = quizState.mode;
+  const modeHtml = Object.entries(QUIZ_MODES).map(([key, m]) => `
+    <button class="quiz-mode-btn ${sel===key?'selected':''}" onclick="selectMode('${key}')">
+      <span class="mode-icon">${m.icon}</span>
+      <span class="mode-title">${m.label}</span>
+      <span class="mode-desc">${m.desc}</span>
+    </button>`).join('');
+
+  document.getElementById('quiz-content').innerHTML = `
+    <div class="quiz-start-screen">
+      <h2>⏱️ Quiz Chrono</h2>
+      <p>Réponds aux questions le plus vite possible !<br>Choisis ton mode de jeu :</p>
+      <div class="quiz-modes">${modeHtml}</div>
+      <button class="quiz-start-btn" onclick="startQuiz()" ${!sel?'disabled':''}>
+        ${sel ? QUIZ_MODES[sel].icon+' Lancer le '+QUIZ_MODES[sel].label : 'Choisir un mode'}
+      </button>
+    </div>`;
+}
+
+function selectMode(key) {
+  quizState.mode = key;
+  renderQuizStart();
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length-1; i > 0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+function startQuiz() {
+  const mode = QUIZ_MODES[quizState.mode];
+  quizState.questions = shuffle(allQuestions).slice(0, mode.count);
+  quizState.current = 0;
+  quizState.score = 0;
+  quizState.history = [];
+  quizState.startTime = Date.now();
+  quizState.answered = false;
+  renderQuestion();
+}
+
+function renderQuestion() {
+  clearInterval(quizState.timer);
+  const mode = QUIZ_MODES[quizState.mode];
+  const q = quizState.questions[quizState.current];
+  quizState.answered = false;
+  quizState.timeLeft = mode.timePerQ;
+
+  const choicesHtml = q.choices.map((c, ci) => `
+    <button class="quiz-choice-btn" id="choice-${ci}" onclick="answerQuiz(${ci})">
+      <strong style="color:#7C3AED;margin-right:6px">${String.fromCharCode(65+ci)}.</strong>${c}
+    </button>`).join('');
+
+  const timerHtml = mode.timePerQ > 0
+    ? `<div class="quiz-timer ok" id="quiz-timer">${mode.timePerQ}s</div>`
+    : `<div class="quiz-timer ok" id="quiz-timer">∞</div>`;
+
+  document.getElementById('quiz-content').innerHTML = `
+    <div class="quiz-header">
+      <div class="quiz-progress">Question <span>${quizState.current+1}</span> / <span>${quizState.questions.length}</span></div>
+      ${timerHtml}
+      <div class="quiz-score-live">Score : <span>${quizState.score}</span></div>
+    </div>
+    <div class="quiz-question-card">
+      <div class="quiz-q-category">📂 ${q.cat}</div>
+      <div class="quiz-q-text">${q.q}</div>
+      <div class="quiz-choices">${choicesHtml}</div>
+    </div>
+    <div class="quiz-feedback" id="quiz-feedback"></div>
+    <button class="quiz-next-btn" id="quiz-next" onclick="nextQuestion()">
+      ${quizState.current+1 < quizState.questions.length ? 'Question suivante →' : 'Voir les résultats 🏁'}
+    </button>`;
+
+  if (mode.timePerQ > 0) startTimer();
+}
+
+function startTimer() {
+  const mode = QUIZ_MODES[quizState.mode];
+  quizState.timer = setInterval(() => {
+    quizState.timeLeft--;
+    const el = document.getElementById('quiz-timer');
+    if (!el) { clearInterval(quizState.timer); return; }
+    el.textContent = quizState.timeLeft + 's';
+    el.className = 'quiz-timer ' + (quizState.timeLeft > 10 ? 'ok' : quizState.timeLeft > 5 ? 'warn' : 'danger');
+    if (quizState.timeLeft <= 0) {
+      clearInterval(quizState.timer);
+      if (!quizState.answered) timeOut();
+    }
+  }, 1000);
+}
+
+function timeOut() {
+  quizState.answered = true;
+  const q = quizState.questions[quizState.current];
+  quizState.history.push({ q: q.q, correct: false, timedOut: true });
+  document.querySelectorAll('.quiz-choice-btn').forEach(b => b.disabled = true);
+  document.querySelectorAll('.quiz-choice-btn')[q.correct].classList.add('reveal');
+  showFeedback(false, '⏰ Temps écoulé ! ' + q.expl, true);
+}
+
+function answerQuiz(ci) {
+  if (quizState.answered) return;
+  clearInterval(quizState.timer);
+  quizState.answered = true;
+  const q = quizState.questions[quizState.current];
+  const isCorrect = ci === q.correct;
+  if (isCorrect) quizState.score++;
+  quizState.history.push({ q: q.q, correct: isCorrect, timedOut: false });
+
+  document.querySelectorAll('.quiz-choice-btn').forEach((b, i) => {
+    b.disabled = true;
+    if (i === q.correct) b.classList.add('correct');
+    else if (i === ci && !isCorrect) b.classList.add('wrong');
+  });
+  showFeedback(isCorrect, (isCorrect ? '✅ Bravo ! ' : '❌ Raté. ') + q.expl, false);
+}
+
+function showFeedback(ok, text, timedOut) {
+  const fb = document.getElementById('quiz-feedback');
+  fb.textContent = text;
+  fb.className = 'quiz-feedback show ' + (ok ? 'good' : 'bad');
+  const next = document.getElementById('quiz-next');
+  next.className = 'quiz-next-btn show';
+  const timerEl = document.getElementById('quiz-timer');
+  if (timerEl) timerEl.style.opacity = '0.4';
+}
+
+function nextQuestion() {
+  quizState.current++;
+  if (quizState.current >= quizState.questions.length) {
+    quizState.totalTime = Math.round((Date.now() - quizState.startTime) / 1000);
+    renderQuizEnd();
+  } else {
+    renderQuestion();
+  }
+}
+
+function renderQuizEnd() {
+  const total = quizState.questions.length;
+  const score = quizState.score;
+  const pct = Math.round((score/total)*100);
+  const medal = pct >= 90 ? '🏆' : pct >= 70 ? '🥈' : pct >= 50 ? '🥉' : '😅';
+  const color = pct >= 70 ? '#4ADE80' : pct >= 50 ? '#F59E0B' : '#F87171';
+
+  const mins = Math.floor(quizState.totalTime/60);
+  const secs = quizState.totalTime % 60;
+  const timeStr = mins > 0 ? `${mins}min ${secs}s` : `${secs}s`;
+
+  const detailsHtml = quizState.history.map((h, i) => `
+    <div class="quiz-detail-row">
+      <span class="qtext">${i+1}. ${h.q}</span>
+      <span>${h.timedOut ? '⏰' : h.correct ? '✅' : '❌'}</span>
+    </div>`).join('');
+
+  document.getElementById('quiz-content').innerHTML = `
+    <div class="quiz-end-screen">
+      <h2>${medal} Résultats</h2>
+      <div class="score-big" style="color:${color}">${score}/${total}</div>
+      <div class="time-info">⏱️ Temps total : ${timeStr} · ${pct}% de réussite</div>
+      <div class="quiz-end-details">
+        <h3>DÉTAIL DES QUESTIONS</h3>
+        ${detailsHtml}
+      </div>
+      <button class="quiz-replay-btn" onclick="renderQuizStart()">🔄 Rejouer</button>
+    </div>`;
+}
+
+renderLessons();
+renderExercises();
+renderProblems();
+</script>
+</body>
+</html>
