@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Programme Vivacité & Explosivité — 12-15 ans</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;800;900&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    min-height: 100vh;
+    background: #0a0a0a;
+    font-family: 'Barlow Condensed', Impact, sans-serif;
+    color: #fff;
+    padding-bottom: 60px;
+  }
+  .header {
+    background: linear-gradient(135deg, #e94560 0%, #f5a623 100%);
+    padding: 28px 24px 40px;
+    clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
+    margin-bottom: 8px;
+  }
+  .header-sub { font-size: 11px; letter-spacing: 6px; font-weight: 700; opacity: 0.8; margin-bottom: 4px; }
+  .header-title { font-size: 36px; font-weight: 900; letter-spacing: 2px; line-height: 1; text-transform: uppercase; }
+  .header-desc { font-size: 13px; font-weight: 400; opacity: 0.85; margin-top: 8px; font-family: 'Barlow', sans-serif; }
+
+  .legend { display: flex; gap: 12px; padding: 12px 20px 4px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 5px; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+  .legend-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; }
+
+  .tabs { display: flex; gap: 8px; padding: 16px 20px 0; }
+  .tab {
+    flex: 1; padding: 12px 8px; border: none; border-radius: 8px;
+    font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 800;
+    letter-spacing: 2px; text-transform: uppercase; cursor: pointer;
+    background: #1a1a1a; color: #666; transition: all 0.2s;
+  }
+  .tab.active { background: linear-gradient(135deg, #e94560, #f5a623); color: #fff; }
+  .tab-sub { font-size: 10px; font-weight: 400; letter-spacing: 1px; opacity: 0.8; margin-top: 2px; }
+
+  .grid { padding: 16px 20px 0; display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+  .day-btn {
+    background: #141414; border: 2px solid #222; border-radius: 10px;
+    padding: 10px 4px; cursor: pointer; display: flex; flex-direction: column;
+    align-items: center; gap: 4px; transition: all 0.18s;
+  }
+  .day-btn:hover { border-color: #444; }
+  .day-btn.active { transform: scale(1.05); }
+  .day-icon { font-size: 18px; }
+  .day-label { font-size: 11px; font-weight: 800; letter-spacing: 1px; font-family: 'Barlow Condensed', sans-serif; }
+  .intensity-row { display: flex; gap: 1px; }
+  .intensity-dot { width: 4px; height: 4px; border-radius: 1px; background: #333; }
+  .intensity-dot.on { background: #f5a623; }
+  .day-btn.active .intensity-dot.on { background: #000; }
+
+  .detail {
+    margin: 16px 20px 0; background: #111; border-radius: 16px;
+    border: 2px solid rgba(255,255,255,0.05); overflow: hidden;
+    animation: fadeIn 0.2s ease;
+  }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  .detail-header { padding: 18px 20px 14px; border-bottom: 3px solid; }
+  .detail-header-inner { display: flex; justify-content: space-between; align-items: flex-start; }
+  .detail-type-label { font-size: 10px; letter-spacing: 4px; font-weight: 700; margin-bottom: 4px; }
+  .detail-title { font-size: 22px; font-weight: 900; letter-spacing: 1px; line-height: 1.2; }
+  .detail-right { text-align: right; }
+  .detail-icon { font-size: 22px; margin-bottom: 4px; }
+  .detail-duree { font-size: 11px; color: #aaa; font-family: 'Barlow', sans-serif; }
+  .detail-intensity { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
+  .detail-intensity-label { font-size: 10px; letter-spacing: 3px; color: #666; }
+  .intensity-bar { display: flex; gap: 3px; }
+  .intensity-bar-dot { width: 10px; height: 10px; border-radius: 2px; background: #333; }
+  .intensity-bar-dot.on { background: #f5a623; }
+
+  .exercises { padding: 14px 20px; }
+  .exercise {
+    display: flex; gap: 12px; margin-bottom: 10px; align-items: flex-start;
+    padding: 10px 12px; background: #0d0d0d; border-radius: 8px; border-left: 3px solid;
+  }
+  .exercise-tag { min-width: 72px; font-size: 8px; font-weight: 800; letter-spacing: 1px; padding-top: 2px; }
+  .exercise-name { font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 700; line-height: 1.2; }
+  .exercise-detail { font-family: 'Barlow', sans-serif; font-size: 12px; color: #aaa; margin-top: 2px; }
+
+  .conseil {
+    margin: 0 20px 16px; padding: 12px 14px; border-radius: 10px;
+    border: 1px solid; display: flex; gap: 10px; align-items: flex-start;
+  }
+  .conseil-emoji { font-size: 18px; }
+  .conseil-label { font-size: 9px; letter-spacing: 3px; font-weight: 700; margin-bottom: 4px; }
+  .conseil-text { font-family: 'Barlow', sans-serif; font-size: 13px; color: #ddd; line-height: 1.5; }
+
+  .placeholder { padding: 24px 20px 0; text-align: center; }
+  .placeholder-icon { font-size: 30px; margin-bottom: 8px; }
+  .placeholder-text { font-size: 13px; color: #555; font-family: 'Barlow', sans-serif; }
+
+  .rules { margin: 24px 20px 0; }
+  .rules-title { font-size: 13px; font-weight: 800; letter-spacing: 4px; color: #e94560; margin-bottom: 12px; }
+  .rule {
+    display: flex; gap: 12px; margin-bottom: 8px; padding: 10px 14px;
+    background: #111; border-radius: 8px; align-items: center;
+  }
+  .rule-icon { font-size: 18px; }
+  .rule-text { font-family: 'Barlow', sans-serif; font-size: 13px; color: #ccc; line-height: 1.4; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-sub">PROGRAMME ATHLÉTIQUE · 12–15 ANS</div>
+  <div class="header-title">VIVACITÉ &<br>EXPLOSIVITÉ</div>
+  <div class="header-desc">Côtes · Escaliers · 2 Semaines</div>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#e94560"></div><span class="legend-label" style="color:#e94560">ESCALIERS</span></div>
+  <div class="legend-item"><div class="legend-dot" style="background:#f5a623"></div><span class="legend-label" style="color:#f5a623">CÔTES</span></div>
+  <div class="legend-item"><div class="legend-dot" style="background:#00d4aa"></div><span class="legend-label" style="color:#00d4aa">MIXTE</span></div>
+  <div class="legend-item"><div class="legend-dot" style="background:#666"></div><span class="legend-label" style="color:#666">REPOS</span></div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" id="tab1" onclick="switchWeek('semaine1')">
+    SEMAINE 1<div class="tab-sub">Activation & Découverte</div>
+  </button>
+  <button class="tab" id="tab2" onclick="switchWeek('semaine2')">
+    SEMAINE 2<div class="tab-sub">Intensification & Performance</div>
+  </button>
+</div>
+
+<div class="grid" id="grid"></div>
+<div id="detail"></div>
+
+<div class="placeholder" id="placeholder">
+  <div class="placeholder-icon">👆</div>
+  <div class="placeholder-text">Appuie sur un jour pour voir le détail de la séance</div>
+</div>
+
+<div class="rules">
+  <div class="rules-title">RÈGLES DU PROGRAMME</div>
+  <div class="rule"><span class="rule-icon">🦵</span><span class="rule-text"><strong>Douleur genou ou talon = stop immédiat.</strong> Osgood-Schlatter (genou) et Sever (talon) sont fréquents à cet âge. Une douleur localisée ≠ courbature — consulter si ça persiste.</span></div>
+  <div class="rule"><span class="rule-icon">👟</span><span class="rule-text">Chaussures de sport amorties obligatoires — pas de baskets plates, de Converse ou de chaussures de foot sur béton.</span></div>
+  <div class="rule"><span class="rule-icon">💧</span><span class="rule-text">Boire 1,5 à 2L d'eau par jour, davantage les jours d'entraînement.</span></div>
+  <div class="rule"><span class="rule-icon">😴</span><span class="rule-text">8 à 9h de sommeil minimum — c'est là que les muscles se développent.</span></div>
+  <div class="rule"><span class="rule-icon">🍽️</span><span class="rule-text">Manger des glucides (riz, pâtes) avant les séances, des protéines après.</span></div>
+  <div class="rule"><span class="rule-icon">⚠️</span><span class="rule-text">Douleur ≠ courbatures. En cas de douleur vive, on s'arrête.</span></div>
+  <div class="rule"><span class="rule-icon">🔁</span><span class="rule-text">Toujours s'échauffer avant et s'étirer après. Sans exception.</span></div>
+</div>
+
+<script>
+const typeColors = {
+  escaliers: { bg: "#1a1a2e", accent: "#e94560", label: "ESCALIERS" },
+  cote:      { bg: "#0f3460", accent: "#f5a623", label: "CÔTES" },
+  mixte:     { bg: "#1a1a1a", accent: "#00d4aa", label: "MIXTE" },
+  repos:     { bg: "#111111", accent: "#666",    label: "REPOS" },
+};
+const exerciceColors = { warm: "#f5a623", main: "#e94560", recup: "#00d4aa", cool: "#7c6af7" };
+const exerciceLabels = { warm: "ÉCHAUFF.", main: "EXERCICE", recup: "RÉCUP.", cool: "RETOUR CALME" };
+
+const program = {
+  semaine1: {
+    seances: [
+      {
+        jour:"LUN", label:"Lundi", type:"escaliers", titre:"Escaliers — Réveil Neuromusculaire",
+        icon:"🪜", duree:"45 min", intensite:2,
+        exercices:[
+          {nom:"Échauffement footing léger",         detail:"5 min à allure douce",                   type:"warm"},
+          {nom:"Montées dynamiques 1 marche",         detail:"8 séries × 2 montées, récup 90s",         type:"main"},
+          {nom:"Skip haut sur escaliers",             detail:"4 séries × 1 montée lente (Achille !)",  type:"main"},
+          {nom:"Descentes trottinées (contrôle)",     detail:"Entre chaque série",                     type:"recup"},
+          {nom:"Sauts pieds joints sur 3 marches",    detail:"4 séries × 5 sauts, récup 90s — chaussures amorties obligatoires", type:"main"},
+          {nom:"Étirements dynamiques",               detail:"5 min",                                  type:"cool"},
+        ],
+        conseil:"Focus sur la pose du pied : attaque médio-pied, jambe active."
+      },
+      {
+        jour:"MAR", label:"Mardi", type:"cote", titre:"Côtes — Sprints Courts",
+        icon:"⛰️", duree:"45 min", intensite:3,
+        exercices:[
+          {nom:"Échauffement progressif",                       detail:"8 min : marche → trot → foulées",          type:"warm"},
+          {nom:"Éducatifs (talon-fesse, genoux hauts)",          detail:"2 × 30m sur plat",                        type:"warm"},
+          {nom:"Sprints côte 15m — MAX",                        detail:"6 séries, récup 2 min (descente lente)",   type:"main"},
+          {nom:"Sprints côte 20m — MAX",                        detail:"4 séries, récup 2 min 30",                type:"main"},
+          {nom:"Retour au calme footing plat",                  detail:"5 min",                                    type:"cool"},
+        ],
+        conseil:"Bras actifs et courts ! Le sprint de côte force la bonne mécanique — inclinaison avant, poussée."
+      },
+      {
+        jour:"MER", label:"Mercredi", type:"repos", titre:"Repos Actif",
+        icon:"🧘", duree:"20-30 min", intensite:0,
+        exercices:[
+          {nom:"Étirements statiques globaux", detail:"15 min : mollets, ischio, quadri, hanches", type:"cool"},
+          {nom:"Marche légère ou vélo douce",  detail:"15-20 min optionnel",                       type:"warm"},
+        ],
+        conseil:"Le repos c'est là que les muscles se construisent. Ne pas zapper !"
+      },
+      {
+        jour:"JEU", label:"Jeudi", type:"escaliers", titre:"Escaliers — Bonds & Puissance",
+        icon:"🪜", duree:"45 min", intensite:3,
+        exercices:[
+          {nom:"Échauffement",                    detail:"5 min footing + mobilité",               type:"warm"},
+          {nom:"Bonds cloche-pied G (1 marche)",       detail:"4 séries × 1 montée, récup 90s",                    type:"main"},
+          {nom:"Transition G → D",                    detail:"2 min de marche / secouement des jambes",           type:"recup"},
+          {nom:"Bonds cloche-pied D (1 marche)",       detail:"4 séries × 1 montée, récup 90s",                    type:"main"},
+          {nom:"⛔ Stop si douleur genou ou talon",    detail:"Osgood-Schlatter / Sever : douleur ≠ courbature",   type:"recup"},
+          {nom:"Montées 2 marches à la fois",          detail:"4 séries × 1 montée rapide, récup 90s",             type:"main"},
+          {nom:"Gainage planche / latéral",       detail:"3 × 30 sec chaque",                      type:"main"},
+          {nom:"Étirements + respiration",        detail:"5 min",                                  type:"cool"},
+        ],
+        conseil:"Sur les cloche-pieds, cherche la hauteur, pas juste l'avancement. Réception souple !"
+      },
+      {
+        jour:"VEN", label:"Vendredi", type:"cote", titre:"Côtes — Montées Progressives",
+        icon:"⛰️", duree:"50 min", intensite:3,
+        exercices:[
+          {nom:"Échauffement complet",              detail:"10 min progressif",                     type:"warm"},
+          {nom:"Sprints côte 30m — 80%",            detail:"4 séries, récup 2 min",                 type:"main"},
+          {nom:"Sprints côte 30m — MAX",            detail:"4 séries, récup 3 min",                 type:"main"},
+          {nom:"Foulées bondissantes côte",         detail:"4 séries × 20m, récup 2 min",           type:"main"},
+          {nom:"Retour calme + étirements",         detail:"8 min",                                 type:"cool"},
+        ],
+        conseil:"Les foulées bondissantes : cherche l'amplitude et la suspension. Qualité > quantité."
+      },
+      {
+        jour:"SAM", label:"Samedi", type:"mixte", titre:"Circuit Mixte — Jeu & Compétition",
+        icon:"🏆", duree:"55 min", intensite:2,
+        exercices:[
+          {nom:"Échauffement jeu (chat, ballon)",    detail:"10 min",                               type:"warm"},
+          {nom:"Défi escaliers : chrono sur montée", detail:"3 essais chacun — meilleur temps",    type:"main"},
+          {nom:"Course de côte en tandem",           detail:"5 × 20m, départ réaction (signal)",   type:"main"},
+          {nom:"Sauts en longueur pieds joints",     detail:"3 séries × 5 sauts sur plat",         type:"main"},
+          {nom:"Jeu libre / récup active",           detail:"10-15 min",                           type:"cool"},
+        ],
+        conseil:"La séance compétition booste la motivation ! Chronométrez et notez les temps."
+      },
+      {
+        jour:"DIM", label:"Dimanche", type:"repos", titre:"Repos Total",
+        icon:"😴", duree:"—", intensite:0,
+        exercices:[
+          {nom:"Récupération complète", detail:"Sommeil, hydratation, alimentation équilibrée", type:"cool"},
+        ],
+        conseil:"Dormez 8-9h. La croissance et la récup se passent la nuit."
+      },
+    ]
+  },
+  semaine2: {
+    seances: [
+      {
+        jour:"LUN", label:"Lundi", type:"escaliers", titre:"Escaliers — Explosivité Max",
+        icon:"🪜", duree:"50 min", intensite:4,
+        exercices:[
+          {nom:"Échauffement + activation musculaire",       detail:"8 min",                                    type:"warm"},
+          {nom:"Montées explosives 2 marches (MAX)",         detail:"6 séries × 1 montée, récup 90s — genoux dans l'axe",  type:"main"},
+          {nom:"Sauts plyos sur marche haute (~40-50cm)",    detail:"4 séries × 4 sauts réactifs, récup 90s (max 16 contacts/séance)",   type:"main"},
+          {nom:"Triple bond escaliers",                      detail:"4 séries : 3 sauts consécutifs 2 marches, récup 2 min", type:"main"},
+          {nom:"Sprint plat 20m après descente",             detail:"5 séries : descente MARCHÉE → sprint, récup 2 min", type:"main"},
+          {nom:"Cool down + étirements profonds",            detail:"8 min",                                    type:"cool"},
+        ],
+        conseil:"L'enchaînement descente → sprint entraîne la réactivité : ton système nerveux doit basculer vite !"
+      },
+      {
+        jour:"MAR", label:"Mardi", type:"cote", titre:"Côtes — Volume & Intensité",
+        icon:"⛰️", duree:"55 min", intensite:5,
+        exercices:[
+          {nom:"Échauffement complet",    detail:"10 min progressif",              type:"warm"},
+          {nom:"Sprints côte 20m MAX",   detail:"8 séries, récup 2 min",           type:"main"},
+          {nom:"Sprints côte 30m MAX",   detail:"4 séries, récup 3 min",           type:"main"},
+          {nom:"Sprint côte 40m — 90%",  detail:"2 séries, récup 4 min",           type:"main"},
+          {nom:"Footing retour calme",   detail:"8-10 min",                        type:"cool"},
+        ],
+        conseil:"Récupération COMPLÈTE entre chaque série. Un sprint mal récupéré = perte de qualité."
+      },
+      {
+        jour:"MER", label:"Mercredi", type:"repos", titre:"Repos Actif + Gainage",
+        icon:"🧘", duree:"30 min", intensite:1,
+        exercices:[
+          {nom:"Circuit gainage (planche, latéraux, superman)", detail:"4 × 30 sec chaque", type:"main"},
+          {nom:"Étirements ischio-jambiers et mollets",         detail:"10 min",            type:"cool"},
+          {nom:"Massage léger des jambes",                      detail:"Si disponible",     type:"cool"},
+        ],
+        conseil:"Un gainage solide = plus de transmission de force au sol. C'est la base de l'explosivité."
+      },
+      {
+        jour:"JEU", label:"Jeudi", type:"mixte", titre:"Combo Escaliers + Côtes",
+        icon:"⚡", duree:"60 min", intensite:4,
+        exercices:[
+          {nom:"Échauffement dynamique",                        detail:"10 min",                          type:"warm"},
+          {nom:"BLOC 1 : Montées escaliers 2 marches MAX",      detail:"4 séries, récup 2 min",           type:"main"},
+          {nom:"Transition : trot vers la côte",                detail:"3-4 min",                         type:"recup"},
+          {nom:"BLOC 2 : Sprints côte 25m MAX",                 detail:"4 séries, récup 2 min 30",        type:"main"},
+          {nom:"BLOC 3 : Bonds cloche-pieds escaliers",         detail:"2 séries chaque jambe, récup 2 min (tendons fatigués en fin de semaine)",type:"main"},
+          {nom:"Étirements + débriefing",                       detail:"10 min",                          type:"cool"},
+        ],
+        conseil:"Séance la plus dure de la semaine. Hydratez-vous bien avant et pendant !"
+      },
+      {
+        jour:"VEN", label:"Vendredi", type:"cote", titre:"Côtes — Sprints Longs",
+        icon:"⛰️", duree:"50 min", intensite:4,
+        exercices:[
+          {nom:"Échauffement long",                         detail:"12 min progressif",                          type:"warm"},
+          {nom:"Sprint côte 40m — MAX",                     detail:"4 séries, récup 4 min (descente + marche)",  type:"main"},
+          {nom:"Foulées bondissantes côte 25m",             detail:"3 séries, récup 2 min (tendons en fin de cycle)",    type:"main"},
+          {nom:"Sprint en descente de côte 30m",            detail:"3 séries, récup 2 min — freinage excentrique fort sur genoux", type:"main"},
+          {nom:"Retour calme + étirements",                 detail:"10 min",                                     type:"cool"},
+        ],
+        conseil:"En descente de côte, le corps va plus vite que d'habitude — excellent pour la vitesse maximale !"
+      },
+      {
+        jour:"SAM", label:"Samedi", type:"mixte", titre:"TEST FINAL — Défi Performance",
+        icon:"🥇", duree:"60 min", intensite:3,
+        exercices:[
+          {nom:"Échauffement complet",                      detail:"15 min",                                    type:"warm"},
+          {nom:"TEST 1 : Sprint 30m plat (chronométré)",    detail:"3 essais — meilleur temps retenu",          type:"main"},
+          {nom:"TEST 2 : Montée escaliers (chrono)",        detail:"3 essais",                                  type:"main"},
+          {nom:"TEST 3 : Sprint côte 20m (chrono)",         detail:"3 essais",                                  type:"main"},
+          {nom:"TEST 4 : Saut en longueur pieds joints",    detail:"3 essais — meilleure distance",             type:"main"},
+          {nom:"Célébration + bilan des progrès",           detail:"Comparez avec S1 !",                        type:"cool"},
+        ],
+        conseil:"Comparez vos résultats avec la semaine 1 ! Même une petite amélioration = grosse victoire."
+      },
+      {
+        jour:"DIM", label:"Dimanche", type:"repos", titre:"Repos & Récupération Finale",
+        icon:"🌟", duree:"—", intensite:0,
+        exercices:[
+          {nom:"Repos complet mérité", detail:"Vous avez terminé le programme — bravo !", type:"cool"},
+        ],
+        conseil:"Réhydratez, mangez des protéines et des glucides, dormez bien. Vous avez bossé dur !"
+      },
+    ]
+  }
+};
+
+let currentWeek = 'semaine1';
+let selectedDay = null;
+
+function switchWeek(w) {
+  currentWeek = w;
+  selectedDay = null;
+  document.getElementById('tab1').className = 'tab' + (w === 'semaine1' ? ' active' : '');
+  document.getElementById('tab2').className = 'tab' + (w === 'semaine2' ? ' active' : '');
+  renderGrid();
+  renderDetail();
+}
+
+function renderGrid() {
+  const seances = program[currentWeek].seances;
+  const grid = document.getElementById('grid');
+  grid.innerHTML = seances.map((s, i) => {
+    const tc = typeColors[s.type];
+    const isActive = selectedDay === i;
+    const dots = [1,2,3,4,5].map(v =>
+      `<div class="intensity-dot${v <= s.intensite ? ' on' : ''}"></div>`
+    ).join('');
+    return `
+      <button class="day-btn${isActive ? ' active' : ''}"
+        onclick="selectDay(${i})"
+        style="border-color:${isActive ? tc.accent : '#222'};background:${isActive ? tc.accent : '#141414'}">
+        <span class="day-icon">${s.icon}</span>
+        <span class="day-label" style="color:${isActive ? '#000' : tc.accent}">${s.jour}</span>
+        ${s.intensite > 0 ? `<div class="intensity-row">${dots}</div>` : ''}
+      </button>`;
+  }).join('');
+}
+
+function renderDetail() {
+  const detailEl = document.getElementById('detail');
+  const placeholder = document.getElementById('placeholder');
+
+  if (selectedDay === null) {
+    detailEl.innerHTML = '';
+    detailEl.style.display = 'none';
+    placeholder.style.display = 'block';
+    return;
+  }
+
+  placeholder.style.display = 'none';
+  detailEl.style.display = 'block';
+
+  const s = program[currentWeek].seances[selectedDay];
+  const tc = typeColors[s.type];
+
+  const intensityDots = [1,2,3,4,5].map(v =>
+    `<div class="intensity-bar-dot${v <= s.intensite ? ' on' : ''}"></div>`
+  ).join('');
+
+  const exHTML = s.exercices.map(ex => `
+    <div class="exercise" style="border-left-color:${exerciceColors[ex.type]}">
+      <div class="exercise-tag" style="color:${exerciceColors[ex.type]}">${exerciceLabels[ex.type]}</div>
+      <div>
+        <div class="exercise-name">${ex.nom}</div>
+        <div class="exercise-detail">${ex.detail}</div>
+      </div>
+    </div>`
+  ).join('');
+
+  detailEl.innerHTML = `
+    <div class="detail-header" style="background:linear-gradient(135deg,${tc.bg} 0%,#1a1a1a 100%);border-bottom-color:${tc.accent}">
+      <div class="detail-header-inner">
+        <div>
+          <div class="detail-type-label" style="color:${tc.accent}">${s.label.toUpperCase()} · ${tc.label}</div>
+          <div class="detail-title">${s.titre}</div>
+        </div>
+        <div class="detail-right">
+          <div class="detail-icon">${s.icon}</div>
+          <div class="detail-duree">${s.duree}</div>
+        </div>
+      </div>
+      ${s.intensite > 0 ? `
+        <div class="detail-intensity">
+          <span class="detail-intensity-label">INTENSITÉ</span>
+          <div class="intensity-bar">${intensityDots}</div>
+        </div>` : ''}
+    </div>
+    <div class="exercises">${exHTML}</div>
+    <div class="conseil" style="background:${tc.accent}22;border-color:${tc.accent}44">
+      <span class="conseil-emoji">💬</span>
+      <div>
+        <div class="conseil-label" style="color:${tc.accent}">CONSEIL COACH</div>
+        <div class="conseil-text">${s.conseil}</div>
+      </div>
+    </div>`;
+}
+
+function selectDay(i) {
+  selectedDay = selectedDay === i ? null : i;
+  renderGrid();
+  renderDetail();
+}
+
+// Init
+renderGrid();
+renderDetail();
+</script>
+</body>
+</html>
